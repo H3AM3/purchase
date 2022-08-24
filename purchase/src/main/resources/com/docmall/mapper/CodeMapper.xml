@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.CodeMapper">
+	
+	<!-- 하위 카테고리를 리턴 -->
+	<select id="getLowerCat" parameterType="String" resultType="com.docmall.domain.CategoryVO">
+		select category_code, upper_cat_code, category_name
+		FROM CATEGORY WHERE upper_cat_code = #{category_code}</select>
+	
+	<!-- 상위 카테고리를 가져오는 메소드 -->
+	<select id="getUpperCat" resultType="com.docmall.domain.CategoryVO">
+		SELECT category_code, category_name
+		FROM CATEGORY WHERE UPPER_CAT_CODE IS NULL</select>
+		
+	<!-- 품목코드 중복체크 -->
+	<select id="productCheck" parameterType="String" resultType="String">
+		SELECT PRODUCT_CODE FROM PRODUCT WHERE PRODUCT_CODE = #{product_code}</select>
+
+	<!-- 포장단위 리스트 가져오기 -->
+	<select id="getPakaging" resultType="com.docmall.domain.PakagingVO">
+		SELECT PAKAGING FROM PAKAGING </select>
+
+	<!-- 품목 타입 리스트 가져오기 -->
+	<select id="getType" resultType="com.docmall.domain.TypeVO">
+		SELECT TYPE FROM TYPE</select>
+
+	<!-- 품목코드 생성 -->
+	<insert id="createProductCode" parameterType="com.docmall.domain.ProductVO">
+		INSERT INTO PRODUCT (
+		PRODUCT_CODE, CATEGORY_1ST, CATEGORY_2ND, PRODUCT_NAME, SPEC, VENDER_CODE,
+		VENDER_NAME, EDI_CODE, IM_PAKAGING, EX_PAKAGING, PAK_QUANTITY, PRICE, USABLE,
+		DESCRIPTION, REG_DATE, UPDATE_DATE, TYPE, MAKER_NAME, MAKER_CODE)
+		VALUES(#{product_code}, #{category_1st}, #{category_2nd}, #{product_name}, #{spec},
+			   #{vender_code}, #{vender_name}, #{edi_code}, #{im_pakaging}, #{ex_pakaging},
+			   #{pak_quantity}, #{price}, #{usable}, #{description}, SYSDATE, SYSDATE,
+			   #{type}, #{maker_name}, #{maker_code})</insert>
+
+	<!-- 품목코드 히스토리 업데이트 -->
+	<insert id="updateHistory" parameterType="com.docmall.domain.ProductVO">
+		INSERT INTO PRODUCT_HISTORY (
+		HISTORY_NUM, PRODUCT_CODE, CATEGORY_1ST, CATEGORY_2ND, PRODUCT_NAME, SPEC,
+		VENDER_CODE, VENDER_NAME, EDI_CODE, IM_PAKAGING, EX_PAKAGING, PAK_QUANTITY, PRICE,
+		DESCRIPTION, UPDATE_DATE, TYPE, MAKER_CODE, MAKER_NAME)
+		VALUES(HISTORY_SEQ.NEXTVAL, #{product_code}, #{category_1st}, #{category_2nd},
+		#{product_name}, #{spec}, #{vender_code}, #{vender_name}, #{edi_code},
+		#{im_pakaging}, #{ex_pakaging}, #{pak_quantity}, #{price}, #{description}, SYSDATE,
+		#{type}, #{maker_code}, #{maker_name})</insert>
+		
+	<!-- 재고테이블에 생성한 품목코드 등록 -->
+	<insert id="createStock" parameterType="com.docmall.domain.ProductVO">
+		INSERT INTO STOCK(STOCK_NO, PRODUCT_CODE, QUANTITY)
+		VALUES(STOCK_SEQ.NEXTVAL, #{product_code}, 0)
+	</insert>		   
+
+	<!-- 카테고리 없이 품목 리스트 가져오기 -->
+	<select id="getAllProdCodeList" parameterType="com.docmall.domain.ProductVO" resultType="com.docmall.domain.ProductVO">
+		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, MAKER_NAME, USABLE FROM PRODUCT
+		WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' AND PRODUCT_NAME LIKE '%'||#{product_name}||'%' AND
+			  VENDER_NAME LIKE '%'||#{vender_name}||'%' AND USABLE = #{usable}
+			  ORDER BY PRODUCT_CODE</select>
+
+	<!-- 카테고리1만 선택하여 검색 -->
+		<select id="get1stCatProdCodeList" parameterType="com.docmall.domain.ProductVO" resultType="com.docmall.domain.ProductVO">
+		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, USABLE, MAKER_NAME FROM PRODUCT
+		WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' AND PRODUCT_NAME LIKE '%'||#{product_name}||'%' AND
+			  VENDER_NAME LIKE '%'||#{vender_name}||'%' AND USABLE = #{usable} AND CATEGORY_1ST = #{category_1st}
+			  ORDER BY PRODUCT_CODE</select>
+			  
+	<!-- 카테고리 2만 선택하여 검색 -->
+		<select id="get2enCatProdCodeList" parameterType="com.docmall.domain.ProductVO" resultType="com.docmall.domain.ProductVO">
+		SELECT PRODUCT_CODE, CATEGORY_1ST, CATEGORY_2ND, PRODUCT_NAME, SPEC, VENDER_CODE, VENDER_NAME, EDI_CODE,
+			   IM_PAKAGING, EX_PAKAGING, PAK_QUANTITY, PRICE, USABLE, DESCRIPTION, REG_DATE, UPDATE_DATE, TYPE,
+			   MAKER_NAME, MAKER_CODE
+		FROM PRODUCT
+		WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' AND PRODUCT_NAME LIKE '%'||#{product_name}||'%' AND
+			  VENDER_NAME LIKE '%'||#{vender_name}||'%' AND USABLE = #{usable} AND CATEGORY_2ND = #{category_2nd}
+			  ORDER BY PRODUCT_CODE</select>
+			  
+	<!-- 카테고리 전부 포함하여 품목리스트 가져오기 -->
+	<select id="getProdCodeList" parameterType="com.docmall.domain.ProductVO" resultType="com.docmall.domain.ProductVO">
+		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_CODE, VENDER_NAME, USABLE, EX_PAKAGING, PAK_QUANTITY, PRICE, MAKER_NAME, MAKER_CODE FROM PRODUCT
+		WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' AND PRODUCT_NAME LIKE '%'||#{product_name}||'%' AND
+			  VENDER_NAME LIKE '%'||#{vender_name}||'%' AND USABLE = #{usable} AND CATEGORY_1ST = #{category_1st} AND CATEGORY_2ND = #{category_2nd}
+			  ORDER BY PRODUCT_CODE</select>
+
+	<!-- 품목코드 조회 -->
+	<select id="prodInfo" parameterType="String" resultType="com.docmall.domain.ProductInfoDTO">
+		SELECT PRODUCT_CODE, CATEGORY_1ST, CATEGORY_2ND, PRODUCT_NAME, SPEC, VENDER_CODE, VENDER_NAME, EDI_CODE, IM_PAKAGING, EX_PAKAGING,
+			   PAK_QUANTITY, PRICE, USABLE, DESCRIPTION, REG_DATE, UPDATE_DATE, TYPE, MAKER_NAME, MAKER_CODE
+			   FROM PRODUCT WHERE PRODUCT_CODE = #{product_code}</select>
+	
+	<!-- 카테고리명 가져오기 -->
+	<select id="getCategoryName" parameterType="String" resultType="String">
+		SELECT category_name FROM CATEGORY WHERE CATEGORY_CODE = #{category_code}
+	</select>
+	
+	<!-- 품목코드 수정 -->
+	<update id="updateProductCode" parameterType="com.docmall.domain.ProductVO">
+		UPDATE PRODUCT SET
+			   CATEGORY_1ST = #{category_1st}, CATEGORY_2ND = #{category_2nd},
+			   PRODUCT_NAME = #{product_name}, SPEC = #{spec}, VENDER_CODE = #{vender_code},
+			   VENDER_NAME = #{vender_name}, EDI_CODE = #{edi_code}, IM_PAKAGING = #{im_pakaging},
+			   EX_PAKAGING = #{ex_pakaging}, PAK_QUANTITY = #{pak_quantity}, PRICE = #{price},
+			   USABLE = #{usable}, DESCRIPTION = #{description}, UPDATE_DATE = SYSDATE, TYPE = #{type}
+		WHERE PRODUCT_CODE = #{product_code}
+	</update>
+
+	<!-- 히스토리 업데이트 전 유효성 검사를 위한 비교내역 불러오기 -->
+	<select id="getProdHistory" parameterType="String" resultType="com.docmall.domain.ProductHistoryVO">
+	SELECT CATEGORY_1ST, CATEGORY_2ND, PRODUCT_NAME, SPEC,
+           VENDER_CODE, VENDER_NAME, EDI_CODE, IM_PAKAGING, PAK_QUANTITY, PRICE,
+           DESCRIPTION, TYPE, EX_PAKAGING, MAKER_CODE, MAKER_NAME
+	FROM   PRODUCT_HISTORY
+	WHERE  HISTORY_NUM = (SELECT MAX(HISTORY_NUM) FROM PRODUCT_HISTORY WHERE PRODUCT_CODE = #{product_code})
+	</select>
+	
+	<!-- 특정 품목의 변경이력 불러오기 -->
+	<select id="getProdHistoryList" parameterType="String" resultType="com.docmall.domain.ProductHistoryVO">
+		SELECT PRODUCT_CODE, CATEGORY_2ND, PRODUCT_NAME, SPEC, VENDER_NAME, EDI_CODE,
+			   IM_PAKAGING, PAK_QUANTITY, PRICE, UPDATE_DATE, TYPE, EX_PAKAGING, MAKER_CODE, MAKER_NAME
+		FROM PRODUCT_HISTORY WHERE PRODUCT_CODE = #{product_code} ORDER BY HISTORY_NUM
+	</select>
+
+
+<!-- ***************** 부서 관련 ***************** -->	
+	<!-- 상위부서 전체 리턴 -->
+	<select id="getUpperDep" resultType="com.docmall.domain.DepartmentVO">
+		SELECT dep_code, DEP_NAME FROM DEPARTMENT WHERE UPPER_DEP IS NULL</select>
+	
+	<!-- 부서생성시 코드 중복체크 -->
+	<select id="depCheck" parameterType="String" resultType="String">
+		SELECT DEP_CODE FROM DEPARTMENT WHERE DEP_CODE = #{dep_code}</select>
+		
+	<!-- 상위부서가 없는 부서코드 생성 -->
+	<insert id="createNoUpperDepCode" parameterType="com.docmall.domain.DepartmentVO">
+		INSERT INTO DEPARTMENT (DEP_CODE, DEP_NAME) values (#{dep_code}, #{dep_name})</insert>
+	
+	<!-- 부서코드생성 -->
+	<insert id="createDepCode" parameterType="com.docmall.domain.DepartmentVO">
+		INSERT INTO DEPARTMENT (DEP_CODE, DEP_NAME, UPPER_DEP)
+		values (#{dep_code}, #{dep_name}, #{upper_dep})</insert>
+	
+	<!-- 상위부서 선택시 하위부서코드 리스트 리턴 -->
+	<select id="getDepCodeList" parameterType="String" resultType="com.docmall.domain.DepartmentVO">
+		SELECT dep_code, DEP_NAME, UPPER_DEP
+		FROM DEPARTMENT WHERE UPPER_DEP = #{upper_dep} ORDER BY UPPER_DEP</select>
+	
+	<!-- 상위부서 미선택시 전체부서 리스트 리턴 -->
+	<select id="getAllDepCodeList" resultType="com.docmall.domain.DepartmentVO">
+		SELECT dep_code, dep_name, upper_dep FROM DEPARTMENT ORDER BY UPPER_DEP</select>
+	
+	<!-- 상위부서 선택하고 키워드 입력시 해당되는 리스트 리턴 -->
+	<select id="getSearchDepCode" parameterType="com.docmall.dto.DepSearchDTO" resultType="com.docmall.domain.DepartmentVO">
+		SELECT dep_code, DEP_NAME, UPPER_DEP FROM DEPARTMENT
+		WHERE UPPER_DEP = #{upper_dep} AND DEP_NAME LIKE '%' || #{keyword} || '%'</select>
+	
+	<!-- 상위부서 선택하지 않고 키워드 입력시 해당되는 리스트 리턴 -->
+	<select id="getSearchDepCodeNoneUpper" parameterType="com.docmall.dto.DepSearchDTO" resultType="com.docmall.domain.DepartmentVO">
+		SELECT dep_code, DEP_NAME, UPPER_DEP FROM DEPARTMENT
+		WHERE DEP_NAME LIKE '%'||#{keyword}||'%'</select>
+	
+	<!-- 부서코드를 받아서 특정부서 정보를 리턴 -->
+	<select id="depInfo" parameterType="String" resultType="com.docmall.domain.DepartmentVO">
+		SELECT dep_code, DEP_NAME, UPPER_DEP FROM DEPARTMENT
+		WHERE dep_code = #{dep_code}</select>
+	
+	<!-- 상위 부서코드를 받아서 해당 상위부서 이름을  리턴-->
+	<select id="getDepName" parameterType="String" resultType="String">
+		SELECT DEP_NAME FROM DEPARTMENT WHERE dep_code = #{dep_code}</select>
+	
+	<!-- 부서정보를 수정 -->
+	<update id="updateDepCode" parameterType="com.docmall.domain.DepartmentVO">
+		UPDATE DEPARTMENT SET DEP_NAME = #{dep_name}, UPPER_DEP = #{upper_dep}
+		WHERE dep_code = #{dep_code}</update>
+	
+	<!-- 하위부서가 있는지 체크 -->
+	<select id="lowerCodeCheck" parameterType="String" resultType="com.docmall.domain.DepartmentVO">
+		SELECT dep_code FROM DEPARTMENT WHERE upper_dep = #{dep_code}</select>
+	
+	<!-- 부서 삭제 -->
+	<delete id="delDepartment" parameterType="String">
+		DELETE FROM DEPARTMENT WHERE dep_code = #{dep_code}</delete>
+
+
+<!-- ***************** 거래처 관련 ***************** -->	
+	<!-- 거래처 코드 중복체크하는 쿼리 -->
+	<select id="venderCheck" parameterType="String" resultType="String">
+		SELECT VENDER_CODE FROM VENDER WHERE VENDER_CODE = #{vender_code}</select>
+	
+	<!-- 거래처 코드 생성 -->
+	<insert id="createVenderCode" parameterType="com.docmall.domain.VenderVO">
+		INSERT INTO VENDER (VENDER_CODE, VENDER_NAME, VENDER_REG_NUM, BANK, ACCOUNT_NUMBER,
+							DESCRIPTION, VENDER_EMAIL, REG_DATE, UPDATE_DATE)
+		values (#{vender_code}, #{vender_name}, #{vender_reg_num}, #{bank}, #{account_number},
+				#{description}, #{vender_email}, SYSDATE, SYSDATE)</insert> 
+	
+	<!-- 거래처 리스트 불러오는 쿼리 / 검색기능 포함 -->
+	<select id="getVenderList" parameterType="String" resultType="com.docmall.domain.VenderVO">
+		SELECT VENDER_CODE, VENDER_NAME, VENDER_REG_NUM, BANK,
+			   ACCOUNT_NUMBER, description, VENDER_EMAIL, REG_DATE, UPDATE_DATE
+		FROM VENDER WHERE VENDER_NAME LIKE '%'||#{keyword}||'%' ORDER BY VENDER_NAME</select>
+	
+	<!-- 거래처코드를 받아서 세부정보 불러오는 코드 -->
+	<select id="getVenderInfo" parameterType="String" resultType="com.docmall.domain.VenderVO">
+		SELECT VENDER_CODE, VENDER_NAME, VENDER_REG_NUM, BANK, ACCOUNT_NUMBER,
+			   DESCRIPTION, VENDER_EMAIL, REG_DATE, UPDATE_DATE
+		FROM VENDER WHERE VENDER_CODE = #{vender_code}</select>
+	
+	<!-- 거래처 정보 수정 -->
+	<update id="updateVenderCode" parameterType="com.docmall.domain.VenderVO">
+		UPDATE VENDER SET VENDER_NAME = #{vender_name}, VENDER_REG_NUM = #{vender_reg_num},
+							  BANK = #{bank}, ACCOUNT_NUMBER = #{account_number},
+							  VENDER_EMAIL = #{vender_email}, description = #{description}
+		WHERE vender_code = #{vender_code}</update>
+	
+	<!-- 거래처 삭제 -->
+	<delete id="delVender" parameterType="String">
+		DELETE FROM VENDER WHERE vender_code = #{vender_code}</delete>
+
+
+<!-- ***************** 제조사 관련 ***************** -->
+	<!-- 제조사 리스트 불러오기(검색어 포함) -->
+	<select id="getMakerList" parameterType="String" resultType="com.docmall.domain.MakerVO">
+		SELECT MAKER_CODE, MAKER_NAME FROM MAKER WHERE MAKER_NAME LIKE '%'||#{keyword}||'%'
+	</select>
+	
+	<!-- 제조사 코드정보 불러오기 -->
+	<select id="getMakerInfo" parameterType="String" resultType="com.docmall.domain.MakerVO">
+		SELECT MAKER_CODE, MAKER_NAME FROM MAKER WHERE MAKER_CODE = #{maker_code} ORDER BY MAKER_CODE DESC
+	</select>	
+	
+	<!-- 제조사 이름 수정 -->
+	<update id="updateMakerName" parameterType="com.docmall.domain.MakerVO">
+		UPDATE MAKER SET MAKER_NAME = #{maker_name} WHERE MAKER_CODE = #{maker_code}
+	</update>
+	
+	<!-- 제조사 코드 삭제 -->
+	<delete id="delMaker" parameterType="String">
+		DELETE FROM MAKER WHERE MAKER_CODE = #{maker_code}</delete>
+		
+	<!-- 제조사 코드체크 -->
+	<select id="makerCheck" parameterType="String" resultType="String">
+		SELECT MAKER_CODE FROM MAKER WHERE MAKER_CODE = #{maker_code}
+	</select>
+	
+	<!-- 제조사 코드 생성 -->
+	<insert id="createMakerCode" parameterType="com.docmall.domain.MakerVO">
+		INSERT INTO MAKER (MAKER_CODE, MAKER_NAME) VALUES (#{maker_code}, #{maker_name})
+	</insert>
+
+	<!-- 부서코드로 상위부서명 반환 -->
+	<select id="getUpperDepName" parameterType="String" resultType="com.docmall.dto.UpperDep_NameDTO">
+		SELECT DEP_NAME
+		FROM DEPARTMENT
+		WHERE DEP_CODE = (SELECT UPPER_DEP
+						  FROM DEPARTMENT
+						  WHERE dep_code = #{dep_code})</select>
+
+</mapper>

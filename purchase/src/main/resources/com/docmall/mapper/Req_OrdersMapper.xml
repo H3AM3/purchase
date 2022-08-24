@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.Req_OrdersMapper">
+	<!-- 발주요청서 저장 -->
+	<insert id="insertReq_orders" parameterType="com.docmall.domain.Req_OrdersVO">
+		INSERT INTO REQ_ORDERS(REQ_NO, REQ_DATE, REQ_PAGE, MEM_ID, PRODUCT_CODE, PRODUCT_NAME, SPEC,
+							   EX_PAKAGING, PAK_QUANTITY, DEP_CODE, DEP_NAME, VENDER_CODE, VENDER_NAME,
+							   APPROVAL, MK_ORDER, REQ_REJECT, REG_DATE, DESCRIPTION, REQ_QUANTITY,
+							   CATEGORY_2ND, MAKER_NAME, MAKER_CODE, UNIMPORTED_QTY, END_REQUEST)
+		VALUES(REQ_ORDERS_SEQ.nextval, #{req_date}, #{req_page}, #{mem_id}, #{product_code},
+			   #{product_name}, #{spec}, #{ex_pakaging}, #{pak_quantity}, #{dep_code}, #{dep_name},
+			   #{vender_code}, #{vender_name}, #{approval}, #{mk_order}, #{req_reject}, SYSDATE,
+			   #{description}, #{req_quantity}, #{category_2nd}, #{maker_name}, #{maker_code},
+			   #{unimported_qty}, #{end_request})
+	</insert>
+	
+	<!-- 날짜, 부서, 페이지 값을 받아서 작성한 페이지가 있는지 체크 -->
+	<select id="checkPage" parameterType="com.docmall.dto.Req_checkPageDTO" resultType="Long">
+		SELECT MIN(REQ_PAGE) FROM (SELECT REQ_PAGE FROM REQ_ORDERS
+		WHERE REQ_DATE = #{date} AND DEP_CODE = #{dep_code} AND CATEGORY_2ND = #{category_2nd})</select>
+
+	<!-- 날짜, 부서, 페이지 값을 받아서 해당 페이지 리스트를 리턴-->
+	<select id="req_orderInDatePageList" parameterType="com.docmall.dto.Req_checkPageDTO" resultType="com.docmall.domain.Req_OrdersVO">
+		SELECT REQ_NO, REQ_DATE, REQ_PAGE, MEM_ID, PRODUCT_CODE, PRODUCT_NAME, SPEC,
+			   EX_PAKAGING, PAK_QUANTITY, DEP_CODE, DEP_NAME, VENDER_CODE, VENDER_NAME,
+			   APPROVAL, MK_ORDER, REQ_REJECT, REG_DATE, DESCRIPTION, REQ_QUANTITY,
+			   MAKER_NAME, MAKER_CODE, CATEGORY_2ND
+		FROM REQ_ORDERS
+		WHERE REQ_DATE = #{date} AND DEP_CODE = #{dep_code} AND
+			  CATEGORY_2ND = #{category_2nd} AND REQ_PAGE = #{req_page}</select>
+			  
+	<!-- 기존에 저장한 발주요청서를 다시 저장하는 경우 업데이트(수정) -->
+	<update id="update_req_order" parameterType="com.docmall.domain.Req_OrdersVO">
+		UPDATE REQ_ORDERS
+		SET MEM_ID = #{mem_id},
+			PRODUCT_CODE = #{product_code}, PRODUCT_NAME = #{product_name}, SPEC = #{spec},
+			EX_PAKAGING = #{ex_pakaging}, PAK_QUANTITY = #{pak_quantity}, DEP_CODE = #{dep_code},
+			DEP_NAME = #{dep_name}, VENDER_CODE = #{vender_code}, VENDER_NAME = #{vender_name},
+			APPROVAL = #{approval}, MK_ORDER = #{mk_order}, REQ_REJECT = #{req_reject},
+			REG_DATE = SYSDATE, DESCRIPTION = #{description}, REQ_QUANTITY = #{req_quantity},
+			MAKER_NAME = #{maker_name}, MAKER_CODE = #{maker_code}, CATEGORY_2ND = #{category_2nd},
+			UNIMPORTED_QTY = #{unimported_qty}, END_REQUEST = #{end_request}
+		WHERE REQ_NO = #{req_no}
+	</update>
+	
+	<!-- 발주요청서 리스트 불러오기 -->
+	<select id="getReqOrder_List" parameterType="com.docmall.dto.Req_OrdersDTO" resultType="com.docmall.domain.Req_OrdersVO">
+		SELECT distinct REQ_DATE, REQ_PAGE, DEP_CODE, DEP_NAME, CATEGORY_2ND
+		FROM REQ_ORDERS
+		WHERE DEP_CODE = #{dep_code} AND CATEGORY_2ND = #{category_2nd} AND REQ_DATE BETWEEN #{selectDate1} AND #{selectDate2}
+	</select>
+	
+	<!-- 날짜/페이지/부서 받아서 발주요청내역 불러오기 -->
+	<select id="req_ordrInfo_pordList" parameterType="com.docmall.domain.Req_OrdersVO" resultType="com.docmall.domain.Req_OrdersVO">
+		SELECT REQ_NO, REQ_DATE, REQ_PAGE, MEM_ID, PRODUCT_CODE, PRODUCT_NAME, SPEC, EX_PAKAGING, PAK_QUANTITY, DEP_CODE,
+			   DEP_NAME, VENDER_CODE, VENDER_NAME, APPROVAL, MK_ORDER, REQ_REJECT, REG_DATE, DESCRIPTION, REQ_QUANTITY,
+			   MAKER_NAME, MAKER_CODE, CATEGORY_2ND, UNIMPORTED_QTY, END_REQUEST
+		FROM REQ_ORDERS
+		WHERE DEP_CODE = #{dep_code} AND CATEGORY_2ND = #{category_2nd} AND REQ_DATE = #{req_date} AND
+			  REQ_PAGE = #{req_page}
+	</select>
+
+	<!-- 발주요청서 삭제(수정페이지에서) -->
+	<delete id="req_orderDel" parameterType="String">
+		DELETE FROM REQ_ORDERS WHERE REQ_NO = #{delNo}
+	</delete>
+	
+	<!-- 전체부서 발주요청서 불러오기 -->
+	<select id="getAllOrder_List" parameterType="com.docmall.dto.Req_OrderDelDTO" resultType="com.docmall.domain.Req_OrdersVO">
+		SELECT distinct REQ_DATE, REQ_PAGE, DEP_CODE, DEP_NAME, CATEGORY_2ND, MEM_ID
+		FROM REQ_ORDERS
+		WHERE CATEGORY_2ND = #{category_2nd} AND REQ_DATE BETWEEN #{selectDate1} AND #{selectDate2}
+	</select>
+	
+	<!-- 승인/반려 업데이트 -->
+	<update id="req_approvalRejectUpdate" parameterType="com.docmall.domain.Req_OrdersVO">
+		UPDATE REQ_ORDERS
+		SET APPROVAL = #{approval}, REQ_REJECT = #{req_reject}
+		WHERE REQ_NO = #{req_no}
+	</update>
+	
+	<!-- 발주요청서 페이지 불러오기 -->
+	<select id="getNewPage" parameterType="com.docmall.domain.Req_OrdersVO" resultType="Long">
+		SELECT MAX(REQ_PAGE) FROM REQ_ORDERS
+		WHERE CATEGORY_2ND = #{category_2nd} AND REQ_DATE = #{req_date} AND DEP_CODE = #{dep_code}
+	</select>
+
+	
+</mapper>

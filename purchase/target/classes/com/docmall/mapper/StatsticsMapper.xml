@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.StatsticsMapper">
+
+	<!-- 품목검색하는 기능 -->
+	<select id="searchProduct" parameterType="com.docmall.dto.OrderFormByVenderDTO" resultType="com.docmall.domain.ProductVO">
+		SELECT product_code, category_1st, category_2nd, product_name, spec,
+		       vender_code, vender_name, edi_code, im_pakaging, ex_pakaging,
+		       pak_quantity, price, usable, description, reg_date, update_date,
+		       type, maker_name, maker_code
+		FROM (SELECT product_code, category_1st, category_2nd, product_name, spec,
+		             vender_code, vender_name, edi_code, im_pakaging, ex_pakaging,
+		             pak_quantity, price, usable, description, reg_date, update_date,
+		             type, maker_name, maker_code
+		      FROM	 PRODUCT
+		      WHERE	 CATEGORY_2ND = #{category_2nd})
+		WHERE PRODUCT_NAME LIKE '%' || #{keyword} || '%' OR
+		      VENDER_CODE LIKE '%' || #{keyword} || '%' OR
+		      MAKER_NAME LIKE '%' || #{keyword} || '%' OR
+		      VENDER_NAME LIKE '%' || #{keyword} || '%' OR
+		      SPEC LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<!-- 부서 검색하는 기능 -->
+	<select id="depSearchPopup" parameterType="com.docmall.dto.DepSearchDTO" resultType="com.docmall.domain.DepartmentVO">
+		SELECT DEP_CODE, DEP_NAME, UPPER_DEP
+		FROM   DEPARTMENT
+		WHERE  DEP_CODE LIKE '%' || #{keyword} || '%' OR
+			   DEP_NAME LIKE '%' || #{keyword} || '%' OR
+			   UPPER_DEP LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<!-- 상위부서 이름 가져오는 기능 -->
+	<select id="getUpper_depName" parameterType="com.docmall.domain.DepartmentVO" resultType="String">
+		SELECT DEP_NAME
+		FROM DEPARTMENT
+		WHERE DEP_CODE = #{upper_dep}
+	</select>
+
+	<!-- 요청내역 집계 -->
+	<select id="getReqStatistics" parameterType="com.docmall.dto.StatisticsDTO" resultType="com.docmall.domain.Req_OrdersVO">
+		SELECT PRODUCT_CODE, REQ_DATE, PRODUCT_NAME, EX_PAKAGING, REQ_QUANTITY
+		FROM REQ_ORDERS
+		WHERE REQ_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+			  DEP_CODE LIKE '%' || #{dep_code} || '%' AND CATEGORY_2ND = #{category_2nd} AND
+			  PRODUCT_CODE = #{product_code}
+	</select>
+	
+	<!-- 출고내역 집계 -->
+	<select id="getExportStatistics" parameterType="com.docmall.dto.StatisticsDTO" resultType="com.docmall.domain.Tbl_ExportVO">
+		SELECT EXPORT_DATE, PRODUCT_CODE, PRODUCT_NAME, EX_QUANTITY, EX_PAKAGING
+		FROM TBL_EXPORT
+		WHERE EXPORT_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+			  DEP_CODE LIKE '%' || #{dep_code} || '%' AND CATEGORY_2ND = #{category_2nd} AND
+			  PRODUCT_CODE = #{product_code}
+	</select>
+	
+	<!-- 발주내역 집계 -->
+	<select id="getOrderStatistics" parameterType="com.docmall.dto.StatisticsDTO" resultType="com.docmall.domain.Tbl_OrdersVO">
+		SELECT PRODUCT_NAME, ORDER_DATE, PRODUCT_CODE, EX_PAKAGING, EX_QUANTITY
+		FROM TBL_ORDERS
+		WHERE ORDER_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+			  CATEGORY_2ND = #{category_2nd} AND PRODUCT_CODE = #{product_code}
+	</select>
+	
+	<!-- 입고내역 집계 -->
+	<select id="getImportStatistics" parameterType="com.docmall.dto.StatisticsDTO" resultType="com.docmall.domain.Tbl_ImportVO">
+		SELECT IMPORT_DATE, PRODUCT_CODE, PRODUCT_NAME, EX_PAKAGING, EX_QUANTITY
+		FROM TBL_IMPORTS
+		WHERE IMPORT_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+			  CATEGORY_2ND = #{category_2nd} AND PRODUCT_CODE = #{product_code}
+	</select>
+	
+	<!-- 월별 입고내역 집계 -->
+	<select id="getMonthlyReqStatistics" parameterType="com.docmall.dto.StatisticsDTO" resultType="com.docmall.dto.Monthly_StatisticsDTO">
+		SELECT SUM(EX_QUANTITY) as EX_QUANTITY, SUM(PRICE*EX_QUANTITY) as PRICE
+		FROM TBL_IMPORTS
+		WHERE PRODUCT_CODE = #{product_code} AND
+			  IMPORT_DATE BETWEEN #{selectDate1} AND #{selectDate2}
+	</select>
+	
+	<!-- 전년도 입고내역 집계 -->
+	<select id="getPrevYear" parameterType="com.docmall.dto.StatisticsDTO" resultType="com.docmall.dto.Monthly_StatisticsDTO">
+		SELECT SUM(EX_QUANTITY) as EX_QUANTITY, SUM(PRICE*EX_QUANTITY) as PRICE
+		FROM TBL_IMPORTS
+		WHERE PRODUCT_CODE = #{product_code} AND
+			  IMPORT_DATE BETWEEN #{selectDate1} AND #{selectDate2}
+	</select>
+	
+	<!-- 월별 출고내역 집계 -->
+	<select id="getMonthlyOrderStatistics" parameterType="com.docmall.dto.StatisticsDTO" resultType="com.docmall.dto.Monthly_StatisticsDTO">
+		SELECT SUM(EX_QUANTITY) as EX_QUANTITY
+		FROM TBL_EXPORT
+		WHERE PRODUCT_CODE = #{product_code} AND
+			  EXPORT_DATE BETWEEN #{selectDate1} AND #{selectDate2}
+	</select>
+	
+	<!-- 전년도 출고내역 집계 -->
+	<select id="getOrderPrevYear" parameterType="com.docmall.dto.StatisticsDTO" resultType="com.docmall.dto.Monthly_StatisticsDTO">
+		SELECT SUM(EX_QUANTITY) as EX_QUANTITY
+		FROM TBL_EXPORT
+		WHERE PRODUCT_CODE = #{product_code} AND
+			  EXPORT_DATE BETWEEN #{selectDate1} AND #{selectDate2}
+	</select>
+	
+	<!-- 품목 단가, 포장단위 가져오는 기능 -->
+	<select id="getProductInfo" parameterType="String" resultType="com.docmall.domain.ProductVO">
+		SELECT EX_PAKAGING, PRICE
+		FROM PRODUCT
+		WHERE PRODUCT_CODE = #{product_code}
+	</select>
+	
+</mapper>

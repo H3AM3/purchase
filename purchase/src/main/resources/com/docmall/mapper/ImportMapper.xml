@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.ImportMapper">
+
+	<!-- 입고내역 리스트 불러오기 -->
+	<select id="getImportList" parameterType="com.docmall.dto.ImportListDTO" resultType="com.docmall.domain.Tbl_ImportVO">
+		SELECT DISTINCT IMPORT_DATE, IMPORT_PAGE, VENDER_NAME, VENDER_CODE, CATEGORY_2ND
+		FROM TBL_IMPORTS
+		WHERE CATEGORY_2ND = #{category_2nd} AND
+			  IMPORT_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+			  VENDER_NAME LIKE '%' || #{keyword} || '%'
+	</select>
+
+	<!-- 입고내역 불러오기 -->
+	<select id="getImportInfo" parameterType="com.docmall.domain.Tbl_ImportVO" resultType="com.docmall.domain.Tbl_ImportVO">
+		SELECT IMPORT_NUM, IMPORT_DATE, IMPORT_PAGE, MEM_ID, PRODUCT_CODE, PRODUCT_NAME,
+			   SPEC, EX_PAKAGING, EX_QUANTITY, PRICE, VENDER_CODE, VENDER_NAME, REG_DATE,
+			   DESCRIPTION, PAK_QUANTITY, CATEGORY_2ND, WAITING_NUM
+		FROM TBL_IMPORTS
+		WHERE CATEGORY_2ND = #{category_2nd} AND VENDER_CODE = #{vender_code} AND
+			  IMPORT_DATE = #{import_date} AND IMPORT_PAGE = #{import_page}
+	</select>
+	
+	<!-- 입고내역 삭제 전 재고수량 확인 -->
+	<select id="checkStock" parameterType="com.docmall.domain.StockVO" resultType="com.docmall.domain.StockVO">
+		SELECT STOCK_QUANTITY
+		FROM STOCK
+		WHERE PRODUCT_CODE = #{product_code}
+	</select>
+
+	<!-- 미입고내역의 입고수량 삭제 및 import_end테이블 값 0으로 수정-->
+	<update id="delWaitingQuantity" parameterType="com.docmall.dto.DeleteImportDTO">
+		UPDATE WAITING_IMPORTS
+		SET ORDER_IM_QTY = (ORDER_IM_QTY - #{ex_quantity}), IMPORT_END = '0'
+		WHERE WAITING_NUM = #{waiting_num}
+	</update>
+
+	<!-- 재고수량 마이너스 -->
+	<update id="stockMinus" parameterType="com.docmall.dto.DeleteImportDTO">
+		UPDATE STOCK
+		SET STOCK_QUANTITY = (STOCK_QUANTITY - #{ex_quantity})
+		WHERE PRODUCT_CODE = #{product_code}
+	</update>
+	
+	<!-- 입고내역 삭제 -->
+	<delete id="delImprot" parameterType="com.docmall.dto.DeleteImportDTO">
+		DELETE FROM TBL_IMPORTS
+		WHERE IMPORT_NUM = #{import_num}
+	</delete>
+
+	<!-- 발주서 데이터에 입고여부 체크 -->
+	<update id="orderImportedCheck" parameterType="com.docmall.domain.Tbl_ImportVO">
+		UPDATE TBL_ORDERS
+		SET IMPORTED = '1'
+		WHERE ORDER_NUM = #{order_num}
+	</update>
+	
+	<!-- 미입고내역 테이블에서 발주서 행번호 가져오기 -->
+	<select id="getOrderNum" parameterType="com.docmall.dto.DeleteImportDTO" resultType="Long">
+		SELECT ORDER_NUM
+		FROM WAITING_IMPORTS
+		WHERE WAITING_NUM = #{waiting_num}
+	</select>
+	
+	<!-- 발주서 행 발주여부 false로 변경 -->
+	<update id="orderImportedFalse" parameterType="Long">
+		UPDATE TBL_ORDERS
+		SET IMPORTED = '0'
+		WHERE ORDER_NUM = #{order_num}
+	</update>
+</mapper>

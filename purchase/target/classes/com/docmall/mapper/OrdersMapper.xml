@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.OrdersMapper">
+
+	<!-- 선택한 기간 내에 요청한 승인된 발주요청을 품목기준으로 청구수량 합계를 내서 리턴하는 메소드 -->
+	<select id="getAprrovalList" parameterType="com.docmall.dto.ApprovalListDTO" resultType="com.docmall.dto.ApprovalListDTO">
+		SELECT PRODUCT_CODE, SUM(REQ_QUANTITY)
+		FROM (
+			    SELECT PRODUCT_CODE, REQ_QUANTITY
+			    FROM REQ_ORDERS
+			    WHERE APPROVAL = #{approval} AND
+			          MK_ORDER = #{mk_order} AND
+			          REQ_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+			          CATEGORY_2ND = #{category_2nd})
+		GROUP BY PRODUCT_CODE
+		ORDER BY PRODUCT_CODE
+	</select>
+	
+	<!-- 날짜, 카테고리 받아서 발주요청 올라온 업체리스트 리턴 -->
+	<select id="createOrderVnederList" parameterType="com.docmall.dto.ApprovalListDTO" resultType="com.docmall.domain.VenderVO">
+		SELECT DISTINCT VENDER_CODE, VENDER_NAME
+		FROM REQ_ORDERS
+		WHERE APPROVAL = #{approval} AND
+		      MK_ORDER = #{mk_order} AND
+		      REQ_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+		      CATEGORY_2ND = #{category_2nd}
+		ORDER BY VENDER_NAME
+	</select>
+	
+	<!-- 발주서 페이지 불러오기 -->
+	<select id="getNewOrderPage" parameterType="com.docmall.domain.Tbl_OrdersVO" resultType="Long">
+		SELECT MAX(ORDER_PAGE) as ORDER_PAGE FROM TBL_ORDERS
+		WHERE CATEGORY_2ND = #{category_2nd} AND ORDER_DATE = #{order_date} AND
+			  DEP_CODE = #{dep_code} AND VENDER_CODE = #{vender_code}
+	</select>
+	
+	<!-- 발주요청 집계한것 품목별 수량 -->
+	<select id="createOrderList" parameterType="com.docmall.dto.OrderFormByVenderDTO" resultType="com.docmall.domain.Req_OrdersVO">
+		SELECT PRODUCT_CODE, SUM(UNIMPORTED_QTY) as REQ_QUANTITY
+		FROM (
+			    SELECT PRODUCT_CODE, UNIMPORTED_QTY
+			    FROM REQ_ORDERS
+			    WHERE APPROVAL = #{approval} AND
+			          MK_ORDER = #{mk_order} AND
+			          REQ_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+			          CATEGORY_2ND = #{category_2nd} AND VENDER_CODE = #{vender_code})
+		GROUP BY PRODUCT_CODE 
+		ORDER BY PRODUCT_CODE
+	</select>
+	
+	<!-- 발주서 품목코드 데이터 불러오기 -->
+	<select id="OrderListProdData" parameterType="com.docmall.domain.ProductVO" resultType="com.docmall.domain.ProductVO">
+		SELECT CATEGORY_1ST, CATEGORY_2ND, PRODUCT_NAME, SPEC, VENDER_CODE,
+		       VENDER_NAME, EDI_CODE, IM_PAKAGING, EX_PAKAGING, PAK_QUANTITY,
+		       PRICE, USABLE, DESCRIPTION, REG_DATE, UPDATE_DATE, TYPE,
+		       MAKER_NAME, MAKER_CODE
+		FROM PRODUCT
+		WHERE PRODUCT_CODE = #{product_code}
+	</select>
+
+	<!-- 발주요청 집계한 품목들의 발주요청서 행번호 리턴 -->
+	<select id="getReq_noList" parameterType="com.docmall.dto.OrderFormByVenderDTO" resultType="com.docmall.domain.Req_OrdersVO">
+	    SELECT REQ_NO, PRODUCT_CODE
+	    FROM REQ_ORDERS
+	    WHERE APPROVAL = #{approval} AND
+	          MK_ORDER = #{mk_order} AND
+	          REQ_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+	          CATEGORY_2ND = #{category_2nd} AND VENDER_CODE = #{vender_code}
+	</select>
+	
+	<!-- 발주서 저장 -->
+	<insert id="createOrderPage" parameterType="com.docmall.domain.Tbl_OrdersVO">
+		INSERT INTO TBL_ORDERS (ORDER_NUM, ORDER_DATE, ORDER_PAGE, MEM_ID, PRODUCT_CODE,
+								PRODUCT_NAME, SPEC, IM_PAKAGING, IM_QUANTITY, EX_PAKAGING,
+								EX_QUANTITY, PRICE, VENDER_CODE, VENDER_NAME, ORDER_SEND,
+								REG_DATE, DESCRIPTION, CATEGORY_2ND, MAKER_NAME,
+								MAKER_CODE, PAK_QUANTITY, IM_PRICE, DEP_CODE, DEP_NAME,
+								IMPORTED)
+						VALUES (TBL_ORDERS_SEQ.NEXTVAL, #{order_date}, #{order_page},
+								#{mem_id}, #{product_code}, #{product_name}, #{spec},
+								#{im_pakaging}, #{im_quantity}, #{ex_pakaging}, #{ex_quantity},
+								#{price}, #{vender_code}, #{vender_name}, #{order_send},
+								SYSDATE, #{description}, #{category_2nd}, #{maker_name},
+								#{maker_code}, #{pak_quantity}, #{im_price}, #{dep_code},
+								#{dep_name}, #{imported})
+	</insert>
+	
+		
+	<!-- 발주서-요청서 sync데이터 insert -->
+	<insert id="syncInsert" parameterType="com.docmall.domain.Order_SyncVO">
+		INSERT INTO ORDER_SYNC (SYNC_NUM, REQ_NO, ORDER_DATE, ORDER_PAGE, MEM_ID,
+								PRODUCT_CODE, CATEGORY_2ND, DEP_CODE)
+						VALUES (ORDER_SYNC_SEQ.NEXTVAL, #{req_no}, #{order_date},
+								#{order_page}, #{mem_id}, #{product_code},
+								#{category_2nd}, #{dep_code})
+	</insert>
+	
+	<!-- 발주요청서 내역의 발주여부에 체크 -->
+	<update id="check_mkOrder" parameterType="com.docmall.domain.Order_SyncVO">
+		UPDATE REQ_ORDERS
+		SET MK_ORDER = #{mk_order}
+		WHERE REQ_NO = #{req_no}
+	</update>	
+	
+	<!-- 발주서 리스트 가져오기 -->
+	<select id="getOrderList" parameterType="com.docmall.dto.ApprovalListDTO" resultType="com.docmall.domain.Tbl_OrdersVO">
+	SELECT DISTINCT VENDER_NAME, ORDER_PAGE, ORDER_DATE, VENDER_CODE
+	FROM TBL_ORDERS
+	WHERE CATEGORY_2ND = #{category_2nd} AND
+		  ORDER_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+		  VENDER_NAME LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<!-- 발주서 내용 가져오기 -->
+	<select id="getOrder" parameterType="com.docmall.dto.OrderFormByVenderDTO" resultType="com.docmall.domain.Tbl_OrdersVO">
+		SELECT ORDER_NUM, ORDER_DATE, ORDER_PAGE, MEM_ID, PRODUCT_CODE, PRODUCT_NAME,
+		       SPEC, IM_PAKAGING, IM_QUANTITY, EX_PAKAGING, EX_QUANTITY, PRICE, VENDER_CODE,
+		       VENDER_NAME, ORDER_SEND, SEND_DATE, REG_DATE, DESCRIPTION, CATEGORY_2ND,
+		       MAKER_NAME, MAKER_CODE, PAK_QUANTITY, IM_PRICE, DEP_CODE, DEP_NAME, IMPORTED
+		FROM TBL_ORDERS
+		WHERE VENDER_CODE = #{vender_code} AND CATEGORY_2ND = #{category_2nd} AND
+		      ORDER_PAGE = #{order_page} AND ORDER_DATE = #{order_date}
+	</select>
+	
+	<!-- 발주서 행 삭제하기 -->
+	<delete id="delOrder" parameterType="com.docmall.domain.Tbl_OrdersVO">
+		DELETE FROM TBL_ORDERS WHERE ORDER_NUM = #{order_num}
+	</delete>
+	
+	<!-- 발주일, 페이지, 품목코드, 카테고리 받아서 REQ_NO가져오기 -->
+	<select id="getSyncReq_no" parameterType="com.docmall.domain.Tbl_OrdersVO" resultType="com.docmall.dto.OrderDeleteDTO">
+		SELECT SYNC_NUM, REQ_NO
+		FROM ORDER_SYNC
+		WHERE ORDER_DATE = #{order_date} AND ORDER_PAGE = #{order_page} AND
+			  PRODUCT_CODE = #{product_code} AND CATEGORY_2ND = #{category_2nd}
+	</select>
+	
+	<!-- 발주요청 페이지 mk_order항목 0으로 변경(발주 취소) -->
+	<update id="changeReqMk_order" parameterType="com.docmall.dto.OrderDeleteDTO">
+		UPDATE REQ_ORDERS
+		SET	   MK_ORDER = '0'
+		WHERE  REQ_NO = #{req_no}
+	</update>
+	
+	<!-- orderSync행 삭제 -->
+	<delete id="delOrder_Sync" parameterType="com.docmall.dto.OrderDeleteDTO">
+		DELETE FROM ORDER_SYNC WHERE SYNC_NUM = #{sync_num}
+	</delete>
+	
+	<!-- 재고 가져오는 기능 -->
+	<select id="getStock" parameterType="com.docmall.domain.StockVO" resultType="Long">
+		SELECT stock_quantity FROM STOCK WHERE PRODUCT_CODE = #{product_code}
+	</select>
+	
+	<!-- 발주서 생성시 미입고내역 생성 -->
+	<insert id="waiting_importsInsert" parameterType="com.docmall.domain.Tbl_OrdersVO">
+		INSERT INTO WAITING_IMPORTS (WAITING_NUM, ORDER_DATE, ORDER_PAGE, MEM_ID,
+									 PRODUCT_CODE, PRODUCT_NAME, SPEC, EX_PAKAGING,
+									 ORDER_IM_QTY, WAITING_QTY, PRICE, VENDER_CODE,
+									 VENDER_NAME, IMPORT_END, ORDER_DESCRIPTION,
+									 PAK_QUANTITY, CATEGORY_2ND, ORDER_NUM)
+							VALUES 	(WAITING_IMPORTS_SEQ.NEXTVAL, #{order_date},
+									 #{order_page}, #{mem_id}, #{product_code},
+									 #{product_name}, #{spec}, #{ex_pakaging},
+									 0, #{ex_quantity}, #{price}, #{vender_code},
+									 #{vender_name}, '0', #{description}, #{pak_quantity},
+									 #{category_2nd}, TBL_ORDERS_SEQ.CURRVAL)
+	</insert>
+	
+	<!-- 발주서 삭제시 미입고내역 삭제 -->
+	<delete id="delWaiting_imports" parameterType="com.docmall.domain.Tbl_OrdersVO">
+		DELETE FROM WAITING_IMPORTS
+		WHERE ORDER_DATE = #{order_date} AND ORDER_PAGE = #{order_page} AND
+			  PRODUCT_CODE = #{product_code} AND VENDER_CODE = #{vender_code}
+			  AND CATEGORY_2ND = #{category_2nd}
+	</delete>
+
+
+</mapper>

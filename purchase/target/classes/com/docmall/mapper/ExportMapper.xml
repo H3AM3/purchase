@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.ExportMapper">
+	<!-- 날짜별 청구내역 불러오기 -->
+	<select id="getReqList" parameterType="com.docmall.domain.ExportSearchDTO" resultType="com.docmall.domain.Req_OrdersVO">
+		SELECT DISTINCT REQ_DATE, REQ_PAGE, DEP_CODE, DEP_NAME
+		FROM REQ_ORDERS
+		WHERE CATEGORY_2ND = #{category_2nd} AND
+		REQ_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+		END_REQUEST = '0' AND APPROVAL = '1'
+	</select>
+	
+	<!-- 발주내역 가져오기 -->
+	<select id="getReq_orderInfo" parameterType="com.docmall.domain.Req_OrdersVO" resultType="com.docmall.domain.Req_OrdersVO">
+		SELECT REQ_NO, REQ_DATE, REQ_PAGE, MEM_ID, PRODUCT_CODE, PRODUCT_NAME, SPEC, EX_PAKAGING, PAK_QUANTITY, DEP_CODE,
+			   DEP_NAME, VENDER_CODE, VENDER_NAME, APPROVAL, MK_ORDER, REQ_REJECT, REG_DATE, DESCRIPTION, REQ_QUANTITY,
+			   MAKER_NAME, MAKER_CODE, CATEGORY_2ND, UNIMPORTED_QTY, END_REQUEST
+		FROM REQ_ORDERS
+		WHERE REQ_DATE = #{req_date} AND REQ_PAGE = #{req_page} AND
+			  CATEGORY_2ND = #{category_2nd} AND END_REQUEST = '0' AND
+			  DEP_CODE = #{dep_code}
+	</select>
+	
+	<!-- 품목재고수량 가져오기 -->
+	<select id="getStockQty" parameterType="String" resultType="Long">
+		SELECT STOCK_QUANTITY
+		FROM STOCK
+		WHERE PRODUCT_CODE = #{product_code}
+	</select>
+	
+	<!-- 새 출고내역 페이지 가져오기 -->
+	<select id="getNewExportPage" parameterType="com.docmall.domain.Tbl_ExportVO" resultType="Long">
+		SELECT MAX(EXPORT_PAGE) as EXPORT_PAGE
+		FROM TBL_EXPORT
+		WHERE CATEGORY_2ND = #{category_2nd} AND EXPORT_DATE = #{export_date}
+	</select>
+	
+	<!-- 출고테이블 값 추가 -->
+	<insert id="insertExport" parameterType="com.docmall.domain.Tbl_ExportVO">
+		INSERT INTO TBL_EXPORT (EXPORT_NUM, EXPORT_DATE, EXPORT_PAGE, MEM_ID,
+								PRODUCT_CODE, PRODUCT_NAME, SPEC, EX_PAKAGING,
+								EX_QUANTITY, DEP_CODE, DEP_NAME, REG_DATE,
+								DESCRIPTION, CATEGORY_2ND, MAKER_CODE,
+								MAKER_NAME, REQ_NO)
+		VALUES (TBL_EXPORT_SEQ.NEXTVAL, #{export_date}, #{export_page}, #{mem_id},
+				#{product_code}, #{product_name}, #{spec}, #{ex_pakaging},
+				#{ex_quantity}, #{dep_code}, #{dep_name}, SYSDATE, #{description},
+				#{category_2nd}, #{maker_code}, #{maker_name}, #{req_no})
+	</insert>
+	
+	<!-- stock테이블 값 빼는기능 -->
+	<update id="stockMinus" parameterType="com.docmall.domain.Tbl_ExportVO">
+		UPDATE STOCK
+		SET STOCK_QUANTITY = (STOCK_QUANTITY - #{ex_quantity})
+		WHERE PRODUCT_CODE = #{product_code}
+	</update>
+	
+	<!-- stock테이블 값 더하는기능 -->
+	<update id="stockPlus" parameterType="com.docmall.domain.Tbl_ExportVO">
+		UPDATE STOCK
+		SET STOCK_QUANTITY = (STOCK_QUANTITY + #{ex_quantity})
+		WHERE PRODUCT_CODE = #{product_code}
+	</update>
+	
+	<!-- req_order테이블 수량 수정 -->
+	<update id="changeReq_order_qty" parameterType="com.docmall.domain.Tbl_ExportVO">
+		UPDATE REQ_ORDERS
+		SET UNIMPORTED_QTY = (UNIMPORTED_QTY - #{ex_quantity})
+		WHERE REQ_NO = #{req_no}
+	</update>
+	
+	<!-- req_order테이블 전량 출고시 end_request값 변경 -->
+	<update id="checkReq_order_end" parameterType="Long">
+		UPDATE REQ_ORDERS
+		SET END_REQUEST = CASE WHEN UNIMPORTED_QTY = 0 THEN '1'
+							   WHEN UNIMPORTED_QTY > 0 THEN '0'
+							   END
+		WHERE REQ_NO = #{req_no}
+	</update>
+	
+	<!-- 출고서 리스트 불러오기 -->
+	<select id="getExportList" parameterType="com.docmall.dto.ExportListDTO" resultType="com.docmall.domain.Tbl_ExportVO">
+		SELECT DISTINCT EXPORT_DATE, EXPORT_PAGE, DEP_CODE, DEP_NAME, CATEGORY_2ND
+		FROM TBL_EXPORT
+		WHERE CATEGORY_2ND = #{category_2nd} AND
+			  EXPORT_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
+			  DEP_NAME LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<!-- 출고내역 불러오기 -->
+	<select id="getExportInfo" parameterType="com.docmall.domain.Tbl_ExportVO" resultType="com.docmall.domain.Tbl_ExportVO">
+		SELECT EXPORT_NUM, EXPORT_DATE, EXPORT_PAGE, MEM_ID, PRODUCT_CODE, PRODUCT_NAME,
+			   SPEC, EX_PAKAGING, EX_QUANTITY, DEP_CODE, DEP_NAME, REG_DATE, DESCRIPTION,
+			   CATEGORY_2ND, MAKER_CODE, MAKER_NAME, REQ_NO
+		FROM TBL_EXPORT
+		WHERE CATEGORY_2ND = #{category_2nd} AND DEP_CODE = #{dep_code} AND
+			  EXPORT_DATE = #{export_date} AND EXPORT_PAGE = #{export_page}
+	</select>
+	
+	<!-- 청구수량과 미출고 수량 불러오기 -->
+	<select id="getReq_qty" parameterType="Long" resultType="com.docmall.domain.Req_OrdersVO">
+		SELECT REQ_QUANTITY, UNIMPORTED_QTY
+		FROM REQ_ORDERS
+		WHERE REQ_NO = #{req_no}
+	</select>
+	
+	<!-- 출고내역 삭제 -->
+	<delete id="delExport" parameterType="com.docmall.dto.ExportDelDTO">
+		DELETE FROM TBL_EXPORT
+		WHERE EXPORT_NUM = #{export_num}
+	</delete>
+	
+	<!-- 삭제수량만큼 요청내역 수량 수정  -->
+	<update id="req_qtyChange" parameterType="com.docmall.dto.ExportDelDTO">
+		UPDATE REQ_ORDERS
+		SET UNIMPORTED_QTY = UNIMPORTED_QTY + #{original_ex_quantity}
+		WHERE REQ_NO = #{req_no}
+	</update>
+
+	<!-- 출고내역 수정된수량 반영 -->
+	<update id="updateExport" parameterType="com.docmall.domain.Tbl_ExportVO">
+		UPDATE TBL_EXPORT
+		SET EX_QUANTITY = (EX_QUANTITY + #{ex_quantity}),
+			DESCRIPTION = #{description}
+		WHERE EXPORT_NUM = #{export_num}
+	</update>
+
+
+</mapper>

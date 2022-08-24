@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.Waiting_ImportsMapper">
+	<!-- 미입고내역 리스트 불러오기 -->
+	<select id="getWaitingList" parameterType="com.docmall.dto.WaitingListDTO" resultType="com.docmall.domain.Waiting_ImportsVO">
+		SELECT DISTINCT ORDER_DATE, ORDER_PAGE, VENDER_CODE, VENDER_NAME, CATEGORY_2ND
+		FROM WAITING_IMPORTS
+		WHERE CATEGORY_2ND = #{category_2nd} AND IMPORT_END = '0' AND
+			  ORDER_DATE BETWEEN #{selectedDate1} AND #{selectedDate2} AND
+			  VENDER_NAME LIKE '%' || #{keyword} || '%'
+	</select>
+
+	<!-- 미입고내역 페이지 불러오기 -->
+	<select id="getWaitingImportInfo" parameterType="com.docmall.domain.Waiting_ImportsVO" resultType="com.docmall.domain.Waiting_ImportsVO">
+		SELECT WAITING_NUM, ORDER_DATE, ORDER_PAGE, MEM_ID, PRODUCT_CODE, PRODUCT_NAME, SPEC,
+			   EX_PAKAGING, ORDER_IM_QTY, WAITING_QTY, PRICE, VENDER_CODE, VENDER_NAME, IMPORT_END,
+			   ORDER_DESCRIPTION, PAK_QUANTITY, CATEGORY_2ND, ORDER_NUM
+		FROM WAITING_IMPORTS
+		WHERE ORDER_DATE = #{order_date} AND ORDER_PAGE = #{order_page} AND
+			  VENDER_CODE = #{vender_code} AND CATEGORY_2ND = #{category_2nd} AND
+			  IMPORT_END = '0'
+	</select>
+	
+	<!-- 새로운 입고내역 페이지 불러오기 -->
+	<select id="getNewImportPage" parameterType="com.docmall.dto.ImportPageDTO" resultType="Long">
+		SELECT MAX(IMPORT_PAGE)
+		FROM TBL_IMPORTS
+		WHERE IMPORT_DATE = #{import_date} AND CATEGORY_2ND = #{category_2nd}
+	</select>
+	
+	<!-- 입고내역 작성 -->
+	<insert id="insertImport" parameterType="com.docmall.domain.Tbl_ImportVO">
+		INSERT INTO TBL_IMPORTS (IMPORT_NUM, IMPORT_DATE, IMPORT_PAGE, MEM_ID,
+								 PRODUCT_CODE, PRODUCT_NAME, SPEC, EX_PAKAGING,
+								 EX_QUANTITY, PRICE, VENDER_CODE, VENDER_NAME,
+								 REG_DATE, DESCRIPTION, PAK_QUANTITY, CATEGORY_2ND,
+								 WAITING_NUM)
+						VALUES  (TBL_ORDERS_SEQ.NEXTVAL, #{import_date},
+								 #{import_page}, #{mem_id}, #{product_code}, #{product_name},
+								 #{spec}, #{ex_pakaging}, #{ex_quantity}, #{price},
+								 #{vender_code}, #{vender_name}, SYSDATE, #{description},
+								 #{pak_quantity}, #{category_2nd}, #{waiting_num})
+	</insert>
+	
+	<!-- 미입고내역 테이블에 입고수량 반영 -->
+	<update id="order_im_qtyChange" parameterType="com.docmall.domain.Tbl_ImportVO">
+		UPDATE WAITING_IMPORTS
+		SET ORDER_IM_QTY = (ORDER_IM_QTY + #{ex_quantity})
+		WHERE WAITING_NUM = #{waiting_num}
+	</update>
+	
+	<!-- 입고시 재고(Stock)테이블에 수량추가 -->
+	<update id="stockChange" parameterType="com.docmall.domain.Waiting_ImportsVO">
+		UPDATE STOCK SET STOCK_QUANTITY = (STOCK_QUANTITY + #{ex_quantity})
+				   WHERE PRODUCT_CODE = #{product_code}
+	</update>
+	
+	<!-- 요청수량과 입고수량이 같으면 미입고내역 종결처리 -->
+	<update id="importEndCheck" parameterType="com.docmall.domain.Tbl_ImportVO">
+		UPDATE WAITING_IMPORTS
+		SET IMPORT_END = CASE
+			WHEN ORDER_IM_QTY = WAITING_QTY THEN '1'
+			ELSE '0'
+			END
+		WHERE WAITING_NUM = #{waiting_num}
+	</update>
+
+</mapper>

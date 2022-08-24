@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.mapper.MemberMapper">
+	<insert id="mkAdmin" parameterType="com.docmall.domain.MemberVO">
+		INSERT INTO TBL_MEMBERS (mem_id, mem_password, mem_level, dep_code, reg_date, update_date, mem_name, dep_name)
+		VALUES(#{mem_id}, #{mem_password}, #{mem_level}, #{dep_code}, SYSDATE, SYSDATE, #{mem_name}, #{dep_name}) 
+	</insert>
+	
+	<select id="idCheck" parameterType="String" resultType="String">
+		SELECT MEM_ID FROM TBL_MEMBERS WHERE MEM_ID = #{mem_id}
+	</select>
+	
+	<select id="loginOK" parameterType="com.docmall.dto.LoginDTO" resultType="com.docmall.domain.MemberVO">
+		SELECT MEM_PASSWORD, MEM_NAME, MEM_LEVEL, MEM_ID, DEP_CODE, REG_DATE, UPDATE_DATE, DEP_NAME FROM TBL_MEMBERS
+		WHERE MEM_ID = #{mem_id}
+	</select>
+	
+	<select id="searchMemCode" parameterType="com.docmall.dto.MemberListDTO" resultType="com.docmall.domain.MemberVO">
+		SELECT MEM_ID, MEM_PASSWORD, MEM_LEVEL, DEP_CODE, REG_DATE, UPDATE_DATE, MEM_NAME, DEP_NAME
+		FROM TBL_MEMBERS
+		WHERE DEP_NAME LIKE '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="searchUpperCatMemCode" parameterType="com.docmall.dto.MemberListDTO" resultType="com.docmall.domain.MemberVO">
+		SELECT MEM_ID, MEM_PASSWORD, MEM_LEVEL, members.DEP_CODE, REG_DATE, UPDATE_DATE, MEM_NAME, DEP_NAME
+		FROM TBL_MEMBERS members INNER JOIN (SELECT DEP_CODE FROM DEPARTMENT WHERE UPPER_DEP = #{upper_dep}) department
+		ON members.DEP_CODE = department.DEP_CODE
+		WHERE DEP_NAME LIKE '%' || #{keyword} || '%'		
+	</select>
+
+	<select id="getMemberInfo" parameterType="String" resultType="com.docmall.domain.MemberVO">
+		SELECT MEM_ID, MEM_PASSWORD, MEM_LEVEL, DEP_CODE, REG_DATE, UPDATE_DATE, MEM_NAME, DEP_NAME
+		FROM TBL_MEMBERS
+		WHERE MEM_ID = #{mem_id}
+	</select>
+	
+	<!-- 멤버 비밀번호 변경 기능 -->
+	<update id="updateMemberPw" parameterType="com.docmall.domain.MemberVO">
+		UPDATE TBL_MEMBERS
+		SET MEM_PASSWORD = #{mem_password}
+		WHERE mem_id = #{mem_id}
+	</update>
+
+	<!-- 멤버 삭제 -->
+	<delete id="delMember" parameterType="com.docmall.domain.MemberVO">
+		DELETE FROM TBL_MEMBERS WHERE MEM_ID = #{mem_id}
+	</delete>
+</mapper>
