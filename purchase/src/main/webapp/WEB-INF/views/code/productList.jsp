@@ -20,7 +20,7 @@
 <div class="body">
 
 <h3>품목코드 목록</h3>
-<div style="width: 2000px; display: block;">
+<div style="width: 2000px; display: block; margin: 0 auto;">
 <!-- 카테고리 영역 -->
 <span style="display: inline-block;">카테고리 선택</span>
 <div style="display: inline-block;">
@@ -66,7 +66,7 @@
 </div>
 
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px;">
+<table class="table" style="margin-top: 10px; width: 1400px; margin: 0 auto; margin-top: 20px">
   <thead>
     <tr>
       <th scope="vnaa" style="width: 150px;">품목코드</th>
