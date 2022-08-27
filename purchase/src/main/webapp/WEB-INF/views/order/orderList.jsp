@@ -19,23 +19,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
 
-<style>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-}
-
-</style>
 
 <!--캘린더-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
@@ -164,11 +149,13 @@ $("#btnSend").on("click", function(){
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <h3>발주서 조회/수정</h3>
 
+<div style="width: 800px; margin: 0 auto;">
 <!-- 날짜 영역 -->
 <form id="CatDatePageForm" name="CatDatePageForm" method="post" action="/request/getReqOrder_List">
-<div  style="display: inline-block;">
+<div style="display: inline-block;">
     <!-- 카테고리(상) -->
     <select id="category_1st" name="category_1st">
         <option value="none" selected>대분류</option>
@@ -180,45 +167,47 @@ $("#btnSend").on("click", function(){
         <option value="none" selected>소분류</option>
     </select>
 </div>
-<div class='col-md-3 col-xs-3' style="display: inline-block;">
-    <div class="form-group">
-        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" id="selectDate1" name="selectDate1" data-target="#datetimepicker1" value="">
-            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class='col-md-3 col-xs-3' style="display: inline-block;">
-    <div class="form-group">
-        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" id="selectDate2" name="selectDate2" data-target="#datetimepicker2" value="">
-            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
-        </div>
-    </div>
-</div>
+	<div class='col-md-3 col-xs-3' style="display: inline-block;">
+	    <div class="form-group">
+	        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+	            <input type="text" class="form-control datetimepicker-input" id="selectDate1" name="selectDate1" data-target="#datetimepicker1" value="">
+	            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+	                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class='col-md-3 col-xs-3' style="display: inline-block;">
+	    <div class="form-group">
+	        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+	            <input type="text" class="form-control datetimepicker-input" id="selectDate2" name="selectDate2" data-target="#datetimepicker2" value="">
+	            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+	                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 <div style="display: inline-block;">
-	<input type="text" id="keyword"	name="keyword" value="" placeholder="거래처 명">
+	<input type="text" id="keyword"	name="keyword" value="" placeholder="거래처 명" size="10px">
     <input type="button" id="btnSend" name="btnSend" value="검색">
     <input type="submit" id="btnSend2" name="btnSend" value="" hidden>
 </div>
 </form>
+</div>
+
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px;">
-	<thead class="thead-dark">
-	  <tr>
-		<th>업체명</th>
-		<th>작성일</th>
-	  </tr>
+<table class="table" style="margin-top: 10px; width: 700px; margin: 0 auto;">
+	<thead>
+		<tr>
+			<th style="width: 350px">업체명</th>
+			<th style="width: 350px">작성일</th>
+		</tr>
 	</thead>
 	<tbody id="orderList">
-
+	
 	</tbody>
-  </table>
-   
+</table>
+</div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

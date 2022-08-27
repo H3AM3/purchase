@@ -14,6 +14,7 @@
     <title>DocMall Shopping</title>
 
 <meta name="theme-color" content="#563d7c">
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
 
     <style>
@@ -104,13 +105,14 @@
 
 	</script>
   </head>
-  <body>
-    
-<%@include file="/WEB-INF/views/include/header.jsp" %>
+<body>
 
-<h3>계정 조회/수정</h3>
+<%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
+
 <form id="joinForm" method="post" action="/member/updateMemberInfo">
 	<div class="container">
+	<h3>계정 조회/수정</h3>
 		<div class="mb-3 text-center">
 			<div class="form-group row">
 				<label for="staticEmail" class="col-sm-2 col-form-label">아이디</label>
@@ -146,7 +148,7 @@
 	</div>
 </form>
  
-
+</div>
   <!--  footer.jsp -->
   <%@include file="/WEB-INF/views/include/footer.jsp" %>
     

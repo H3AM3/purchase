@@ -18,22 +18,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
-
-<style>
-
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-}
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
 </style>
 
@@ -147,10 +132,12 @@ $("#btnSend").on("click", function(){
 				data = JSON.parse(result);
                 for(i=0; i<data.length; i++){
 					let newDate = data[i].import_date.replace(' 00:00:00', '');
-					$("#orderList").append("<tr>");
-					$("#orderList").append("<td><a href='/import/importInfo?category_2nd="+$('#category_2nd').val()+"&vender_code="+data[i].vender_code+"&import_date="+newDate+"&import_page="+data[i].import_page+"'>"+newDate+" - "+data[i].import_page+"<a></td>");
-					$("#orderList").append("<td>"+data[i].vender_name+"</td>");
-					$("#orderList").append("</tr>");
+					let str = '';
+					str += "<tr>";
+					str += "<td><a href='/import/importInfo?category_2nd="+$('#category_2nd').val()+"&vender_code="+data[i].vender_code+"&import_date="+newDate+"&import_page="+data[i].import_page+"'>"+newDate+" - "+data[i].import_page+"<a></td>";
+					str += "<td>"+data[i].vender_name+"</td>";
+					str += "</tr>";
+					$("#orderList").append(str);
 				}
 			}
 		});
@@ -162,8 +149,10 @@ $("#btnSend").on("click", function(){
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <h3>입고내역 조회/수정</h3>
 
+<div style="width: 900px; margin: 0 auto;">
 <!-- 날짜 영역 -->
 <form id="CatDatePageForm" name="CatDatePageForm" method="post" action="/request/getReqOrder_List">
 <div  style="display: inline-block;">
@@ -199,14 +188,16 @@ $("#btnSend").on("click", function(){
     </div>
 </div>
 <div style="display: inline-block;">
-	<input type="text" id="keyword"	name="keyword" value="" placeholder="거래처 명">
+	<input type="text" id="keyword"	name="keyword" value="" placeholder="거래처 명" size="12px">
     <input type="button" id="btnSend" name="btnSend" value="검색">
     <input type="submit" id="btnSend2" name="btnSend" value="" hidden>
 </div>
 </form>
+</div>
+
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px;">
-	<thead class="thead-dark">
+<table class="table" style="margin-top: 10px; width: 800px; margin: 0 auto;">
+	<thead>
 	  <tr>
 		<th>입고일자-페이지</th>
 		<th>거래처</th>
@@ -216,7 +207,7 @@ $("#btnSend").on("click", function(){
 
 	</tbody>
   </table>
-   
+   </div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

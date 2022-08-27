@@ -9,16 +9,21 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
-<body>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/header.jsp"%>
 <%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-<h3>품목코드 목록</h3><br>
+<body>
+
+<%@include file="/WEB-INF/views/include/header.jsp"%>
+<div class="body">
+
+<h3>품목코드 목록</h3>
+<div style="width: 2000px; display: block;">
 <!-- 카테고리 영역 -->
-<a style="float: left;">카테고리 선택 &nbsp</a>
-<div style="float: left;">
+<span style="display: inline-block;">카테고리 선택</span>
+<div style="display: inline-block;">
 	<form id="selectCategory_1st" name="selectCategory_1st" action=""
 		method="post">
 		<!-- 카테고리(상) -->
@@ -27,7 +32,7 @@
 		</select>
 	</form>
 </div>
-<div style="float: left;">
+<div style="display: inline-block;">
 	<form id="selectCategory_2nd" name="selectCategory_2nd" action="">
 		<!-- 카테고리(하) -->
 		<select id="category_2nd">
@@ -37,13 +42,13 @@
 </div>
 
 <!-- 사용불가코드 조회 여부 체크박스 -->
-<div style="display: block;">
-<label>&nbsp&nbsp|&nbsp 사용불가코드 &nbsp</label>
+<div style="display: inline-block; margin-left: 20px; margin-right: 20px;">
+<span>사용불가코드</span>
 <input type="checkbox" id="usable" name="usable" value="false">
 </div>
 
 <!-- 검색창 영역 -->
-<div style="float: left;">
+<div style="display: inline-block;">
 	<form name="searchForm" id="searchForm" onsubmit="false">
 	<input type="text" id="product_code" name="product_code" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="품목코드">
 	<input type="text" id="product_name" name="product_name" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="품명">
@@ -53,32 +58,30 @@
 </div>
 
 <!-- 코드생성버튼 -->
-<div>
-	<label>&nbsp|&nbsp</label>
+<div style="display: inline-block;">
 	<input type="button" value="코드생성" onclick="location.href='/code/createProductCode'">
 	</div>
 	<div>
 	</div>
+</div>
 
 <!-- 본문 리스트 영역 -->
 <table class="table" style="margin-top: 10px;">
-  <thead class="thead-dark">
+  <thead>
     <tr>
-      <th scope="vnaa">품목코드</th>
-      <th scope="">품명</th>
-      <th scope="col">규격</th>
-	  <th scope="col">제조사</th>
-      <th scope="col">거래처</th>
+      <th scope="vnaa" style="width: 150px;">품목코드</th>
+      <th scope="" style="width: 200px">품명</th>
+      <th scope="col" style="width: 400px">규격</th>
+	  <th scope="col" style="width: 150px">제조사</th>
+      <th scope="col" style="width: 150px">거래처</th>
     </tr>
   </thead>
   <tbody id="codeList">
-    <tr>
-    </tr>
   </tbody>
 </table>
 
 
-
+</div>
 <%@include file="/WEB-INF/views/include/footer.jsp"%>
 
 
@@ -184,19 +187,21 @@
 		success : function(result){
 		let prodList = JSON.parse(result);
 		console.log(prodList);
-			
+			let str = '';
 			for(i=0; i<prodList.length; i++){
-				codeList.append("<tr>");
-				codeList.append("<th scope='row'>"+prodList[i].product_code+"</th>");
-				codeList.append("<td><a href='/code/prodInfo?product_code="+prodList[i].product_code+"'>"+prodList[i].product_name+"<a></td>");
-				codeList.append("<td>"+prodList[i].spec+"</td>");				
-				codeList.append("<td>"+prodList[i].maker_name+"</td>");				
-				codeList.append("<td>"+prodList[i].vender_name+"</td>");
-				codeList.append("</tr>");
+				str += "<tr>";
+				str += "<td scope='row'>"+prodList[i].product_code+"</th>";
+				str += "<td><a href='/code/prodInfo?product_code="+prodList[i].product_code+"'>"+prodList[i].product_name+"<a></td>";
+				str += "<td>"+prodList[i].spec+"</td>";
+				str += "<td>"+prodList[i].maker_name+"</td>";				
+				str += "<td>"+prodList[i].vender_name+"</td>";
+				str += "</tr>";
 			}
+			codeList.append(str);
 		}
 	});
 }
 </script>
+
 </body>
 </html>

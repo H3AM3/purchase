@@ -54,7 +54,7 @@ public class RequestController {
 				service.insertReq_orders(vo.getReq_ordersList().get(i));
 			}
 		}
-		return "redirect:/code/productList";
+		return "redirect:/request/requestOrder";
 	}
 	
 	// 사용자,날짜, 카테고리 페이지 보내서 현재 가장 큰 페이지 값을 리턴

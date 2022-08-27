@@ -15,120 +15,102 @@
     <title>DocMall Shopping</title>
 
 <meta name="theme-color" content="#563d7c">
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
     
-    <!-- Custom styles for this template -->
-    <link href="pricing.css" rel="stylesheet">
+   <!-- Custom styles for this template -->
+   <link href="pricing.css" rel="stylesheet">
 
-	<script>
+<script>
 
-		let chechOK = false;
+	let chechOK = false;
 
-		$(document).ready(function(){
-			// 수정버튼 누르면 저장,삭제 버튼 나오는 기능 + readonly 해제
-			$("#btnUpdate").on("click", function(){
-				$("#vender_name").removeAttr("readonly");
-				$("#vender_reg_num").removeAttr("readonly");
-				$("#bank").removeAttr("readonly");
-				$("#account_number").removeAttr("readonly");
-				$("#vender_email").removeAttr("readonly");
-				$("#description").removeAttr("readonly");
+	$(document).ready(function(){
+		// 수정버튼 누르면 저장,삭제 버튼 나오는 기능 + readonly 해제
+		$("#btnUpdate").on("click", function(){
+			$("#vender_name").removeAttr("readonly");
+			$("#vender_reg_num").removeAttr("readonly");
+			$("#bank").removeAttr("readonly");
+			$("#account_number").removeAttr("readonly");
+			$("#vender_email").removeAttr("readonly");
+			$("#description").removeAttr("readonly");
 
-				$("#btnSave").removeAttr("hidden");
-				$("#btnDel").removeAttr("hidden");
-				$("#btnUpdate").attr("hidden", true);
-			});
-
-			// 부서코드 수정
-			$("#btnSave").on("click", function(){
-				if($("#vender_name").val()==""){
-					alert("부서명을 입력해주세요!");
-					return false;
-				}
-
-				$.ajax({
-				url : '/code/updateVenderCode',
-				type : 'post',
-				dataType : 'text',
-				data : {vender_code:$("#vender_code").val(), vender_name:$("#vender_name").val(),
-						vender_reg_num:$("#vender_reg_num").val(), bank:$("#bank").val(),
-						account_number:$("#account_number").val(), vender_email:$("#vender_email").val(),
-						description:$("#description").val()},
-				success : function(result){
-				// let data = JSON.parse(result);
-				if(result == 'success'){
-					alert("변경 성공");
-				}else{
-					alert("코드를 변경할 수 없습니다.")
-				}
-				}
-				});
-				
-				// 저장하면 저장, 삭제버튼 다시 hidden으로 변경하는 기능
-				$("#vender_name").attr("readonly", true);
-				$("#vender_reg_num").attr("readonly", true);
-				$("#bank").attr("readonly", true);
-				$("#account_number").attr("readonly", true);
-				$("#vender_email").attr("readonly", true);
-				$("#description").attr("readonly", true);
-				$("#btnDel").attr("hidden", true);
-				$("#btnUpdate").removeAttr("hidden");
-				$("#btnSave").attr("hidden", true);
-			});
-			
-			// 코드삭제
-			$("#btnDel").on("click", function(){
-				let del = confirm("이 코드를 삭제하시겠습니까?");
-				if(del){
-					$.ajax({
-						url : '/code/delVender',
-						type : 'post',
-						dataType : 'text',
-						data : {vender_code:$("#vender_code").val()},
-								success : function(result){
-								// let data = JSON.parse(result);
-								if(result == 'success'){
-									alert("삭제 성공");
-								}else{
-									alert("코드를 삭제할 수 없습니다.");
-								}
-								}
-					});
-					// 목록으로 리턴
-					$("#gotoList").click();
-				}
-			});
-
+			$("#btnSave").removeAttr("hidden");
+			$("#btnDel").removeAttr("hidden");
+			$("#btnUpdate").attr("hidden", true);
 		});
 
-	</script>
-  </head>
-  <body>
-    
+		// 부서코드 수정
+		$("#btnSave").on("click", function(){
+			if($("#vender_name").val()==""){
+				alert("부서명을 입력해주세요!");
+				return false;
+			}
+
+			$.ajax({
+			url : '/code/updateVenderCode',
+			type : 'post',
+			dataType : 'text',
+			data : {vender_code:$("#vender_code").val(), vender_name:$("#vender_name").val(),
+					vender_reg_num:$("#vender_reg_num").val(), bank:$("#bank").val(),
+					account_number:$("#account_number").val(), vender_email:$("#vender_email").val(),
+					description:$("#description").val()},
+			success : function(result){
+			// let data = JSON.parse(result);
+			if(result == 'success'){
+				alert("변경 성공");
+			}else{
+				alert("코드를 변경할 수 없습니다.")
+			}
+			}
+			});
+			
+			// 저장하면 저장, 삭제버튼 다시 hidden으로 변경하는 기능
+			$("#vender_name").attr("readonly", true);
+			$("#vender_reg_num").attr("readonly", true);
+			$("#bank").attr("readonly", true);
+			$("#account_number").attr("readonly", true);
+			$("#vender_email").attr("readonly", true);
+			$("#description").attr("readonly", true);
+			$("#btnDel").attr("hidden", true);
+			$("#btnUpdate").removeAttr("hidden");
+			$("#btnSave").attr("hidden", true);
+		});
+		
+		// 코드삭제
+		$("#btnDel").on("click", function(){
+			let del = confirm("이 코드를 삭제하시겠습니까?");
+			if(del){
+				$.ajax({
+					url : '/code/delVender',
+					type : 'post',
+					dataType : 'text',
+					data : {vender_code:$("#vender_code").val()},
+							success : function(result){
+							// let data = JSON.parse(result);
+							if(result == 'success'){
+								alert("삭제 성공");
+							}else{
+								alert("코드를 삭제할 수 없습니다.");
+							}
+							}
+				});
+				// 목록으로 리턴
+				$("#gotoList").click();
+			}
+		});
+
+	});
+
+</script>
+</head>
+<body>
+
 <%@include file="/WEB-INF/views/include/header.jsp" %>
-
-<h3>거래처 조회/수정</h3>
-
+<div class="body">
 <div class="container">
+  <h3>거래처 조회/수정</h3>
   <div class="mb-3 text-center">
+
 <form id="VenderInfoForm" method="post" action="/code/venderInfo">
 		  <div class="form-group row">
 		    <label for="staticEmail" class="col-sm-2 col-form-label">거래처 코드</label>
@@ -183,11 +165,10 @@
 </div>
 
 
+</div>
   <!--  footer.jsp -->
   <%@include file="/WEB-INF/views/include/footer.jsp" %>
-</div>
 
-    
   </body>
 </html>
     

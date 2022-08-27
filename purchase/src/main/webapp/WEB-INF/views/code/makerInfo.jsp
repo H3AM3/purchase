@@ -16,23 +16,7 @@
 
 <meta name="theme-color" content="#563d7c">
 
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
     
     <!-- Custom styles for this template -->
@@ -108,43 +92,41 @@
 
 	</script>
   </head>
-  <body>
-    
-<%@include file="/WEB-INF/views/include/header.jsp" %>
+<body>
 
+<%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
+<div class="container">
 <h3>제조사 조회/수정</h3>
 
-<div class="container">
   <div class="mb-3 text-center">
 <form id="MakerInfoForm" method="post" action="/code/makerInfo">
 		  <div class="form-group row">
 		    <label for="staticEmail" class="col-sm-2 col-form-label">제조사 코드</label>
-		    <div class="col-sm-5">
+		    <div class="col-sm-2">
 		      <input type="text" class="form-control" id="maker_code" name="maker_code" readonly value="${makerInfo.maker_code}">
 		    </div>
 		  </div>
 		  <div class="form-group row">
 		    <label for="inputPassword" class="col-sm-2 col-form-label">제조사</label>
-		    <div class="col-sm-10">
+		    <div class="col-sm-3">
 		      <input type="text" class="form-control" id="maker_name" name="maker_name" readonly value="${makerInfo.maker_name}">
 			</div>
 		  </div>
 		  <div class="form-group row">
-			<input type="button" class="btn btn-dark" id="gotoList" name="gotoList" onclick="location.href='/code/makerList'" value="목록">
-			<input type="button" class="btn btn-dark" id="btnUpdate" name="btnUpdate" value="수정">
-			<input type="button" class="btn btn-dark" id="btnSave" name="btnSave" hidden value="저장">
-			<input type="button" class="btn btn-dark" id="btnDel" name="btnDel" hidden value="삭제">
+			<input type="button" class="btn btn-dark" id="gotoList" name="gotoList" onclick="location.href='/code/makerList'" value="목록" style="margin-right: 5px">
+			<input type="button" class="btn btn-dark" id="btnUpdate" name="btnUpdate" value="수정" style="margin-right: 5px">
+			<input type="button" class="btn btn-dark" id="btnSave" name="btnSave" hidden value="저장" style="margin-right: 5px">
+			<input type="button" class="btn btn-dark" id="btnDel" name="btnDel" hidden value="삭제" style="margin-right: 5px">
 			</div>		
 	 </form>
   </div>
 </div>
 
-
+</div>
   <!--  footer.jsp -->
   <%@include file="/WEB-INF/views/include/footer.jsp" %>
-</div>
 
-    
   </body>
 </html>
     

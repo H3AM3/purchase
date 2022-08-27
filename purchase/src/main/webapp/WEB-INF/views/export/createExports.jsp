@@ -1,4 +1,4 @@
-w<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,24 +18,8 @@ w<%@ page language="java" contentType="text/html; charset=UTF-8"
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-    <style>
-
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 <!-- bootstrap 4.6, jquery, .. -->
 <link  href="/resources/calendar/css/bootstrap.min.css" rel="stylesheet">
 
@@ -49,6 +33,9 @@ body {
 
    <!-- 사용자 css -->
 <link  href="/resources/calendar/css/my.css" rel="stylesheet">
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
+
+
 
 <script>
 let rowCount = 0;
@@ -318,9 +305,10 @@ $(document).ready(function() {
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <!-- 상단 폼 -->
-<div class="card-body">
 <h3>출고내역 작성</h3>
+<div style="text-align: left;">
 <form name="calendarForm">
 <div class="row" style="display: inline-block;">
 	<div class="col">
@@ -359,40 +347,39 @@ $(document).ready(function() {
 	</div>	
 </div>
 </form>
+</div>
+
+<div style="text-align: left;">
 <input type="button" id="btnDelRow" name="btnDelRow" value="행추가" onclick="addRow();">
 <input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();">
 </div>
 
-<div>
-<br>
-</div>
-<form id="importListForm" name="importListForm" method="post" action="/export/insertExport" onsubmit="return submitCheck()">
-	<div class="col-md-12">
-		<table class="table table-bordered table-hover" id="table_id">
-			<thead style="background-color: rgb(148, 146, 146);">
-				<tr>
-					<th><input type="checkbox" value="selectall" name="selectall" id="selectall" onclick="selectAll(this)"></th>
-					<th>#</th>
-					<th>품목코드</th>
-					<th colspan="2">품명</th>
-					<th>규격</th>
-					<th>제조사</th>
-					<th>단위</th>
-					<th>청구수량</th>
-					<th>미출고<br>수량</th>
-					<th>재고<br>수량</th>
-					<th>출고<br>수량</th>
-					<th>비고</th>
-				</tr>
-			</thead>
-			<input type="submit" id="send" name="send" value="저장">
-			<tbody class="tableBody" id="tableBody">
-			</tbody>
-		</table>
-	</div>
+
+<form id="importListForm" name="importListForm" method="post" action="/export/insertExport" onsubmit="return submitCheck()" style="display: block; margin-top: 10px">
+	<table class="table table-bordered table-hover" id="table_id">
+		<thead style="background-color: rgb(148, 146, 146);">
+			<tr>
+				<th><input type="checkbox" value="selectall" name="selectall" id="selectall" onclick="selectAll(this)"></th>
+				<th>#</th>
+				<th>품목코드</th>
+				<th colspan="2">품명</th>
+				<th>규격</th>
+				<th>제조사</th>
+				<th>단위</th>
+				<th>청구수량</th>
+				<th>미출고<br>수량</th>
+				<th>재고<br>수량</th>
+				<th>출고<br>수량</th>
+				<th>비고</th>
+			</tr>
+		</thead>
+		<input type="submit" id="send" name="send" value="저장" style="float: left;">
+		<tbody class="tableBody" id="tableBody">
+		</tbody>
+	</table>
 </form>
 
-   
+</div> 
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

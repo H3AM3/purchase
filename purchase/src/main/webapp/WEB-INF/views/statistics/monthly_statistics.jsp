@@ -13,24 +13,13 @@
 <title>Insert title here</title>
 <%@include file="/WEB-INF/views/include/common.jsp" %>
 <%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
-
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 </head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
 
 <style>
-body {
-    background-color: #F1F4F5;
-	width: 95%;
-	margin-left: 2.5%;
-	text-align: center;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-
 .tableBody tr td {
 	padding: 0;
 	font-size: 15px;
@@ -41,29 +30,7 @@ body {
 	padding: 0;
 	font-size: 15px;
 	border: #9c9c9c solid 1px;
-	background-color: #343A40;
-	color: white;
-}
-
-.halfTable{
-	width: 45%;
-	display: inline-block;
-	vertical-align: top;
-	border: #e9e9e9 solid 1px;
-	
-}
-
-.halfTable tr td{
-	border: gray solid 1px;
-}
-.thead {
-	background-color: #343A40;
-	color: white;
-}
-
-
-.qtyLine td{
-	background-color: #e9e9e9;
+	background-color: #949292;
 }
 </style>
 
@@ -457,6 +424,7 @@ $(document).ready(function(){
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <h3>월간 입고/소모내역 집계</h3>
 
 <!-- 날짜 영역 -->
@@ -651,6 +619,7 @@ $(document).ready(function(){
 			</tr>
 		</tbody>
 	</table>
+</div>
 </div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 

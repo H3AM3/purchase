@@ -17,146 +17,128 @@
     <title>DocMall Shopping</title>
 
 <meta name="theme-color" content="#563d7c">
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
     
-    <!-- Custom styles for this template -->
-    <link href="\resources\pricing.css" rel="stylesheet">
+   <!-- Custom styles for this template -->
+   <link href="\resources\pricing.css" rel="stylesheet">
 
-	<script>
+<script>
 
-		let chechOK = false;
-			// 셀렉트 태그 수정불가로 바꾸는 메소드
-			function selectDisabled(){
-				$("#category_1st").prop('disabled', true);
-				$("#category_2nd").prop('disabled', true);
-				$("#type").prop('disabled', true);
-				$("#im_pakaging").prop('disabled', true);
-				$("#ex_pakaging").prop('disabled', true);
-				$("#usable").prop('disabled', true);
-			}
+	let chechOK = false;
+		// 셀렉트 태그 수정불가로 바꾸는 메소드
+		function selectDisabled(){
+			$("#category_1st").prop('disabled', true);
+			$("#category_2nd").prop('disabled', true);
+			$("#type").prop('disabled', true);
+			$("#im_pakaging").prop('disabled', true);
+			$("#ex_pakaging").prop('disabled', true);
+			$("#usable").prop('disabled', true);
+		}
 
-			// 셀렉트 태그 수정가능으로 바꾸는 메소드
-			function selectEndabled(){
-				$("#category_1st").prop('disabled', false);
-				$("#category_2nd").prop('disabled', false);
-				$("#type").prop('disabled', false);
-				$("#im_pakaging").prop('disabled', false);
-				$("#ex_pakaging").prop('disabled', false);
-				$("#usable").prop('disabled', false);
-			}
-			function venderSearchPopup(){
-				window.open("/code/venSearchPopup","venSearchPopup","width=600, height=450, top=150, left=200");
-			}
-			function makerSearchPopup(){
-				window.open("/code/makerSearchPopup","makerSearchPopup","width=600, height=450, top=150, left=200");
-			}
+		// 셀렉트 태그 수정가능으로 바꾸는 메소드
+		function selectEndabled(){
+			$("#category_1st").prop('disabled', false);
+			$("#category_2nd").prop('disabled', false);
+			$("#type").prop('disabled', false);
+			$("#im_pakaging").prop('disabled', false);
+			$("#ex_pakaging").prop('disabled', false);
+			$("#usable").prop('disabled', false);
+		}
+		function venderSearchPopup(){
+			window.open("/code/venSearchPopup","venSearchPopup","width=600, height=450, top=150, left=200");
+		}
+		function makerSearchPopup(){
+			window.open("/code/makerSearchPopup","makerSearchPopup","width=600, height=450, top=150, left=200");
+		}
 
-		$(document).ready(function(){
-			selectDisabled();
+	$(document).ready(function(){
+		selectDisabled();
 
-			// 수정버튼 누르면 저장,삭제 버튼 나오는 기능 + readonly 해제
-			$("#btnUpdate").on("click", function(){
-				console.log("버튼누름");
-				selectEndabled();
-				$("#product_name").removeAttr("readonly");
-				$("#spec").removeAttr("readonly");
-				$("#edi_code").removeAttr("readonly");
-				$("#pak_quantity").removeAttr("readonly");
-				$("#price").removeAttr("readonly");
-				$("#description").removeAttr("readonly");
-				$("#btnMakerSearch").removeAttr("hidden");
-				$("#btnVenSearch").removeAttr("hidden");
+		// 수정버튼 누르면 저장,삭제 버튼 나오는 기능 + readonly 해제
+		$("#btnUpdate").on("click", function(){
+			console.log("버튼누름");
+			selectEndabled();
+			$("#product_name").removeAttr("readonly");
+			$("#spec").removeAttr("readonly");
+			$("#edi_code").removeAttr("readonly");
+			$("#pak_quantity").removeAttr("readonly");
+			$("#price").removeAttr("readonly");
+			$("#description").removeAttr("readonly");
+			$("#btnMakerSearch").removeAttr("hidden");
+			$("#btnVenSearch").removeAttr("hidden");
 
-				$("#btnSave").removeAttr("hidden");
-				$("#btnUpdate").attr("hidden", true);
-			});
-
-			// 품목코드 수정
-			$("#btnSave").on("click", function(){
-				// 유효성 체크
-				if($("#product_name").val()==""){
-					alert("부서명을 입력해주세요!");
-					return false;
-				} else if($("#vender_name").val()==""){
-					alert("거래처를 입력해주세요!");
-				} else if($("#pak_quantity").val()==""){
-					alert("포장수량을 입력해주세요!");
-				} else if($("#price").val()==""){
-					alert("단가를 입력해주세요!");
-				}
-				if($("#spec").val() == ""){
-					$("#spec").val("-");
-				}
-				if($("#edi_code").val() == ""){
-				$("#edi_code").val("-");
-				}
-				console.log($("#edi_code").val());
-				console.log($("#usable").val());
-				$.ajax({
-				url : '/code/updateProductCode',
-				type : 'post',
-				dataType : 'text',
-				data : {product_code:$("#product_code").val(), product_name:$("#product_name").val(),
-						category_1st:$("#category_1st").val(), category_2nd:$("#category_2nd").val(),
-						spec:$("#spec").val(), vender_name:$("#vender_name").val(),
-						vender_code:$("#vender_code").val(), edi_code:$("#edi_code").val(),
-						type:$("#type").val(), im_pakaging :$("#im_pakaging").val(),
-						ex_pakaging :$("#ex_pakaging").val(), pak_quantity:$("#pak_quantity").val(),
-						price :$("#price").val(), usable : $("#usable").val(), description:$("#description").val(),
-						maker_name :$("#maker_name").val(), maker_code : $("#maker_code").val()},
-				success : function(result){
-				// let data = JSON.parse(result);
-				if(result == 'success'){
-					alert("변경 성공");
-					window.location = '/code/prodInfo?product_code='+ $("#product_code").val();
-				}else{
-					alert("코드를 변경할 수 없습니다.")
-				}
-				}
-				});
-				
-				// 저장하면 수정불가로 바꿔주는 기능
-				selectDisabled();
-				$("#product_name").attr("readonly", true);
-				$("#spec").attr("readonly", true);
-				$("#edi_code").attr("readonly", true);
-				$("#pak_quantity").attr("readonly", true);
-				$("#price").attr("readonly", true);
-				$("#description").attr("readonly", true);
-				$("#btnMakerSearch").attr("hidden", true);
-				$("#btnVenSearch").attr("hidden", true);
-				
-				// 저장하면 저장, 삭제버튼 다시 hidden으로 변경하는 기능
-				$("#btnUpdate").removeAttr("hidden");
-				$("#btnSave").attr("hidden", true);
-			});
-
+			$("#btnSave").removeAttr("hidden");
+			$("#btnUpdate").attr("hidden", true);
 		});
 
-	</script>
-  </head>
-  <body>
-    
-<%@include file="/WEB-INF/views/include/header.jsp" %>
+		// 품목코드 수정
+		$("#btnSave").on("click", function(){
+			// 유효성 체크
+			if($("#product_name").val()==""){
+				alert("부서명을 입력해주세요!");
+				return false;
+			} else if($("#vender_name").val()==""){
+				alert("거래처를 입력해주세요!");
+			} else if($("#pak_quantity").val()==""){
+				alert("포장수량을 입력해주세요!");
+			} else if($("#price").val()==""){
+				alert("단가를 입력해주세요!");
+			}
+			if($("#spec").val() == ""){
+				$("#spec").val("-");
+			}
+			if($("#edi_code").val() == ""){
+			$("#edi_code").val("-");
+			}
+			console.log($("#edi_code").val());
+			console.log($("#usable").val());
+			$.ajax({
+			url : '/code/updateProductCode',
+			type : 'post',
+			dataType : 'text',
+			data : {product_code:$("#product_code").val(), product_name:$("#product_name").val(),
+					category_1st:$("#category_1st").val(), category_2nd:$("#category_2nd").val(),
+					spec:$("#spec").val(), vender_name:$("#vender_name").val(),
+					vender_code:$("#vender_code").val(), edi_code:$("#edi_code").val(),
+					type:$("#type").val(), im_pakaging :$("#im_pakaging").val(),
+					ex_pakaging :$("#ex_pakaging").val(), pak_quantity:$("#pak_quantity").val(),
+					price :$("#price").val(), usable : $("#usable").val(), description:$("#description").val(),
+					maker_name :$("#maker_name").val(), maker_code : $("#maker_code").val()},
+			success : function(result){
+			// let data = JSON.parse(result);
+			if(result == 'success'){
+				alert("변경 성공");
+				window.location = '/code/prodInfo?product_code='+ $("#product_code").val();
+			}else{
+				alert("코드를 변경할 수 없습니다.")
+			}
+			}
+			});
+			
+			// 저장하면 수정불가로 바꿔주는 기능
+			selectDisabled();
+			$("#product_name").attr("readonly", true);
+			$("#spec").attr("readonly", true);
+			$("#edi_code").attr("readonly", true);
+			$("#pak_quantity").attr("readonly", true);
+			$("#price").attr("readonly", true);
+			$("#description").attr("readonly", true);
+			$("#btnMakerSearch").attr("hidden", true);
+			$("#btnVenSearch").attr("hidden", true);
+			
+			// 저장하면 저장, 삭제버튼 다시 hidden으로 변경하는 기능
+			$("#btnUpdate").removeAttr("hidden");
+			$("#btnSave").attr("hidden", true);
+		});
 
+	});
+
+</script>
+</head>
+<body>
+
+<%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <h3>품목 조회/수정</h3>
 
 <div class="container">
@@ -296,20 +278,20 @@
 
 <!-- 코드정보 변경 히스토리 내역 -->
 <table class="table" style="margin-top: 10px;">
-	<thead class="thead-dark">
+	<thead>
 	  <tr>
-		<th scope="vnaa">수정일자</th>
-		<th scope="col">품명</th>
-		<th scope="col">카테고리</th>
-		<th scope="col">규격</th>
-		<th scope="col">제조사</th>
-		<th scope="col">거래처</th>
-		<th scope="col">EDI코드</th>
-		<th scope="col">타입</th>
-		<th scope="col">입고단위</th>
-		<th scope="col">출고단위</th>
-		<th scope="col">포장수량</th>
-		<th scope="col">단가</th>
+		<th scope="vnaa" style="width: 150px;">수정일자</th>
+		<th scope="col" style="width: 150px;">품명</th>
+		<th scope="col" style="width: 150px;">카테고리</th>
+		<th scope="col" style="width: 300px;">규격</th>
+		<th scope="col" style="width: 150px;">제조사</th>
+		<th scope="col" style="width: 150px;">거래처</th>
+		<th scope="col" style="width: 100px;">EDI코드</th>
+		<th scope="col" style="width: 100px;">타입</th>
+		<th scope="col" style="width: 100px;">입고단위</th>
+		<th scope="col" style="width: 100px;">출고단위</th>
+		<th scope="col" style="width: 100px;">포장수량</th>
+		<th scope="col" style="width: 100px;">단가</th>
 	  </tr>
 	</thead>
 	<tbody id="codeEditList" style="border: 1px solid">
@@ -331,12 +313,11 @@
 	</c:forEach>
 	</tbody>
   </table>
-
+  
+</div>
   <!--  footer.jsp -->
   <%@include file="/WEB-INF/views/include/footer.jsp" %>
-</div>
 
-    
-  </body>
+</body>
 </html>
     

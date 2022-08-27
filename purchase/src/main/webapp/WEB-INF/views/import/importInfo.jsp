@@ -19,23 +19,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
 
-    <style>
-
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 <!-- bootstrap 4.6, jquery, .. -->
 <link  href="/resources/calendar/css/bootstrap.min.css" rel="stylesheet">
 
@@ -49,6 +32,8 @@ body {
 
    <!-- 사용자 css -->
 <link  href="/resources/calendar/css/my.css" rel="stylesheet">
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
+
 
 <script>
 let rowCount = 0;
@@ -82,14 +67,14 @@ function addRow(){
 		rowStr += "<td><input readonly style='width: 90px; border: none; background-color: WhiteSmoke;' type='number' id='im_price' name='im_price'  onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly style='border: none;' type='text' id='description' name='tbl_importVO["+rowCount+"].description'></td>"
 		
-		rowStr += "<td><input hidden id='import_date' name='tbl_importVO["+rowCount+"].import_date' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input hidden id='import_num' name='tbl_importVO["+rowCount+"].import_num' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input hidden id='import_page' name='tbl_importVO["+rowCount+"].import_page'></td>"
-		rowStr += "<td><input hidden id='mem_id' name='tbl_importVO["+rowCount+"].mem_id'></td>"
-		rowStr += "<td><input hidden id='vender_code' name='tbl_importVO["+rowCount+"].vender_code'></td>";
-		rowStr += "<td><input hidden type='number' id='waiting_num' name='tbl_importVO["+rowCount+"].waiting_num'></td>";
-		rowStr += "<td><input hidden type='number' id='tbl_importVO["+rowCount+"].pak_quantity' name='tbl_importVO["+rowCount+"].pak_quantity' onkeydown='if(event.keyCode == 13) return false'></td>"
-		rowStr += "<td><input hidden id='category_2nd' name='tbl_importVO["+rowCount+"].category_2nd' type='text' value=''  style='border: none;'  onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td hidden><input id='import_date' name='tbl_importVO["+rowCount+"].import_date' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td hidden><input id='import_num' name='tbl_importVO["+rowCount+"].import_num' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td hidden><input id='import_page' name='tbl_importVO["+rowCount+"].import_page'></td>"
+		rowStr += "<td hidden><input id='mem_id' name='tbl_importVO["+rowCount+"].mem_id'></td>"
+		rowStr += "<td hidden><input id='vender_code' name='tbl_importVO["+rowCount+"].vender_code'></td>";
+		rowStr += "<td hidden><input type='number' id='waiting_num' name='tbl_importVO["+rowCount+"].waiting_num'></td>";
+		rowStr += "<td hidden><input type='number' id='tbl_importVO["+rowCount+"].pak_quantity' name='tbl_importVO["+rowCount+"].pak_quantity' onkeydown='if(event.keyCode == 13) return false'></td>"
+		rowStr += "<td hidden><input id='category_2nd' name='tbl_importVO["+rowCount+"].category_2nd' type='text' value=''  style='border: none;'  onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowCount += 1;
 	$("#tableBody").append(rowStr);
 
@@ -248,9 +233,10 @@ $(document).ready(function() {
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <!-- 상단 폼 -->
-<div class="card-body">
 <h3>입고내역</h3>
+<div>
 	<div class="form-inline">
 		<div class="input-group input-group-sm date" id="calendar">
 			<div class="input-group-prepend">
@@ -266,18 +252,11 @@ $(document).ready(function() {
 			<input type="number" id="select_page" name="select_page" min="1" max="9999" value="${import_page }" readonly>
 		</div>
 	</div>
-	<div>
-		<br>
-	</div>
-	<input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();">
-</div>	
-
-<div>
-	<br>
 </div>
 
-<form id="importListForm" name="importListForm" method="post" action="/import/redirecImportInfo" onsubmit="return submitCheck()">
-	<div class="col-md-12">
+<input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();" style="display: block;">
+
+<form id="importListForm" name="importListForm" method="post" action="/import/redirecImportInfo" onsubmit="return submitCheck()" style="display: block; margin-top: 10px">
 		<table class="table table-bordered table-hover" id="table_id">
 			<thead style="background-color: rgb(148, 146, 146);">
 				<tr>
@@ -294,11 +273,10 @@ $(document).ready(function() {
 					<th>비고</th>
 				</tr>
 			</thead>
-			<input type="submit" id="send" name="send" value="저장">
+			<input type="submit" id="send" name="send" value="저장" style="float: left;">
 			<tbody class="tableBody" id="tableBody">
 			</tbody>
 		</table>
-	</div>
 </form>
 
 <table>
@@ -307,7 +285,7 @@ $(document).ready(function() {
 	<tbody id="delTableBody">
 	</tbody>
 </table>
-   
+   </div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

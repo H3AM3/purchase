@@ -9,15 +9,19 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
-<body>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/header.jsp"%>
 <%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
+
+<body>
+
+<%@include file="/WEB-INF/views/include/header.jsp"%>
+<div class="body">
 <h3>제조사 목록</h3><br>
 
 <!-- 검색창 영역 -->
-<div style="float: left;">
+<div style="display: inline-block;">
 <form name="searchForm" id="searchForm" onsubmit="false">
 <input type="text" id="searchName" name="searchName" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="검색할 업체명">
 <input type="button" id="btnSearch" name="btnSearch" value="검색">
@@ -25,17 +29,17 @@
 </div>
 
 <!-- 코드생성 -->
-<div style="float: left;">
+<div style="display: inline-block;">
 <label>&nbsp|&nbsp</label>
 <input type="button" onclick="location.href='/code/createMakerCode'" id="btnCreateCode" value="코드생성">
 </div>
 
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px;">
-  <thead class="thead-dark">
+<table class="table" style="margin: 0 auto; width: 350px">
+  <thead>
     <tr>
-      <th >코드</th>
-      <th >제조사</th>
+      <th style="width: 150px">코드</th>
+      <th style="width: 200px">제조사</th>
     </tr>
   </thead>
   <tbody id="codeList">
@@ -44,7 +48,6 @@
 
 
 
-<%@include file="/WEB-INF/views/include/footer.jsp"%>
 
 
 <script>
@@ -86,5 +89,8 @@
 			});
 		}
 </script>
+</div>
+<%@include file="/WEB-INF/views/include/footer.jsp"%>
+
 </body>
 </html>

@@ -27,28 +27,8 @@
   <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
 
-<style>
-body {
-    background-color: #F1F4F5;
-}
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-.cloneHead th {
-	border: solid 1px black;
-}
-
-.cloneBody td {
-	border: solid 1px black;
-}
-</style>
 <!-- bootstrap 4.6, jquery, .. -->
 <link  href="/resources/calendar/css/bootstrap.min.css" rel="stylesheet">
 
@@ -279,12 +259,12 @@ $(document).ready(function() {
 </head>
 
 <body>
-<%@include file="/WEB-INF/views/include/header.jsp" %>
 
+<%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body" style="width: 1500px">
 <!-- 상단 폼 -->
-<div class="card-body">
 	<h3>발주서</h3>
-    <div  class="col-md-12">
+	<div style="text-align: left; margin-bottom: 10px;">
 		<div style="display: inline-block;">
 		<div class="input-group input-group-sm date" id="calendar">
 			<div class="input-group-prepend">
@@ -307,17 +287,16 @@ $(document).ready(function() {
         <div style="display: inline-block;">
             <input type="number" id="select_page" name="select_page" readonly value="${defaultData.order_page}" class="form-control form-control-sm" size="9">
         </div>
-        <div>
-        </div>
-    </div>		
-</div>
+    </div>
 
-<br>
-
-
+<div style="display: block;">
 <form id="req_orderList" name="req_orderList" method="post" action="/order/orderUpdate" onsubmit="return sendCheck()">
-	<div class="card-body">
-		<div class="col-md-12">
+			<div style="float: left;">
+				<input type="button" id="btnEdit" name="btnEdit" value="수정">
+				<input type="button" id="btnExcelDownload" name="btnExcelDownload" value="excel" onclick="excelDownload();">
+				<input type="button" id="btnPDFDownload" name="btnPDFDownload" value="PDF" onclick="pdfDownload();">
+				<input hidden type="submit" id="btnSend" name="btnSend" value="저장">
+			</div>
 		<table class="table table-bordered table-hover" id="table_id">
 			<thead style="background-color: rgb(148, 146, 146);" id="tableHead">
 				<tr>
@@ -334,17 +313,13 @@ $(document).ready(function() {
 					<th hidden>발주여부</th>
 				</tr>
 			</thead>
-		<input type="button" id="btnEdit" name="btnEdit" value="수정">
-		<input type="button" id="btnExcelDownload" name="btnExcelDownload" value="excel" onclick="excelDownload();">
-		<input type="button" id="btnPDFDownload" name="btnPDFDownload" value="PDF" onclick="pdfDownload();">
-		<input hidden type="submit" id="btnSend" name="btnSend" value="저장">
+
 			<tbody class="tableBody" id="tableBody">
 			</tbody>
 
 		</table>
-		</div>
-	</div>
 </form>
+</div>
 <script>
 
 </script>
@@ -367,6 +342,7 @@ $(document).ready(function() {
 
 		</tbody>
 	</table>
+</div>
 </div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 

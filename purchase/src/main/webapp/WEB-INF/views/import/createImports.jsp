@@ -19,23 +19,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
 
-    <style>
 
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 <!-- bootstrap 4.6, jquery, .. -->
 <link  href="/resources/calendar/css/bootstrap.min.css" rel="stylesheet">
 
@@ -49,6 +33,7 @@ body {
 
    <!-- 사용자 css -->
 <link  href="/resources/calendar/css/my.css" rel="stylesheet">
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
 <script>
 let rowCount = 0;
@@ -301,9 +286,10 @@ $(document).ready(function() {
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <!-- 상단 폼 -->
-<div class="card-body">
 <h3>입고내역 작성</h3>
+<div style="text-align: left;">
 <form name="calendarForm" method="post" action="/request/requestOrder">
 <div class="row" style="display: inline-block;">
 	<div class="col">
@@ -335,22 +321,22 @@ $(document).ready(function() {
 		</div>
 			<div style="display: inline-block;">
 				<input type="number" id="select_page" name="select_page" min="1" max="9999" value="1" readonly>
-				<input type="button" id="btnSearchWatingImports" name="btnSearchWatingImports" value="미입고내역" onclick="searchWatingImports()">
+				<input type="button" id="btnSearchWatingImports" name="btnSearchWatingImports" value="미입고내역" onclick="searchWatingImports()" class="btnNormal">
 			</div>
 				
 		</div>
 	</div>	
 </div>
 </form>
-<input type="button" id="btnDelRow" name="btnDelRow" value="행추가" onclick="addRow();">
-<input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();">
 </div>
 
-<div>
-<br>
+<div style="display: block; text-align: left;">
+<input type="button" id="btnDelRow" name="btnDelRow" value="행추가" onclick="addRow();" class="btnNormal">
+<input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();" class="btnNormal">
 </div>
-<form id="importListForm" name="importListForm" method="post" action="/import/insertImport" onsubmit="return submitCheck()">
-	<div class="col-md-12">
+
+<form id="importListForm" name="importListForm" method="post" action="/import/insertImport" onsubmit="return submitCheck()" style="display: block; margin-top: 10px">
+		<input type="submit" id="send" name="send" value="저장" class="btnSave" style="float: left;">
 		<table class="table table-bordered table-hover" id="table_id">
 			<thead style="background-color: rgb(148, 146, 146);">
 				<tr>
@@ -369,14 +355,12 @@ $(document).ready(function() {
 					<th>비고</th>
 				</tr>
 			</thead>
-			<input type="submit" id="send" name="send" value="저장">
 			<tbody class="tableBody" id="tableBody">
 			</tbody>
 		</table>
-	</div>
 </form>
 
-   
+</div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

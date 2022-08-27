@@ -19,23 +19,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
 
-<style>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 
 <!--캘린더-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
@@ -153,10 +138,12 @@ $("#btnSend").on("click", function(){
                 let onlyDate = date;
                 date += ' / page : ';
                 date += Order_List[i].req_page;
-				$("#orderList").append("<tr>");
-                $("#orderList").append("<td><a href='/request/req_orderInfo?req_date="+onlyDate+"&req_page="+Order_List[i].req_page+"&dep_code="+Order_List[i].dep_code+"&category_2nd="+Order_List[i].category_2nd+"'>"+date+"<a></td>");
-                $("#orderList").append("<td>"+Order_List[i].dep_name+"</td>");
-                $("#orderList").append("</tr>");
+                let str = '';
+				str += "<tr>";
+                str += "<td><a href='/request/req_orderInfo?req_date="+onlyDate+"&req_page="+Order_List[i].req_page+"&dep_code="+Order_List[i].dep_code+"&category_2nd="+Order_List[i].category_2nd+"'>"+date+"<a></td>";
+                str += "<td>"+Order_List[i].dep_name+"</td>";
+                str += "</tr>";
+                $("#orderList").append(str);
 			}
 			}
 		});
@@ -168,6 +155,7 @@ $("#btnSend").on("click", function(){
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <h3>청구서 조회</h3>
 <!-- 날짜 영역 -->
 <form id="CatDatePageForm" name="CatDatePageForm" method="post" action="/request/getReqOrder_List">
@@ -183,20 +171,20 @@ $("#btnSend").on("click", function(){
         <option value="none" selected>소분류</option>
     </select>
 </div>
-<div class='col-md-3 col-xs-3' style="display: inline-block;">
+<div class='col-xs-2 col-xs-2' style="display: inline-block;">
     <div class="form-group">
         <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" id="selectDate1" name="selectDate1" data-target="#datetimepicker1" value="">
+            <input type="text" class="form-control form-control-sm" id="selectDate1" name="selectDate1" data-target="#datetimepicker1" value="">
             <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
         </div>
     </div>
 </div>
-<div class='col-md-3 col-xs-3' style="display: inline-block;">
+<div class='col-xs-2 col-xs-2' style="display: inline-block;">
     <div class="form-group">
         <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" id="selectDate2" name="selectDate2" data-target="#datetimepicker2" value="">
+            <input type="text" class="form-control form-control-sm" id="selectDate2" name="selectDate2" data-target="#datetimepicker2" value="">
             <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
@@ -209,18 +197,18 @@ $("#btnSend").on("click", function(){
 </div>
 </form>
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px;">
-	<thead class="thead-dark">
+<table class="table" style="width: 450px; margin: 0 auto;">
+	<thead>
 	  <tr>
-		<th>청구일자</th>
-		<th>청구부서</th>
+		<th style="width: 250px">청구일자</th>
+		<th style="width: 200px">청구부서</th>
 	  </tr>
 	</thead>
 	<tbody id="orderList">
 
 	</tbody>
   </table>
-   
+  </div> 
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

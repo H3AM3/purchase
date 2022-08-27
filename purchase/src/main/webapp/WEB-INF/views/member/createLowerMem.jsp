@@ -13,25 +13,7 @@
     <title>DocMall Shopping</title>`
 
 <meta name="theme-color" content="#563d7c">
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
     
     <!-- Custom styles for this template -->
     <link href="pricing.css" rel="stylesheet">
@@ -106,13 +88,14 @@ function depSearchPopup(){
 
 </script>
   </head>
-  <body>
-    
-<%@include file="/WEB-INF/views/include/header.jsp" %>
+<body>
 
-<h3>청구부서 계정생성</h3>
+<%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 
 <div class="container">
+<h3>청구부서 계정생성</h3>
+
   <div class="mb-3 text-center">
 	  <form id="createLoweMemForm" method="post" action="/member/createLoweMem">
 		  <div class="form-group row">
@@ -160,11 +143,11 @@ function depSearchPopup(){
 		  </div>
 	 </form>
   </div>
-
-
+</div>
+</div>
   <!--  footer.jsp -->
   <%@include file="/WEB-INF/views/include/footer.jsp" %>
-</div>
+
 
     
   </body>

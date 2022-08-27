@@ -18,24 +18,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-<style>
-
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 
 <!--캘린더-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
@@ -153,7 +137,6 @@ $("#btnSend").on("click", function(){
                 for(i=0; i<approval_List.length; i++){
 					$("#orderList").append("<tr>");
 					$("#orderList").append("<td><a href='/order/orderFormByVender?approval=1&mk_order=0&category_2nd="+$('#category_2nd').val()+"&vender_code="+approval_List[i].vender_code+"&selectDate1="+$('#selectDate1').val()+"&selectDate2="+$('#selectDate2').val()+"&vender_name="+approval_List[i].vender_name+"'>"+approval_List[i].vender_name+"<a></td>");
-					$("#orderList").append("<td></td>");
 					$("#orderList").append("</tr>");
 				}
 			}
@@ -166,6 +149,7 @@ $("#btnSend").on("click", function(){
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body" style="width: 1000px">
 <h3>발주서 작성</h3>
 
 <!-- 날짜 영역 -->
@@ -207,19 +191,19 @@ $("#btnSend").on("click", function(){
     <input type="submit" id="btnSend2" name="btnSend" value="" hidden>
 </div>
 </form>
+
 <!-- 본문 리스트 영역 -->
 <table class="table" style="margin-top: 10px;">
-	<thead class="thead-dark">
+	<thead>
 	  <tr>
-		<th>업체명</th>
-		<th>기타</th>
+		<th style="width: 300px;">업체명</th>
 	  </tr>
 	</thead>
 	<tbody id="orderList">
 
 	</tbody>
-  </table>
-   
+</table>
+   </div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

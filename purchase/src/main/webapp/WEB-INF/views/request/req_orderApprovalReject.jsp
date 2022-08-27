@@ -19,23 +19,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
 
-<style>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 
 
 <script>
@@ -163,10 +148,10 @@ $(document).ready(function() {
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
-<h3>물품청구 승인/반려</h3>
+<div class="body">
 <!-- 상단 폼 -->
-<div class="card-body">
-    <div  class="col-md-12">
+    <h3>물품청구 승인/반려</h3>
+    <div>
 	    <div style="display: inline-block;">
             <!-- 카테고리(하) -->
             <input type="text" id="category_2nd" name="category_2nd" value="${category_2nd}" readonly hidden>
@@ -178,17 +163,16 @@ $(document).ready(function() {
         <div style="display: inline-block;">
             <input type="number" id="select_page" name="select_page" min="1" max="9999" readonly value="${req_page}" class="form-control form-control-sm" size="9">
         </div>
+    
         <div>
-        </div>
-    </div>		
-</div>
-
+   </div>
 <br>
 
 
 <form id="req_orderList" name="req_orderList" method="post" action="/request/req_approvalRejectUpdate" onsubmit="return sendList();">
-	<div class="card-body">
-		<div class="col-md-12">
+	<div style="float: left;">
+		<input type="submit" id="send" name="send" value="저장" style="float: left;">
+	</div>
 		<table class="table table-bordered table-hover" id="table_id">
 			<thead style="background-color: rgb(148, 146, 146);">
 				<tr>
@@ -206,15 +190,11 @@ $(document).ready(function() {
 					<th>비고</th>
 				</tr>
 			</thead>
-		<input type="submit" id="send" name="send" value="저장">
-			<tbody class="tableBody" id="tableBody">
+				<tbody class="tableBody" id="tableBody">
 			</tbody>
-
 		</table>
-		</div>
-	</div>
 </form>
-   
+</div> 
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

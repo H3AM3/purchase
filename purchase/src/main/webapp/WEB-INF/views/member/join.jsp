@@ -147,10 +147,10 @@
 	 </form>
   </div>
 
-
+</div>
   <!--  footer.jsp -->
   <%@include file="/WEB-INF/views/include/footer.jsp" %>
-</div>
+
 
     
   </body>

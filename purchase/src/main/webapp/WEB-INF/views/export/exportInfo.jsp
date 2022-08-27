@@ -18,24 +18,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-    <style>
-
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 <!-- bootstrap 4.6, jquery, .. -->
 <link  href="/resources/calendar/css/bootstrap.min.css" rel="stylesheet">
 
@@ -72,7 +56,7 @@ function addRow(){
 	let rowStr = "<tr>";
 		rowStr += "<td><input type='checkbox' id='selectRow' name='selectRow'></td>";
 		rowStr += "<td>"+(rowCount+1)+"</td>";
-		rowStr += "<td colspan='2'><input readonly size='8px' id='product_code' name='tbl_export["+rowCount+"].product_code' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td><input readonly size='8px' id='product_code' name='tbl_export["+rowCount+"].product_code' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='14px' id='product_name' name='tbl_export["+rowCount+"].product_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='16px' id='spec' name='tbl_export["+rowCount+"].spec' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='12px' id='maker_name' name='tbl_export["+rowCount+"].maker_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
@@ -272,9 +256,10 @@ $(document).ready(function() {
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <!-- 상단 폼 -->
-<div class="card-body">
 <h3>출고내역</h3>
+<div style="display: block;">
 	<div class="form-inline">
 		<div class="input-group input-group-sm date" id="calendar">
 			<div class="input-group-prepend">
@@ -290,25 +275,21 @@ $(document).ready(function() {
 			<input type="number" id="select_page" name="select_page" min="1" max="9999" value="${defaultData.export_page }" readonly>
 		</div>
 	</div>
-	<div>
-		<br>
-	</div>
-	<input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();">
-</div>	
-
-<div>
-	<br>
 </div>
 
-<form id="importListForm" name="importListForm" method="post" action="/export/updateExport" onsubmit="return submitCheck()">
-	<div class="col-md-12">
-		<table class="table table-bordered table-hover" id="table_id">
-			<thead style="background-color: rgb(148, 146, 146);">
+<div style="text-align: left;">
+<input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();">
+</div>
+
+<form id="importListForm" name="importListForm" method="post" action="/export/updateExport" onsubmit="return submitCheck()" style="display: block; margin-top: 10px; text-align: left;">
+		<input type="submit" id="send" name="send" value="저장">
+		<table id="table_id" style="margin: 0 auto; width: 100%">
+			<thead>
 				<tr>
 					<th><input type="checkbox" value="selectall" name="selectall" id="selectall" onclick="selectAll(this)"></th>
 					<th>#</th>
 					<th>품목코드</th>
-					<th colspan="2">품명</th>
+					<th>품명</th>
 					<th>규격</th>
 					<th>제조사</th>
 					<th>단위</th>
@@ -319,12 +300,11 @@ $(document).ready(function() {
 					<th>비고</th>
 				</tr>
 			</thead>
-			<input type="submit" id="send" name="send" value="저장">
 			<tbody class="tableBody" id="tableBody">
 			</tbody>
 		</table>
-	</div>
 </form>
+
 
 <table>
 	<thead>
@@ -332,7 +312,8 @@ $(document).ready(function() {
 	<tbody id="delTableBody">
 	</tbody>
 </table>
-   
+
+</div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

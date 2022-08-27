@@ -9,15 +9,19 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
-<body>
-<%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/header.jsp"%>
 <%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
+<%@include file="/WEB-INF/views/include/common.jsp"%>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
+
+<body>
+
+<%@include file="/WEB-INF/views/include/header.jsp"%>
+<div class="body">
 <h3>거래처 목록</h3><br>
 
 <!-- 검색창 영역 -->
-<div style="float: left;">
+<div style="display: inline-block;">
 <form name="searchForm" id="searchForm" onsubmit="false">
 <input type="text" id="searchName" name="searchName" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="검색할 업체명">
 <input type="button" id="btnSearch" name="btnSearch" value="검색">
@@ -25,28 +29,25 @@
 </div>
 
 <!-- 코드생성 -->
-<div style="float: left;">
+<div style="display: inline-block;">
 <label>&nbsp|&nbsp</label>
 <input type="button" onclick="location.href='/code/createVenderCode'" id="btnCreateCode" value="코드생성">
 </div>
 
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px;">
-  <thead class="thead-dark">
+<div style="margin-top: 20px">
+<table class="table" style="margin: 0 auto; width: 650px">
+  <thead>
     <tr>
-      <th >부서코드</th>
-      <th >거래처명</th>
-      <th >이메일</th>
+      <th style="width: 150px;">부서코드</th>
+      <th style="width: 200px;">거래처명</th>
+      <th style="width: 300px;">이메일</th>
     </tr>
   </thead>
   <tbody id="codeList">
   </tbody>
 </table>
-
-
-
-<%@include file="/WEB-INF/views/include/footer.jsp"%>
-
+</div>
 
 <script>
 	let catObj;
@@ -76,17 +77,21 @@
 				success : function(result){
 				let venderList = JSON.parse(result);
 				console.log(venderList);
-					
+					let str = '';
 					for(i=0; i<venderList.length; i++){
-						codeList.append("<tr>");
-						codeList.append("<th scope='row'>"+venderList[i].vender_code+"</th>");
-						codeList.append("<td><a href='/code/venderInfo?vender_code="+venderList[i].vender_code+"'>"+venderList[i].vender_name+"<a></td>");
-						codeList.append("<td>"+venderList[i].vender_email+"</td>");
-						codeList.append("</tr>");
+						str += "<tr>";
+						str += "<td scope='row'>"+venderList[i].vender_code+"</th>";
+						str += "<td><a href='/code/venderInfo?vender_code="+venderList[i].vender_code+"'>"+venderList[i].vender_name+"<a></td>";
+						str += "<td>"+venderList[i].vender_email+"</td>";
+						str += "</tr>";
 					}
+					codeList.append(str);
 				}
 			});
 		}
 </script>
+</div>
+<%@include file="/WEB-INF/views/include/footer.jsp"%>
+
 </body>
 </html>

@@ -9,45 +9,52 @@
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
-<body>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/header.jsp"%>
 <%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
+
+
+<body>
+
+<%@include file="/WEB-INF/views/include/header.jsp"%>
+<div class="body">
 <h3>부서코드 목록</h3><br>
-<!-- 카테고리 영역 -->
-<a style="float: left;">상위부서 &nbsp</a>
-<div style="float: left;">
-	<form id="selectDep" name="selectDep" action="" method="post">
-		<!-- 상위부서 -->
-		<select id="upper_dep" name="upper_dep">
-			<option value=none>없음</option>
-		</select>
+<div style="width: 600px; margin: 0 auto;">
+	<!-- 카테고리 영역 -->
+	<a style="float: left;">상위부서 &nbsp</a>
+	<div style="float: left;">
+		<form id="selectDep" name="selectDep" action="" method="post">
+			<!-- 상위부서 -->
+			<select id="upper_dep" name="upper_dep">
+				<option value=none>없음</option>
+			</select>
+		</form>
+	</div>
+
+	<!-- 검색창 영역 -->
+	<div style="display: inline-block;">
+	<form name="searchForm" id="searchForm" onsubmit="false">
+	<input type="text" id="searchName" name="searchName" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="검색할 부서명">
+	<input type="button" id="btnSearch" name="btnSearch" value="검색">
 	</form>
-</div>
-
-<!-- 검색창 영역 -->
-<div style="float: left;">
-<form name="searchForm" id="searchForm" onsubmit="false">
-<input type="text" id="searchName" name="searchName" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="검색할 부서명">
-<input type="button" id="btnSearch" name="btnSearch" value="검색">
-</form>
-</div>
-
-<!-- 코드생성 버튼 -->
-<div style="float: left;">
-<label>&nbsp|&nbsp</label>
-<input type="button" onclick="location.href='/code/createDepCode'" id="btnCreateCode" value="코드생성">
+	</div>
+	
+	<!-- 코드생성 버튼 -->
+	<div style="display: inline-block;">
+	<label>&nbsp|&nbsp</label>
+	<input type="button" onclick="location.href='/code/createDepCode'" id="btnCreateCode" value="코드생성">
+	</div>
 </div>
 
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px;">
-  <thead class="thead-dark">
+<table class="table" style="margin-top: 10px; width: 600px; margin: 0 auto;">
+  <thead>
     <tr>
-      <th >No</th>
-      <th >부서코드</th>
-      <th >부서명</th>
-      <th >상위부서</th>
+      <th style="width: 30px;">No</th>
+      <th style="width: 100px;">부서코드</th>
+      <th style="width: 200px;">부서명</th>
+      <th style="width: 200px;">상위부서</th>
     </tr>
   </thead>
   <tbody id="codeList">
@@ -56,40 +63,60 @@
 
 
 
-<%@include file="/WEB-INF/views/include/footer.jsp"%>
 
 
 <script>
 	let catObj;
 	let lowerCat;
 	let codeList = $("#codeList");
+	let rowCount = 0;
+
 	$(document).ready(function() {
 		// 검색어를 포함한 검색
 		$("#btnSearch").on("click", function keywordSearch(){
 			let keyword = $("#searchName").val();
 			let upperDep = $("#upper_dep").val();
-
+			rowCount = 0;
 			console.log(upperDep);
 			$.ajax({
 				url : '/code/searchDepCode',
 				type : 'post',
 				dataType : 'text',
+				async : false,
 				data : {upper_dep : upperDep, keyword : keyword},
 				success : function(result){
-				let getcodeList = JSON.parse(result);
+				let depList = JSON.parse(result);
 				console.log(codeList);
 				codeList.children().remove();
 				
-				for(i=0; i<getcodeList.length; i++){
+				for(i=0; i<depList.length; i++){
+					let dep_code = depList[i].dep_code;
+						$.ajax({
+							url : '/member/getUpperDepName',
+							type : 'post',
+							async : false,
+							dataType : 'text',
+							data : {dep_code : dep_code},
+							success : function(res){
+								if(res == ''){
+									depList[i].upper_dep = '-';
+								}else{
+									let data = JSON.parse(res);
+									depList[i].upper_dep = data.dep_name;
+								}
+							}
+						});
 					codeList.append("<tr>");
-					codeList.append("<th scope='row'>"+(i+1)+"</th>");
-					codeList.append("<td>"+getcodeList[i].dep_code+"</td>");
-					codeList.append("<td><a href='/code/depInfo?dep_code="+getcodeList[i].dep_code+"'>"+getcodeList[i].dep_name+"<a></td>");
-					codeList.append("<td>"+getcodeList[i].upper_dep+"</td>");
+					codeList.append("<td scope='row'>"+(i+1)+"</td>");
+					codeList.append("<td>"+depList[i].dep_code+"</td>");
+					codeList.append("<td><a href='/code/depInfo?dep_code="+depList[i].dep_code+"'>"+depList[i].dep_name+"<a></td>");
+					codeList.append("<td>"+depList[i].upper_dep+"</td>");
 					codeList.append("</tr>");
+					rowCount += 1;
 				}
 				}
 			});
+
 			});
 		
 
@@ -127,26 +154,49 @@
 
 	// 검색어 없이 코드 리스트를 불러오는 메소드
 	function getDepCodeList(){
+		rowCount = 0;
 		$.ajax({
 			url : '/code/getDepCodeList',
 			type : 'post',
 			dataType : 'text',
+			async : false,
 			data : {upper_dep : $("#upper_dep").val()},
 			success : function(result){
 			let depList = JSON.parse(result);
 			console.log(depList);
 				
 				for(i=0; i<depList.length; i++){
+					let dep_code = depList[i].dep_code;
+						$.ajax({
+							url : '/member/getUpperDepName',
+							type : 'post',
+							async : false,
+							dataType : 'text',
+							data : {dep_code : dep_code},
+							success : function(res){
+								if(res == ''){
+									depList[i].upper_dep = '-';
+								}else{
+									let data = JSON.parse(res);
+									depList[i].upper_dep = data.dep_name;
+								}
+							}
+						});
 					codeList.append("<tr>");
-					codeList.append("<th scope='row'>"+(i+1)+"</th>");
+					codeList.append("<td scope='row'>"+(i+1)+"</td>");
 					codeList.append("<td>"+depList[i].dep_code+"</td>");
 					codeList.append("<td><a href='/code/depInfo?dep_code="+depList[i].dep_code+"'>"+depList[i].dep_name+"<a></td>");
 					codeList.append("<td>"+depList[i].upper_dep+"</td>");
 					codeList.append("</tr>");
+					rowCount +=1;
 				}
 			}
     	});
+
 	}
 </script>
+</div>
+<%@include file="/WEB-INF/views/include/footer.jsp"%>
+
 </body>
 </html>

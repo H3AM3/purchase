@@ -18,23 +18,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
+  <link rel="stylesheet" href="/resources/css/defaultForm.css">
 
 <style>
-
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-}
-
 </style>
 
 <!--캘린더-->
@@ -147,10 +133,12 @@ $("#btnSend").on("click", function(){
 				data = JSON.parse(result);
                 for(i=0; i<data.length; i++){
 					let newDate = data[i].export_date.replace(' 00:00:00', '');
-					$("#orderList").append("<tr>");
-					$("#orderList").append("<td><a href='/export/exportInfo?category_2nd="+data[i].category_2nd+"&export_date="+newDate+"&export_page="+data[i].export_page+"&dep_code="+data[i].dep_code+"'>"+newDate+"/page : "+data[i].export_page+"<a></td>");
-					$("#orderList").append("<td>"+data[i].dep_name+"</td>");
-					$("#orderList").append("</tr>");
+					let str = '';
+					str += "<tr>";
+					str += "<td><a href='/export/exportInfo?category_2nd="+data[i].category_2nd+"&export_date="+newDate+"&export_page="+data[i].export_page+"&dep_code="+data[i].dep_code+"'>"+newDate+"/page : "+data[i].export_page+"<a></td>";
+					str += "<td>"+data[i].dep_name+"</td>";
+					str += "</tr>";
+					$("#orderList").append(str);
 				}
 			}
 		});
@@ -162,49 +150,54 @@ $("#btnSend").on("click", function(){
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <h3>출고내역 조회/수정</h3>
 
-<!-- 날짜 영역 -->
-<div  style="display: inline-block;">
-    <!-- 카테고리(상) -->
-    <select id="category_1st" name="category_1st">
-        <option value="none" selected>대분류</option>
-    </select>
+<div style="width: 800px; margin: 0 auto;">
+	<!-- 날짜 영역 -->
+	<div  style="display: inline-block;">
+	    <!-- 카테고리(상) -->
+	    <select id="category_1st" name="category_1st">
+	        <option value="none" selected>대분류</option>
+	    </select>
+	</div>
+	<div  style="display: inline-block;">
+	    <!-- 카테고리(하) -->
+	    <select id="category_2nd">
+	        <option value="none" selected>소분류</option>
+	    </select>
+	</div>
+	<div class='col-md-3 col-xs-3' style="display: inline-block;">
+	    <div class="form-group">
+	        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+	            <input type="text" class="form-control datetimepicker-input" id="selectDate1" name="selectDate1" data-target="#datetimepicker1" value="">
+	            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+	                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class='col-md-3 col-xs-3' style="display: inline-block;">
+	    <div class="form-group">
+	        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+	            <input type="text" class="form-control datetimepicker-input" id="selectDate2" name="selectDate2" data-target="#datetimepicker2" value="">
+	            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+	                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div style="display: inline-block;">
+		<input type="text" id="keyword"	name="keyword" value="" placeholder="부서명" size="12px">
+	    <input type="button" id="btnSend" name="btnSend" value="검색">
+	    <input type="submit" id="btnSend2" name="btnSend" value="" hidden>
+	</div>
 </div>
-<div  style="display: inline-block;">
-    <!-- 카테고리(하) -->
-    <select id="category_2nd">
-        <option value="none" selected>소분류</option>
-    </select>
-</div>
-<div class='col-md-3 col-xs-3' style="display: inline-block;">
-    <div class="form-group">
-        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" id="selectDate1" name="selectDate1" data-target="#datetimepicker1" value="">
-            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class='col-md-3 col-xs-3' style="display: inline-block;">
-    <div class="form-group">
-        <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" id="selectDate2" name="selectDate2" data-target="#datetimepicker2" value="">
-            <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div style="display: inline-block;">
-	<input type="text" id="keyword"	name="keyword" value="" placeholder="부서명">
-    <input type="button" id="btnSend" name="btnSend" value="검색">
-    <input type="submit" id="btnSend2" name="btnSend" value="" hidden>
-</div>
+
+<div>
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px;">
-	<thead class="thead-dark">
+<table class="table" style="margin-top: 10px; width: 800px; margin: 0 auto;">
+	<thead>
 	  <tr>
 		<th>입고일자-페이지</th>
 		<th>청구부서</th>
@@ -214,9 +207,9 @@ $("#btnSend").on("click", function(){
 
 	</tbody>
   </table>
-   
+  </div>
+</div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
-
 </body>
 
 </html>

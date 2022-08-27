@@ -13,6 +13,7 @@
 <title>Insert title here</title>
 <%@include file="/WEB-INF/views/include/common.jsp" %>
 <%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
 </head>
   <meta charset="utf-8">
@@ -20,16 +21,7 @@
   <title>Test</title>
 
 <style>
-body {
-    background-color: #F1F4F5;
-	width: 95%;
-	margin-left: 2.5%;
-	text-align: center;
-}
 
-.card-body {
-    padding: 0rem 1.25rem;
-}
 
 .tableBody tr td {
 	padding: 0;
@@ -40,11 +32,11 @@ body {
 	width: 45%;
 	display: inline-block;
 	vertical-align: top;
-	border: #e9e9e9 solid 1px;
 }
 
 .halfTable tr td{
 	border: gray solid 1px;
+	font-weight: bold;
 }
 
 .tableBody{
@@ -133,9 +125,10 @@ function statistics(){
 				console.log(data);
 				let totalCount = 0;
 				for(let i=0; i<data.length; i++){
+					let slicedDate = data[i].order_date.replace(' 00:00:00', '');
 					let arryStr = "";
 					arryStr += '<tr class="tableBody">';
-					arryStr += '<td>'+data[i].order_date+'</td>';
+					arryStr += '<td>'+slicedDate+'</td>';
 					arryStr += '<td>'+data[i].ex_quantity+'</td>';
 					arryStr += '<td>'+data[i].ex_pakaging+'</td>';
 					arryStr += "</tr>";
@@ -159,10 +152,11 @@ function statistics(){
 				console.log(data);
 				let totalCount = 0;
 				for(let i=0; i<data.length; i++){
-				console.log(data);
+					let slicedDate = data[i].import_date.replace(' 00:00:00', '');
+					console.log(data);
 					let arryStr = "";
 					arryStr += '<tr class="tableBody">';
-					arryStr += '<td>'+data[i].import_date+'</td>';
+					arryStr += '<td>'+slicedDate+'</td>';
 					arryStr += '<td>'+data[i].ex_quantity+'</td>';
 					arryStr += '<td>'+data[i].ex_pakaging+'</td>';
 					arryStr += "</tr>";
@@ -230,6 +224,7 @@ $(document).ready(function(){
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <h3>발주/입고내역 집계</h3>
 
 <!-- 날짜 영역 -->
@@ -276,7 +271,7 @@ $(document).ready(function(){
 <div class="allTable">
 	<div class="halfTable">
 		<table class="table" style="margin-top: 10px;">
-			<thead class="thead-dark">
+			<thead>
 				<tr>
 					<th>발주일자</th>
 					<th>발주수량</th>
@@ -289,7 +284,7 @@ $(document).ready(function(){
 	</div>
 	<div class="halfTable">
 		<table class="table" style="margin-top: 10px;">
-			<thead class="thead-dark">
+			<thead>
 				<tr>
 					<th>입고일자</th>
 					<th>입고수량</th>
@@ -300,6 +295,7 @@ $(document).ready(function(){
 			</tbody>
 		</table>
 	</div>
+</div>
 </div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 

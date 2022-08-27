@@ -15,23 +15,8 @@
 
 <meta name="theme-color" content="#563d7c">
 
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
 
     
     <!-- Custom styles for this template -->
@@ -109,12 +94,12 @@
 	</script>
   </head>
   <body>
-    
-<%@include file="/WEB-INF/views/include/header.jsp" %>
 
-<h3>부서코드 조회/수정</h3>
+<%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <form id="joinForm" method="post" action="/member/depCodePage">
 	<div class="container">
+	<h3>부서코드 조회/수정</h3>
 		<div class="mb-3 text-center">
 			<div class="form-group row">
 				<label for="staticEmail" class="col-sm-2 col-form-label">부서코드</label>
@@ -137,15 +122,15 @@
 			</div>
 		</div>
 		<div class="form-group row">
-			<input type="button" class="btn btn-dark" id="gotoList" name="gotoList" onclick="location.href='/member/memberList'" value="목록">
-			<input type="button" class="btn btn-dark" id="btnUpdate" name="btnUpdate" value="수정">
-			<input type="button" class="btn btn-dark" id="btnSave" name="btnSave" hidden value="저장">
-			<input type="button" class="btn btn-dark" id="btnDel" name="btnDel" hidden value="삭제">
+			<input type="button" class="btn btn-dark" id="gotoList" name="gotoList" onclick="location.href='/code/depList'" value="목록" style="margin-right: 5px">
+			<input type="button" class="btn btn-dark" id="btnUpdate" name="btnUpdate" value="수정" style="margin-right: 5px">
+			<input type="button" class="btn btn-dark" id="btnSave" name="btnSave" hidden value="저장" style="margin-right: 5px">
+			<input type="button" class="btn btn-dark" id="btnDel" name="btnDel" hidden value="삭제" style="margin-right: 5px">
 		</div>	
 	</div>
 </form>
  
-
+</div>
   <!--  footer.jsp -->
   <%@include file="/WEB-INF/views/include/footer.jsp" %>
     

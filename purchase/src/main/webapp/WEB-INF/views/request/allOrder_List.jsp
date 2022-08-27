@@ -19,23 +19,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
 
-<style>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 
 <!--캘린더-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
@@ -168,6 +153,7 @@ $("#btnSend").on("click", function(){
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body" style="width: 800px">
 <h3>물품청구서 리스트</h3>
 
 <!-- 날짜 영역 -->
@@ -211,17 +197,17 @@ $("#btnSend").on("click", function(){
 </form>
 <!-- 본문 리스트 영역 -->
 <table class="table" style="margin-top: 10px;">
-	<thead class="thead-dark">
+	<thead>
 	  <tr>
-		<th>청구일자</th>
-		<th>청구부서</th>
+		<th style="width: 200px">청구일자</th>
+		<th style="width: 150px">청구부서</th>
 	  </tr>
 	</thead>
 	<tbody id="orderList">
 
 	</tbody>
   </table>
-   
+   </div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

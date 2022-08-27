@@ -122,11 +122,11 @@ function getNewPage(){
 function addRow(){
 	let rowStr = "<tr>";
 		rowStr += "<td>"+(rowCount+1)+"</td>";
-		rowStr += "<td colspan='2'><input readonly size='8px' id='product_code' name='tbl_orderVO["+rowCount+"].product_code' onkeypress='javascript:if(event.keyCode==13) {addRow();}' type='text' value=''  style='border: none;'  onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td><input readonly size='8px' id='product_code' name='tbl_orderVO["+rowCount+"].product_code' onkeypress='javascript:if(event.keyCode==13) {addRow();}' type='text' value=''  style='border: none;'  onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='12px' id='product_name' name='tbl_orderVO["+rowCount+"].product_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='16px' id='spec' name='tbl_orderVO["+rowCount+"].spec' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input readonly size='12px' id='maker_name' name='tbl_orderVO["+rowCount+"].maker_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input readonly size='4px;' id='ex_pakaging' name='tbl_orderVO["+rowCount+"].ex_pakaging' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td><input readonly size='10px' id='maker_name' name='tbl_orderVO["+rowCount+"].maker_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td><input readonly size='3px;' id='ex_pakaging' name='tbl_orderVO["+rowCount+"].ex_pakaging' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='4px;' id='ex_quantity' name='tbl_orderVO["+rowCount+"].ex_quantity' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='4px;' id='stock_quantity' name='stock_quantity' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 
@@ -142,15 +142,15 @@ function addRow(){
 		rowStr += "<td><input readonly size='8px' type='checkbox' id='mk_order' name='tbl_orderVO["+rowCount+"].mk_order' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input type='text'size='30px;' id='description' name='tbl_orderVO["+rowCount+"].description' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 
-		rowStr += "<td><input hidden id='vender_code' name='tbl_orderVO["+rowCount+"].vender_code'></td>";
-		rowStr += "<td><input hidden type='text' id='vender_name' name='tbl_orderVO["+rowCount+"].vender_name'></td>"
-		rowStr += "<td><input hidden type='text' id='dep_name' name='tbl_orderVO["+rowCount+"].dep_name'></td>"
-		rowStr += "<td><input hidden id='maker_code' name='tbl_orderVO["+rowCount+"].maker_code'></td>";
-		rowStr += "<td><input hidden id='category_2nd' name='tbl_orderVO["+rowCount+"].category_2nd' value='${defaultData.category_2nd}'></td>";
-		rowStr += "<td><input hidden id='order_date' name='tbl_orderVO["+rowCount+"].order_date'></td>"
-		rowStr += "<td><input hidden id='order_page' name='tbl_orderVO["+rowCount+"].order_page'></td>"
-		rowStr += "<td><input hidden id='mem_id' name='tbl_orderVO["+rowCount+"].mem_id'></td>"
-		rowStr += "<td><input hidden id='dep_code' name='tbl_orderVO["+rowCount+"].dep_code'></td>"
+		rowStr += "<td hidden><input id='vender_code' name='tbl_orderVO["+rowCount+"].vender_code'></td>";
+		rowStr += "<td hidden><input type='text' id='vender_name' name='tbl_orderVO["+rowCount+"].vender_name'></td>"
+		rowStr += "<td hidden><input type='text' id='dep_name' name='tbl_orderVO["+rowCount+"].dep_name'></td>"
+		rowStr += "<td hidden><input id='maker_code' name='tbl_orderVO["+rowCount+"].maker_code'></td>";
+		rowStr += "<td hidden><input id='category_2nd' name='tbl_orderVO["+rowCount+"].category_2nd' value='${defaultData.category_2nd}'></td>";
+		rowStr += "<td hidden><input id='order_date' name='tbl_orderVO["+rowCount+"].order_date'></td>"
+		rowStr += "<td hidden><input id='order_page' name='tbl_orderVO["+rowCount+"].order_page'></td>"
+		rowStr += "<td hidden><input id='mem_id' name='tbl_orderVO["+rowCount+"].mem_id'></td>"
+		rowStr += "<td hidden><input id='dep_code' name='tbl_orderVO["+rowCount+"].dep_code'></td>"
 		rowStr += "</tr>"
 		rowCount += 1;
 	$("#tableBody").append(rowStr);
@@ -330,6 +330,7 @@ $(document).ready(function() {
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <h3>발주서 작성</h3>
 <!-- 상단 폼 -->
 
@@ -366,39 +367,35 @@ $(document).ready(function() {
 
 
 <form id="req_orderList" name="req_orderList" method="post" action="/order/createOrderPage" onsubmit="sendSync()">
-	<div class="card-body">
-		<div class="col-md-12">
-		<table class="table table-bordered table-hover" id="table_id">
-			<thead style="background-color: rgb(148, 146, 146);">
+		<table class="table" id="table_id" style="margin: 0 auto; width: 2000px">
+			<thead>
 				<tr>
 					<th>#</th>
-					<th colspan="2">품목코드</th>
+					<th style="width: 105px">품목코드</th>
 					<th>품명</th>
 					<th>규격</th>
 					<th>제조사</th>
-					<th>요청단위</th>
-					<th>요청수량</th>
-					<th>현 재고</th>
-					<th>구매단위</th>
-					<th>구매수량</th>
-					<th>환산수량</th>
-					<th>구매단위 단가</th>
-					<th>포장수량</th>
-					<th>출고단위 단가</th>
-					<th>금액</th>
-					<th style="width: 90px;">발주</th>
-					<th>비고</th>
+					<th style="width: 110px">요청단위</th>
+					<th style="width: 110px">요청수량</th>
+					<th style="width: 90px">현 재고</th>
+					<th style="width: 110px">구매단위</th>
+					<th style="width: 110px">구매수량</th>
+					<th style="width: 110px">환산수량</th>
+					<th style="width: 150px">구매단위 단가</th>
+					<th style="width: 110px">포장수량</th>
+					<th style="width: 150px">출고단위 단가</th>
+					<th style="width: 80px">금액</th>
+					<th style="width: 70px;">발주</th>
+					<th style="width: 150px;">비고</th>
 				</tr>
 			</thead>
-		<input type="submit" id="btnSend" name="btnSend" value="저장">
+		<input type="submit" id="btnSend" name="btnSend" value="저장" style="float: left;">
 			<tbody class="tableBody" id="tableBody">
 			</tbody>
 
 		</table>
-		</div>
-	</div>
 </form>
-   
+
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

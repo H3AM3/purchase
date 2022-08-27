@@ -19,23 +19,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
 
-    <style>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 <!-- bootstrap 4.6, jquery, .. -->
 <link  href="/resources/calendar/css/bootstrap.min.css" rel="stylesheet">
 
@@ -99,27 +84,27 @@ function addRow(){
 		rowStr += "<td><input type='checkbox' id='selectRow' name='selectRow'></td>";
 		rowStr += "<td>"+(rowCount+1)+"</td>";
 		rowStr += "<td colspan='2'><input readonly id='product_code' name='req_ordersList["+rowCount+"].product_code' onkeypress='javascript:if(event.keyCode==13) {addRow();}' size='10' type='text' value=''></td>";
-		rowStr += "<td><input type='button' id='btnCodeSearch' name='btnCodeSearch'></td>"
+		rowStr += "<td><input type='image' id='btnCodeSearch' name='btnCodeSearch' src='/resources/image/searchIcon.png' onclick='return false;'></td>"
 		rowStr += "<td><input id='product_name' name='req_ordersList["+rowCount+"].product_name' readonly style='border: none;'></td>";
 		rowStr += "<td><input id='spec' name='req_ordersList["+rowCount+"].spec' readonly style='border: none;'></td>";
 		rowStr += "<td><input id='maker_name' name='req_ordersList["+rowCount+"].maker_name' readonly style='border: none;'></td>";
 		rowStr += "<td><input size='5px;' id='ex_pakaging' name='req_ordersList["+rowCount+"].ex_pakaging' readonly style='border: none;'></td>";
 		rowStr += "<td><input size='3px;' id='req_quantity' name='req_ordersList["+rowCount+"].req_quantity'></td>";
 		rowStr += "<td><input type='text'size='30px;' id='description' name='req_ordersList["+rowCount+"].description'></td>";
-		rowStr += "<td><input hidden id='vender_code' name='req_ordersList["+rowCount+"].vender_code' readonly ></td>";
-		rowStr += "<td><input hidden type='checkbox' id='approval' name='req_ordersList["+rowCount+"].approval' onClick='return false;' ></td>";
-		rowStr += "<td><input hidden type='checkbox' id='req_reject' name='req_ordersList["+rowCount+"].req_reject'onClick='return false;' ></td>";
-		rowStr += "<td><input hidden type='text' id='req_page' name='req_ordersList["+rowCount+"].req_page'></td>";
-		rowStr += "<td><input hidden type='text' id='req_date' name='req_ordersList["+rowCount+"].req_date'></td>";
-		rowStr += "<td><input hidden type='text' id='dep_code' name='req_ordersList["+rowCount+"].dep_code'></td>";
-		rowStr += "<td><input hidden type='text' id='mem_id' name='req_ordersList["+rowCount+"].mem_id'></td>"
-		rowStr += "<td><input hidden type='text' id='vender_name' name='req_ordersList["+rowCount+"].vender_name'></td>"
-		rowStr += "<td><input hidden type='number' id='pak_quantity' name='req_ordersList["+rowCount+"].pak_quantity'></td>"
-		rowStr += "<td><input hidden type='number' id='price' name='req_ordersList["+rowCount+"].price'></td>"
-		rowStr += "<td><input hidden type='text' id='dep_name' name='req_ordersList["+rowCount+"].dep_name'></td>"
-		rowStr += "<td><input hidden id='maker_code' name='req_ordersList["+rowCount+"].maker_code' readonly></td>";
-		rowStr += "<td><input hidden id='category_2nd' name='req_ordersList["+rowCount+"].category_2nd' readonly></td>";
-		rowStr += "<td><input hidden id='req_no' name='req_ordersList["+rowCount+"].req_no' readonly></td>";
+		rowStr += "<td hidden><input id='vender_code' name='req_ordersList["+rowCount+"].vender_code' readonly ></td>";
+		rowStr += "<td hidden><input type='checkbox' id='approval' name='req_ordersList["+rowCount+"].approval' onClick='return false;' ></td>";
+		rowStr += "<td hidden><input type='checkbox' id='req_reject' name='req_ordersList["+rowCount+"].req_reject'onClick='return false;' ></td>";
+		rowStr += "<td hidden><input type='text' id='req_page' name='req_ordersList["+rowCount+"].req_page'></td>";
+		rowStr += "<td hidden><input type='text' id='req_date' name='req_ordersList["+rowCount+"].req_date'></td>";
+		rowStr += "<td hidden><input type='text' id='dep_code' name='req_ordersList["+rowCount+"].dep_code'></td>";
+		rowStr += "<td hidden><input type='text' id='mem_id' name='req_ordersList["+rowCount+"].mem_id'></td>"
+		rowStr += "<td hidden><input type='text' id='vender_name' name='req_ordersList["+rowCount+"].vender_name'></td>"
+		rowStr += "<td hidden><input type='number' id='pak_quantity' name='req_ordersList["+rowCount+"].pak_quantity'></td>"
+		rowStr += "<td hidden><input type='number' id='price' name='req_ordersList["+rowCount+"].price'></td>"
+		rowStr += "<td hidden><input type='text' id='dep_name' name='req_ordersList["+rowCount+"].dep_name'></td>"
+		rowStr += "<td hidden><input id='maker_code' name='req_ordersList["+rowCount+"].maker_code' readonly></td>";
+		rowStr += "<td hidden><input id='category_2nd' name='req_ordersList["+rowCount+"].category_2nd' readonly></td>";
+		rowStr += "<td hidden><input id='req_no' name='req_ordersList["+rowCount+"].req_no' readonly></td>";
 		rowStr += "</tr>"
 		rowCount += 1;
 	$("#tableBody").append(rowStr);
@@ -291,9 +276,10 @@ $(document).ready(function() {
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
-
+<div class="body">
+<h3>청구서 작성</h3>
 <!-- 상단 폼 -->
-<div class="card-body">
+<div style="text-align: left; float: left;">
 <form name="calendarForm" method="post" action="/request/requestOrder">
 <div class="row" style="display: inline-block;">
 	<div class="col">
@@ -334,11 +320,9 @@ $(document).ready(function() {
 <input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();">
 </div>
 
-<div>
-<br>
-</div>
+<div style="display: block;">
 <form id="req_orderList" name="req_orderList" method="post" action="/request/req_orderInsert">
-	<div class="col-md-12">
+
 		<table class="table table-bordered table-hover" id="table_id">
 			<thead style="background-color: rgb(148, 146, 146);">
 				<tr>
@@ -355,14 +339,13 @@ $(document).ready(function() {
 					<th>비고</th>
 				</tr>
 			</thead>
-			<input type="submit" id="send" name="send" value="저장">
+			<input type="submit" id="send" name="send" value="저장" style="float: left;">
 			<tbody class="tableBody" id="tableBody">
 			</tbody>
 		</table>
-	</div>
 </form>
-
-   
+</div>
+  </div> 
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

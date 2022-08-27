@@ -17,23 +17,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
   <title>Test</title>
-<style>
+<link rel="stylesheet" href="/resources/css/defaultForm.css">
 
-
-body {
-    background-color: #F1F4F5;
-}
-
-.card-body {
-    padding: 0rem 1.25rem;
-}
-       
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-} 
-
-</style>
 
 <script>
 let rowCount = 0;
@@ -133,8 +118,8 @@ function req_ordrInfo_pordList(){
 		success : function(result) {
 			let data = JSON.parse(result);
 			let strArr = '';
-            if($("#tableBody").children().length == 0){addRow();}
             for(let i=0; i<data.length; i++){
+            	addRow();
 				$("#tableBody").children('tr:eq('+i+')').find("#product_code").val(data[i].product_code);
 				$("#tableBody").children('tr:eq('+i+')').find("#product_name").val(data[i].product_name);
 				$("#tableBody").children('tr:eq('+i+')').find("#spec").val(data[i].spec);
@@ -172,7 +157,7 @@ function req_ordrInfo_pordList(){
 				   $("#tableBody").children('tr:eq('+i+')').find("#end_request").is(":checked")){
 					$("#tableBody").children('tr:eq('+i+')').find("#req_quantity").prop("readonly", true);
 				   }
-                addRow();
+                
             }
 		}
 	});
@@ -199,7 +184,6 @@ function sendDelList(){
 
 
 $(document).ready(function() {
-	addRow();
     req_ordrInfo_pordList();
     //테이블의 tbody를 클릭하면 selected로 클래스를 토글(클로즈업)
     $('#tableBody').on('click', 'tr', function () {
@@ -235,10 +219,11 @@ $(document).ready(function() {
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
-
+<div class="body">
 <!-- 상단 폼 -->
 <div class="card-body">
-    <div  class="col-md-12">
+    <h3>청구서 내역</h3>
+    <div style="text-align: left;">
 	    <div style="display: inline-block;">
             <!-- 카테고리(하) -->
             <input type="text" id="category_2nd" name="category_2nd" value="${category_2nd}" readonly hidden>
@@ -262,7 +247,6 @@ $(document).ready(function() {
 
 <form id="req_orderList" name="req_orderList" method="post" action="/request/req_orderUpdate" onsubmit="sendDelList();">
 	<div class="card-body">
-		<div class="col-md-12">
 		<table class="table table-bordered table-hover" id="table_id">
 			<thead style="background-color: rgb(148, 146, 146);">
 				<tr>
@@ -285,15 +269,13 @@ $(document).ready(function() {
 				</tr>
 			</thead>
 
-        <input type="button" id="gotoList" name="gotoList" value="목록" onclick="location.href='/request/requestOrder_List'">
-		<input type="submit" id="send" name="send" value="저장">
+        <input type="button" id="gotoList" name="gotoList" value="목록" onclick="location.href='/request/requestOrder_List'" style="float: left; margin-right: 5px">
+		<input type="submit" id="send" name="send" value="저장" style="float: left; margin-right: 5px">
 			<tbody class="tableBody" id="tableBody">
 			</tbody>
 
 		</table>
-		</div>
 	</div>
-</div>
 </form>
 
 <form id="delListForm" name="delListForm" method="post" action="/request/req_orderDel">
@@ -302,7 +284,7 @@ $(document).ready(function() {
     <input type="submit" id="btnDel" name="btnDel" value="전송" hidden>
 </form>
 
-   
+  </div> 
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

@@ -128,6 +128,7 @@
 		});
 
 	});
+
 	// 상위 카테고리를 생성하는 메소드
 	function setUpperCategory(list, catId) {
 		for (i = 0; i < list.length; i++) {
