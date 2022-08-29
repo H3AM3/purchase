@@ -139,7 +139,7 @@ $("#btnSend").on("click", function(){
                 date += ' / page : ';
                 date += Order_List[i].req_page;
 				$("#orderList").append("<tr>");
-                $("#orderList").append("<td><a href='/request/req_orderApprovalReject?req_date="+onlyDate+"&req_page="+Order_List[i].req_page+"&dep_code="+Order_List[i].dep_code+"&category_2nd="+Order_List[i].category_2nd+"'>"+date+"<a></td>");
+                $("#orderList").append("<td><a href='/request/req_orderApprovalReject?req_date="+onlyDate+"&req_page="+Order_List[i].req_page+"&dep_code="+Order_List[i].dep_code+"&category_2nd="+Order_List[i].category_2nd+"&dep_name="+Order_List[i].dep_name+"'>"+date+"<a></td>");
                 $("#orderList").append("<td>"+Order_List[i].dep_name+"</td>");
                 $("#orderList").append("</tr>");
 			}
@@ -153,7 +153,7 @@ $("#btnSend").on("click", function(){
 
 <body>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
-<div class="body" style="width: 800px">
+<div class="body" style="width: 900px">
 <h3>물품청구서 리스트</h3>
 
 <!-- 날짜 영역 -->

@@ -135,7 +135,7 @@ $("#btnSend").on("click", function(){
 					let newDate = data[i].export_date.replace(' 00:00:00', '');
 					let str = '';
 					str += "<tr>";
-					str += "<td><a href='/export/exportInfo?category_2nd="+data[i].category_2nd+"&export_date="+newDate+"&export_page="+data[i].export_page+"&dep_code="+data[i].dep_code+"'>"+newDate+"/page : "+data[i].export_page+"<a></td>";
+					str += "<td><a href='/export/exportInfo?category_2nd="+data[i].category_2nd+"&export_date="+newDate+"&export_page="+data[i].export_page+"&dep_code="+data[i].dep_code+"&dep_name="+data[i].dep_name+"'>"+newDate+"/page : "+data[i].export_page+"<a></td>";
 					str += "<td>"+data[i].dep_name+"</td>";
 					str += "</tr>";
 					$("#orderList").append(str);
@@ -153,7 +153,7 @@ $("#btnSend").on("click", function(){
 <div class="body">
 <h3>출고내역 조회/수정</h3>
 
-<div style="width: 800px; margin: 0 auto;">
+<div style="width: 850px; margin: 0 auto;">
 	<!-- 날짜 영역 -->
 	<div  style="display: inline-block;">
 	    <!-- 카테고리(상) -->

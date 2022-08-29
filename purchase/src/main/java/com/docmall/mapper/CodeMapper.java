@@ -2,8 +2,6 @@ package com.docmall.mapper;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-
 import com.docmall.domain.CategoryVO;
 import com.docmall.domain.DepartmentVO;
 import com.docmall.domain.MakerVO;
@@ -15,9 +13,7 @@ import com.docmall.domain.TypeVO;
 import com.docmall.domain.VenderVO;
 import com.docmall.dto.DepSearchDTO;
 import com.docmall.dto.ProductDTO;
-import com.docmall.dto.Req_checkPageDTO;
 import com.docmall.dto.UpperDep_NameDTO;
-import com.docmall.dto.prodInfoDTO;
 
 public interface CodeMapper {
 
@@ -77,4 +73,8 @@ public interface CodeMapper {
 
 	//부서 코드로 상위부서명을 반환하는 기능
 	public UpperDep_NameDTO getUpperDepName(String dep_code);
+	
+	//카테고리코드 받아서 카테고리명 반환하는 기능
+	public CategoryVO getCatName(CategoryVO vo);
+
 }

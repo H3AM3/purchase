@@ -24,8 +24,9 @@
 <h3>사용자 계정 목록</h3><br>
 <div style="width: 800px; margin: 0 auto;">
 <!-- 카테고리 영역 -->
-<a style="display: inline-block;">상위부서 &nbsp</a>
 <div style="display: inline-block;">
+<div class="input-group-prepend">
+	<span class="input-group-text">상위부서</span>
 	<form id="selectDep" name="selectDep" action="" method="post">
 		<!-- 상위부서 -->
 		<select id="upper_dep" name="upper_dep">
@@ -33,30 +34,24 @@
 		</select>
 	</form>
 </div>
+</div>
 
 <!-- 검색창 영역 -->
-<div style="display: inline-block;">
+<div style="display: inline-block; margin-right: 20px">
 <form name="searchForm" id="searchForm" onsubmit="false">
 <input type="text" id="searchName" name="searchName" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="검색할 부서명">
 <input type="button" id="btnSearch" name="btnSearch" value="검색">
 </form>
 </div>
 
-<!-- 사용불가코드 조회 여부 체크박스 -->
-<div style="display: inline-block;">
-<label>&nbsp|&nbsp 사용불가코드 &nbsp</label>
-<input type="checkbox">
-</div>
-
 <!-- 코드생성 버튼 -->
-<div style="display: inline-block; width: 200px; ">
-<label>&nbsp|&nbsp</label>
+<div style="display: inline-block;">
 <input type="button" onclick="location.href='/code/createDepCode'" id="btnCreateCode" value="코드생성">
 </div>
 </div>
 <!-- 본문 리스트 영역 -->
 <table id="table" class="table" style="margin-top: 30px; width: 800px; margin: 0 auto;">
-  <thead class="thead-dark">
+  <thead>
     <tr>
 		<th style="width: 200px;">아이디</th>
     	<th style="width: 200px;">부서코드</th>

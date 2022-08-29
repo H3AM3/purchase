@@ -1,6 +1,5 @@
 package com.docmall.controller;
 
-import java.lang.annotation.Target;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.docmall.domain.ExportSearchDTO;
 import com.docmall.domain.Req_OrdersVO;
 import com.docmall.domain.Tbl_ExportVO;
-import com.docmall.dto.ExportDelDTO;
 import com.docmall.service.ExportService;
 
 import lombok.extern.log4j.Log4j;

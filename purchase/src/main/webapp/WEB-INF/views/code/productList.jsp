@@ -20,13 +20,13 @@
 <div class="body">
 
 <h3>품목코드 목록</h3>
-<div style="width: 2000px; display: block; margin: 0 auto;">
+<div style="width: 2000px; margin: 0 auto;">
 <!-- 카테고리 영역 -->
-<span style="display: inline-block;">카테고리 선택</span>
-<div style="display: inline-block;">
+<div class="input-group-prepend" style="display: inline-block;" >
 	<form id="selectCategory_1st" name="selectCategory_1st" action=""
 		method="post">
 		<!-- 카테고리(상) -->
+		<span class="input-group-text" style="display: inline-block;">카테고리</span>
 		<select id="category_1st" name="category_1st">
 			<option value="none" selected>대분류</option>
 		</select>
@@ -50,9 +50,7 @@
 <!-- 검색창 영역 -->
 <div style="display: inline-block;">
 	<form name="searchForm" id="searchForm" onsubmit="false">
-	<input type="text" id="product_code" name="product_code" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="품목코드">
-	<input type="text" id="product_name" name="product_name" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="품명">
-	<input type="text" id="vender_name" name="vender_name" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="거래처명">
+	<input type="text" id="keyword" name="keyword" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="검색어">
 	<input type="button" id="btnSearch" name="btnSearch" value="검색">
 	</form>
 </div>
@@ -66,7 +64,7 @@
 </div>
 
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px; width: 1400px; margin: 0 auto; margin-top: 20px">
+<table class="table" style="margin-top: 10px; width: 1000px; margin: 0 auto; margin-top: 20px">
   <thead>
     <tr>
       <th scope="vnaa" style="width: 150px;">품목코드</th>
@@ -182,8 +180,7 @@
 		type : 'post',
 		dataType : 'text',
 		data : {category_1st : $("#category_1st").val() ,category_2nd : $("#category_2nd").val(),
-				product_code : $("#product_code").val(), product_name : $("#product_name").val(),
-				vender_name : $("#vender_name").val(), usable : usable},
+				product_code : $("#keyword").val(), usable : usable},
 		success : function(result){
 		let prodList = JSON.parse(result);
 		console.log(prodList);

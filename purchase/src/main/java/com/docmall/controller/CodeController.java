@@ -38,6 +38,7 @@ public class CodeController {
 
 	@Autowired
 	CodeService service;
+	
 /**********************************품목 컨트롤러**********************************/	
 	// 품목리스트 폼
 	@GetMapping("/productList")
@@ -461,6 +462,17 @@ public class CodeController {
 		List<MakerVO> makerList = service.getMakerList(keyword);
 		return entity = new ResponseEntity<List<MakerVO>>(makerList, HttpStatus.OK);
 	}
+	
+	
+	/**********************************기타**********************************/
+	
+	@PostMapping("/getCatName")
+	public ResponseEntity<CategoryVO> getCatName(CategoryVO vo){
+		ResponseEntity<CategoryVO> entity = null;
+		CategoryVO list = service.getCatName(vo);
+		return entity = new ResponseEntity<CategoryVO>(list, HttpStatus.OK);
+	}
+
 }
 
 

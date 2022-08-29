@@ -48,6 +48,7 @@ function getCategory_2nd(){return $("#category_2nd").val();}
 function setRowCount(number){rowCount = number;}
 function emptyTableBody(){$("#tableBody").empty();}
 function getImport_date(){return $("#selectDate").val()}
+function setShowDep_name(name){$("#showDep_name").val(name)}
 let delReq_orderList = [];
 
 // 달력 메소드
@@ -310,27 +311,31 @@ $(document).ready(function() {
 <h3>출고내역 작성</h3>
 <div style="text-align: left;">
 <form name="calendarForm">
-<div class="row" style="display: inline-block;">
-	<div class="col">
-		<!-- 카테고리 영역 -->
-<div style="float: left;">
+<div style="display: block;">
+
+<div style="display: inline-block;">
 	<!-- 카테고리(상) -->
 	<select id="category_1st" name="category_1st">
 		<option value="none" selected>대분류</option>
 	</select>
-</div>
-<div style="float: left;">
 	<!-- 카테고리(하) -->
 	<select id="category_2nd">
 		<option value="none" selected>소분류</option>
 	</select>
 </div>
+<div style="display: inline-block; margin-right: 5px;">
+	<div class="input-group-prepend">
+		<span class="input-group-text">부서</span>
+		<input type="text" id="showDep_name" name="showDep_name" value="" readonly class="form-control">
+	</div>
+</div>
+<div style="display: inline-block;">
 	<div class="form-inline">
-		<div class="input-group input-group-sm date" id="calendar">
+		<div class="input-group date" id="calendar">
 			<div class="input-group-prepend">
 				<span class="input-group-text">날짜</span>
 			</div>
-			<input type="text" name="selectDate" id="selectDate" value="" class="form-control form-control-sm" size="9"
+			<input type="text" name="selectDate" id="selectDate" value="" class="form-control" size="9"
 				onkeydown="if (event.keyCode == 13) {}">
 			<div class="input-group-append">
 				<span class="input-group-text">
@@ -338,13 +343,15 @@ $(document).ready(function() {
 				</span>
 			</div>
 		</div>
-			<div style="display: inline-block;">
-				<input type="number" id="select_page" name="select_page" min="1" max="9999" value="1" readonly>
-				<input type="button" id="btnSearchWatingImports" name="btnSearchWatingImports" value="청구서 조회" onclick="searchReq_order()">
-			</div>
-				
+</div>
 		</div>
-	</div>	
+			<div style="display: inline-block; margin-right: 5px;">
+				<div class="input-group-prepend">
+					<span class="input-group-text">페이지</span>
+					<input type="number" id="select_page" name="select_page" min="1" max="9999" value="1" readonly class="form-control">
+				</div>
+			</div>			
+<input type="button" id="btnSearchWatingImports" name="btnSearchWatingImports" value="청구서 조회" onclick="searchReq_order()">
 </div>
 </form>
 </div>

@@ -57,7 +57,7 @@ function sendList(){
 function addRow(){
 	let rowStr = "<tr>";
 		rowStr += "<td>"+(rowCount+1)+"</td>";
-		rowStr += "<td colspan='2'><input readonly id='product_code' name='req_ordersList["+rowCount+"].product_code' onkeypress='javascript:if(event.keyCode==13) {addRow();}' size='10' type='text' value=''></td>";
+		rowStr += "<td><input readonly id='product_code' name='req_ordersList["+rowCount+"].product_code' onkeypress='javascript:if(event.keyCode==13) {addRow();}' size='10' type='text' value=''></td>";
 		rowStr += "<td><input readonly id='product_name' name='req_ordersList["+rowCount+"].product_name' style='border: none;'></td>";
 		rowStr += "<td><input readonly id='spec' name='req_ordersList["+rowCount+"].spec' style='border: none;'></td>";
 		rowStr += "<td><input readonly id='maker_name' name='req_ordersList["+rowCount+"].maker_name' style='border: none;'></td>";
@@ -67,18 +67,18 @@ function addRow(){
 		rowStr += "<td><input type='checkbox' id='req_reject' name='req_ordersList["+rowCount+"].req_reject'></td>";
 		rowStr += "<td><input type='checkbox' id='mk_order' name='req_ordersList["+rowCount+"].mk_order' onClick='return false;'></td>";
 		rowStr += "<td><input readonly type='text'size='30px;' id='description' name='req_ordersList["+rowCount+"].description'></td>";
-		rowStr += "<td><input hidden readonly id='vender_code' name='req_ordersList["+rowCount+"].vender_code'></td>";
-		rowStr += "<td><input hidden type='text' id='req_page' name='req_ordersList["+rowCount+"].req_page'></td>";
-		rowStr += "<td><input hidden type='text' id='req_date' name='req_ordersList["+rowCount+"].req_date'></td>";
-		rowStr += "<td><input hidden type='text' id='dep_code' name='req_ordersList["+rowCount+"].dep_code'></td>";
-		rowStr += "<td><input hidden type='text' id='mem_id' name='req_ordersList["+rowCount+"].mem_id'></td>"
-		rowStr += "<td><input hidden type='text' id='vender_name' name='req_ordersList["+rowCount+"].vender_name'></td>"
-		rowStr += "<td><input hidden type='number' id='pak_quantity' name='req_ordersList["+rowCount+"].pak_quantity'></td>"
-		rowStr += "<td><input hidden type='number' id='price' name='req_ordersList["+rowCount+"].price'></td>"
-		rowStr += "<td><input hidden type='text' id='dep_name' name='req_ordersList["+rowCount+"].dep_name'></td>"
-		rowStr += "<td><input hidden readonly id='maker_code' name='req_ordersList["+rowCount+"].maker_code'></td>";
-		rowStr += "<td><input hidden readonly id='category_2nd' name='req_ordersList["+rowCount+"].category_2nd'></td>";
-		rowStr += "<td><input hidden readonly id='req_no' name='req_ordersList["+rowCount+"].req_no'></td>";
+		rowStr += "<td hidden><input readonly id='vender_code' name='req_ordersList["+rowCount+"].vender_code'></td>";
+		rowStr += "<td hidden><input type='text' id='req_page' name='req_ordersList["+rowCount+"].req_page'></td>";
+		rowStr += "<td hidden><input type='text' id='req_date' name='req_ordersList["+rowCount+"].req_date'></td>";
+		rowStr += "<td hidden><input type='text' id='dep_code' name='req_ordersList["+rowCount+"].dep_code'></td>";
+		rowStr += "<td hidden><input type='text' id='mem_id' name='req_ordersList["+rowCount+"].mem_id'></td>"
+		rowStr += "<td hidden><input type='text' id='vender_name' name='req_ordersList["+rowCount+"].vender_name'></td>"
+		rowStr += "<td hidden><input type='number' id='pak_quantity' name='req_ordersList["+rowCount+"].pak_quantity'></td>"
+		rowStr += "<td hidden><input type='number' id='price' name='req_ordersList["+rowCount+"].price'></td>"
+		rowStr += "<td hidden><input type='text' id='dep_name' name='req_ordersList["+rowCount+"].dep_name'></td>"
+		rowStr += "<td hidden><input readonly id='maker_code' name='req_ordersList["+rowCount+"].maker_code'></td>";
+		rowStr += "<td hidden><input readonly id='category_2nd' name='req_ordersList["+rowCount+"].category_2nd'></td>";
+		rowStr += "<td hidden><input readonly id='req_no' name='req_ordersList["+rowCount+"].req_no'></td>";
 		rowStr += "</tr>"
 		rowCount += 1;
 	$("#tableBody").append(rowStr);
@@ -133,9 +133,22 @@ function req_ordrInfo_pordList(){
 	});
 }
 
+function getCatName(){
+    $.ajax({
+        url : '/code/getCatName',
+		type : "post",
+		dataType : 'text',
+		data : {category_code : $("#category_2nd").val()},
+		success : function(result) {
+			let data = JSON.parse(result);
+			$("#showCategory_2nd").val(data.category_name);
+		}
+    })
+}
 
 $(document).ready(function() {
     req_ordrInfo_pordList();
+    getCatName();
     //테이블의 tbody를 클릭하면 selected로 클래스를 토글(클로즈업)
     $('#tableBody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
@@ -151,19 +164,33 @@ $(document).ready(function() {
 <div class="body">
 <!-- 상단 폼 -->
     <h3>물품청구 승인/반려</h3>
-    <div>
-	    <div style="display: inline-block;">
+    <div style="display: block; text-align: left; margin-right: 5px;">
+        	    <div style="display: inline-block;">
+	    <div class="input-group-prepend">
+				<span class="input-group-text">부서</span>
+	    	<input type="text" id="req_dep_name" name="req_dep_name" value="${dep_name}" readonly class="form-control" size="9" >
+	    	</div>
+	    	</div>
+	    <div style="display: inline-block; margin-right: 5px;">
             <!-- 카테고리(하) -->
-            <input type="text" id="category_2nd" name="category_2nd" value="${category_2nd}" readonly hidden>
-            <input type="text" id="showCategory_2nd" name="showCategory_2nd" value="${category_2nd}" readonly class="form-control form-control-sm" size="9" >
+            <div class="input-group-prepend">
+				<span class="input-group-text">카테고리</span>
+	            <input type="text" id="category_2nd" name="category_2nd" value="${category_2nd}" readonly hidden>
+	            <input type="text" id="showCategory_2nd" name="showCategory_2nd" value="${category_2nd}" readonly class="form-control" size="9" >
+            </div>
         </div>
-        <div style="display: inline-block;">
-            <input type="text" name="selectDate" id="selectDate" value="${req_date}" readonly class="form-control form-control-sm" size="9">
+        <div style="display: inline-block; margin-right: 5px;">
+	        <div class="input-group-prepend">
+			<span class="input-group-text">청구일자</span>
+	            <input type="text" name="selectDate" id="selectDate" value="${req_date}" readonly class="form-control" size="9">
+	        </div>
         </div>
-        <div style="display: inline-block;">
-            <input type="number" id="select_page" name="select_page" min="1" max="9999" readonly value="${req_page}" class="form-control form-control-sm" size="9">
-        </div>
-    
+        <div style="display: inline-block; margin-right: 5px;">
+            <div class="input-group-prepend">
+			<span class="input-group-text">페이지</span>
+	            <input type="number" id="select_page" name="select_page" min="1" max="9999" readonly value="${req_page}" class="form-control" size="9">
+	        </div>
+        </div>  
         <div>
    </div>
 <br>
@@ -177,7 +204,7 @@ $(document).ready(function() {
 			<thead style="background-color: rgb(148, 146, 146);">
 				<tr>
 					<th>#</th>
-					<th colspan="2">품목코드</th>
+					<th>품목코드</th>
 					<th>품명</th>
 					<th>규격</th>
 					<th>제조사</th>
@@ -194,7 +221,8 @@ $(document).ready(function() {
 			</tbody>
 		</table>
 </form>
-</div> 
+</div>
+</div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>

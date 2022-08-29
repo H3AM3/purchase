@@ -35,7 +35,7 @@
 </div>
 
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin: 0 auto; width: 350px">
+<table class="table" style="margin: 0 auto; margin-top: 20px; width: 350px">
   <thead>
     <tr>
       <th style="width: 150px">코드</th>

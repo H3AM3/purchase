@@ -134,7 +134,7 @@ $("#btnSend").on("click", function(){
 					let newDate = data[i].import_date.replace(' 00:00:00', '');
 					let str = '';
 					str += "<tr>";
-					str += "<td><a href='/import/importInfo?category_2nd="+$('#category_2nd').val()+"&vender_code="+data[i].vender_code+"&import_date="+newDate+"&import_page="+data[i].import_page+"'>"+newDate+" - "+data[i].import_page+"<a></td>";
+					str += "<td><a href='/import/importInfo?category_2nd="+$('#category_2nd').val()+"&vender_code="+data[i].vender_code+"&import_date="+newDate+"&import_page="+data[i].import_page+"&vender_name="+data[i].vender_name+"'>"+newDate+" - "+data[i].import_page+"<a></td>";
 					str += "<td>"+data[i].vender_name+"</td>";
 					str += "</tr>";
 					$("#orderList").append(str);

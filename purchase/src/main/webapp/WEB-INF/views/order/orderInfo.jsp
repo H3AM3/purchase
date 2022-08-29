@@ -81,13 +81,11 @@ function sendList(){
 	return pass;
 }
 
-
-
 // 행추가 메소드
 function addRow(){
 	let rowStr = "<tr>";
 		rowStr += "<td>"+(rowCount+1)+"</td>";
-		rowStr += "<td colspan='2'><input readonly size='12px' id='product_name' name='tbl_orderVO["+rowCount+"].product_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td><input readonly size='12px' id='product_name' name='tbl_orderVO["+rowCount+"].product_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='16px' id='spec' name='tbl_orderVO["+rowCount+"].spec' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='12px' id='maker_name' name='tbl_orderVO["+rowCount+"].maker_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='4px' id='im_pakaging' name='tbl_orderVO["+rowCount+"].im_pakaging' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
@@ -228,9 +226,23 @@ function Cloning(){
 	}
 }
 
+function getCatName(){
+    $.ajax({
+        url : '/code/getCatName',
+		type : "post",
+		dataType : 'text',
+		data : {category_code : $("#category_2nd").val()},
+		success : function(result) {
+			let data = JSON.parse(result);
+			$("#showCategory_2nd").val(data.category_name);
+		}
+    })
+}
+
 $(document).ready(function() {
 	createOrderList();
 	Cloning();
+	getCatName();
 	// getReq_no();
     //테이블의 tbody를 클릭하면 selected로 클래스를 토글(클로즈업)
     $('#tableBody').on('click', 'tr', function () {
@@ -261,16 +273,22 @@ $(document).ready(function() {
 <body>
 
 <%@include file="/WEB-INF/views/include/header.jsp" %>
-<div class="body" style="width: 1500px">
+<div class="body">
 <!-- 상단 폼 -->
 	<h3>발주서</h3>
-	<div style="text-align: left; margin-bottom: 10px;">
-		<div style="display: inline-block;">
-		<div class="input-group input-group-sm date" id="calendar">
+	<div style="text-align: left; display: block; width: 1500px;">
+	    <div style="display: inline-block; margin-right: 5px;">
+		    <div class="input-group-prepend">
+				<span class="input-group-text">거래처</span>
+	            <input type="text" id="showVender_name" name="showVender_name" value="${defaultData.vender_name}" readonly class="form-control">
+            </div>
+        </div>
+		<div style="display: inline-block; margin-right: 5px;">
+		<div class="input-group" id="calendar">
 			<div class="input-group-prepend">
 				<span class="input-group-text">날짜</span>
 			</div>
-			<input type="text" name="selectDate" id="selectDate" value="" class="form-control form-control-sm" size="9"
+			<input type="text" name="selectDate" id="selectDate" value="" class="form-control" size="9"
 				onkeydown="if (event.keyCode == 13) {}">
 			<div class="input-group-append">
 				<span class="input-group-text">
@@ -279,17 +297,23 @@ $(document).ready(function() {
 			</div>
 		</div>
 		</div>
-	    <div style="display: inline-block;">
-            <!-- 카테고리(하) -->
-            <input type="text" id="category_2nd" name="category_2nd" value="${defaultData.category_2nd}" readonly hidden>
-            <input type="text" id="showCategory_2nd" name="showCategory_2nd" value="${defaultData.category_2nd}" readonly class="form-control form-control-sm" size="9" >
+	    <div style="display: inline-block; margin-right: 5px;">
+		    <div class="input-group-prepend">
+				<span class="input-group-text">카테고리</span>
+	            <!-- 카테고리(하) -->
+	            <input type="text" id="category_2nd" name="category_2nd" value="${defaultData.category_2nd}" readonly hidden>
+	            <input type="text" id="showCategory_2nd" name="showCategory_2nd" value="${defaultData.category_2nd}" readonly class="form-control">
+            </div>
         </div>
-        <div style="display: inline-block;">
-            <input type="number" id="select_page" name="select_page" readonly value="${defaultData.order_page}" class="form-control form-control-sm" size="9">
+        <div style="display: inline-block; margin-right: 5px;">
+	        <div class="input-group-prepend">
+				<span class="input-group-text">페이지</span>
+	            <input type="number" id="select_page" name="select_page" readonly value="${defaultData.order_page}" class="form-control">
+	        </div>
         </div>
     </div>
 
-<div style="display: block;">
+<div style="display: block; margin: 0 auto; margin-top: 20px;">
 <form id="req_orderList" name="req_orderList" method="post" action="/order/orderUpdate" onsubmit="return sendCheck()">
 			<div style="float: left;">
 				<input type="button" id="btnEdit" name="btnEdit" value="수정">
@@ -301,7 +325,7 @@ $(document).ready(function() {
 			<thead style="background-color: rgb(148, 146, 146);" id="tableHead">
 				<tr>
 					<th>#</th>
-					<th colspan="2">품명</th>
+					<th>품명</th>
 					<th>규격</th>
 					<th>제조사</th>
 					<th>단위</th>

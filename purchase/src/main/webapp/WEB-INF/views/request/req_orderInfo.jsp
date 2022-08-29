@@ -181,10 +181,22 @@ function sendDelList(){
     })
 }
 
-
+function getCatName(){
+    $.ajax({
+        url : '/code/getCatName',
+		type : "post",
+		dataType : 'text',
+		data : {category_code : $("#category_2nd").val()},
+		success : function(result) {
+			let data = JSON.parse(result);
+			$("#showCategory_2nd").val(data.category_name);
+		}
+    })
+}
 
 $(document).ready(function() {
     req_ordrInfo_pordList();
+    getCatName();
     //테이블의 tbody를 클릭하면 selected로 클래스를 토글(클로즈업)
     $('#tableBody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
@@ -224,16 +236,28 @@ $(document).ready(function() {
 <div class="card-body">
     <h3>청구서 내역</h3>
     <div style="text-align: left;">
+    	    <div style="display: inline-block;">
+	    <div class="input-group-prepend">
+				<span class="input-group-text">부서</span>
+	    	<input type="text" id="req_dep_name" name="req_dep_name" value="${dep_name}" readonly class="form-control" size="9" >
+	    	</div>
+	    	</div>
 	    <div style="display: inline-block;">
-            <!-- 카테고리(하) -->
-            <input type="text" id="category_2nd" name="category_2nd" value="${category_2nd}" readonly hidden>
-            <input type="text" id="showCategory_2nd" name="showCategory_2nd" value="${category_2nd}" readonly class="form-control form-control-sm" size="9" >
+          	<div class="input-group-prepend">
+				<span class="input-group-text">카테고리</span>
+	            <!-- 카테고리(하) -->
+	            <input type="text" id="category_2nd" name="category_2nd" value="${category_2nd}" readonly hidden>
+	            <input type="text" id="showCategory_2nd" name="showCategory_2nd" value="" readonly class="form-control" size="9">
+	        </div>
         </div>
         <div style="display: inline-block;">
-            <input type="text" name="selectDate" id="selectDate" value="${req_date}" readonly class="form-control form-control-sm" size="9">
+            <input type="text" name="selectDate" id="selectDate" value="${req_date}" readonly class="form-control" size="9">
         </div>
         <div style="display: inline-block;">
-            <input type="number" id="select_page" name="select_page" min="1" max="9999" readonly value="${req_page}" class="form-control form-control-sm" size="9">
+        	<div class="input-group-prepend">
+				<span class="input-group-text">페이지</span>
+            	<input type="number" id="select_page" name="select_page" min="1" max="9999" readonly value="${req_page}" class="form-control" size="9">
+            </div>
         </div>
         <div>
             <input type="button" id="btnDelRow" name="btnDelRow" value="행추가" onclick="addRow();">

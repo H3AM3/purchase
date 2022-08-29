@@ -1,8 +1,78 @@
 @charset "UTF-8";
-body{
+body {
 	background-color: #F1F4F5;
 	text-align: center;
 }
+
+table {
+	font-size: medium;
+	text-align: center;
+	border: 1px solid #e9e9e9;
+	margin-top: 20px;
+}
+
+table thead {
+	background-color: #949292;
+}
+
+table input {
+	background-color: #F1F4F5;
+}
+
+tbody tr {
+}
+
+tbody tr:hover input {
+	background-color: #e9e9e9;
+}
+
+tbody tr:hover {
+	background-color: #e9e9e9;
+}
+
+table td {
+	border: 1px solid #e9e9e9;
+}
+
+table input {
+	border-radius: 6px;
+	border: none;
+}
+
+input {
+	border-radius: 6px;
+	padding: 6px;
+	border: thin solid #CED4DA;
+}
+
+select {
+	border-radius: 6px;
+	padding: 7px;
+	border: thin solid #CED4DA;
+}
+
+footer {
+	margin-left: 100px;
+	margin-right: 100px;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+.header {
+	margin-left: 100px;
+	margin-right: 100px;
+	margin-bottom: 0;
+}
+
+.footerBody {
+	width: 1000px;
+	margin: auto;	
+}
+
 .body {
 	width:2000px;
 	margin:0 auto;
@@ -22,81 +92,16 @@ body{
 .tableBody tr td {
 	padding: 0;
 	font-size: 15px;
-}
-
-.codeList{
 	border: 1px solid #e9e9e9;
 }
 
-.searchBar{
+.codeList {
+	border: 1px solid #e9e9e9;
+}
+
+.searchBar {
 	margin-left: 1px;
 	margin-bottom: 10px;
-}
-
-table {
-	font-size: larger;
-	text-align: center;
-	border: 1px solid #e9e9e9;
-}
-
-table thead{
-	background-color: #949292;
-}
-
-table input{
-	background-color: #F1F4F5;
-}
-
-tbody tr{
-}
-
-tbody tr:hover input{
-	background-color: #e9e9e9;
-}
-
-tbody tr:hover{
-	background-color: #e9e9e9;
-}
-
-table td {
-	border: 1px solid #e9e9e9;
-}
-
-.cloneHead th {
-	border: solid 1px black;
-}
-
-.cloneBody td {
-	border: solid 1px black;
-}
-
-.bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
-@media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-    }
-}
-
-table input{
-	border-radius: 6px;
-	border: none;
-}
-
-input{
-	border-radius: 6px;
-}
-
-select{
-	border-radius: 6px;
-	padding: 6px;
 }
 
 .btnSave {
@@ -108,18 +113,19 @@ select{
 	border-radius: 6px;
 }
 
-footer{
-	margin-left: 100px;
-	margin-right: 100px;
+.cloneHead th {
+	border: 1px solid #e9e9e9;
 }
 
-.footerBody{
-	width: 1000px;
-	margin: auto;	
+.cloneBody td {
+	border: 1px solid #e9e9e9;
 }
 
-.header{
-	margin-left: 100px;
-	margin-right: 100px;
-	margin-bottom: 0;
-}
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+ }

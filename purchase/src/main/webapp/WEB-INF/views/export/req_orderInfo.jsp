@@ -55,7 +55,6 @@ let rowCount = 0;
 let parentDate = window.opener.getImport_date();
 let import_date = parentDate.replace(' 00:00:00', '');
 
-
 // 체크박스 전체를 체크하는 메소드
 function selectAll(selectAll)  {
   const checkboxes 
@@ -88,6 +87,7 @@ function getInfo(){
 	// 입고수량 기본값을 미입고수량만큼 바꿔주는 메소드
 	window.opener.changeEx_quantity();
 	window.opener.getNewPage();
+	window.opener.setShowDep_name('${defaultData.dep_name}');
 	window.close();	
 }
 
@@ -191,38 +191,26 @@ $(document).ready(function() {
 </head>
 
 <body>
-<a>${order_date } </a>
-<a>${order_page } </a>
-<a>${vender_code } </a>
-<a>${category_2nd } </a>
-<!-- 상단 폼 -->
-<div class="card-body"></div>
-<br>
-	<div class="card-body">
-		<div class="col-md-12">
-		<table class="table table-bordered table-hover" id="table_id">
-			<thead style="background-color: rgb(148, 146, 146);" id="tableHead">
-				<tr>
-					<th><input type="checkbox" value="selectall" name="selectall" id="selectall" onclick="selectAll(this)"></th>
-					<th>#</th>
-					<th>품목코드</th>
-					<th colspan="2">품명</th>
-					<th>규격</th>
-					<th>제조사</th>
-					<th>단위</th>
-					<th>청구수량</th>
-					<th>미입고 수량</th>
-					<th>비고</th>
-				</tr>
-			</thead>
-		<input type="button" id="btnGetInfo" name="btnGetInfo" value="가져오기" onclick="getInfo()">
-			<tbody class="tableBody" id="tableBody">
-			</tbody>
+	<table class="table table-bordered table-hover" id="table_id">
+		<thead style="background-color: rgb(148, 146, 146);" id="tableHead">
+			<tr>
+				<th><input type="checkbox" value="selectall" name="selectall" id="selectall" onclick="selectAll(this)"></th>
+				<th>#</th>
+				<th>품목코드</th>
+				<th colspan="2">품명</th>
+				<th>규격</th>
+				<th>제조사</th>
+				<th>단위</th>
+				<th>청구수량</th>
+				<th>미입고 수량</th>
+				<th>비고</th>
+			</tr>
+		</thead>
+	<input type="button" id="btnGetInfo" name="btnGetInfo" value="가져오기" onclick="getInfo()">
+		<tbody class="tableBody" id="tableBody">
+		</tbody>
 
-		</table>
-		</div>
-	</div>
-   
+	</table>
 </body>
 
 </html>

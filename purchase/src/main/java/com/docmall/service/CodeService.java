@@ -74,4 +74,6 @@ public interface CodeService {
 
 	public UpperDep_NameDTO getUpperDepName(String dep_code);
 
+	public CategoryVO getCatName(CategoryVO vo);
+
 }

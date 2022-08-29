@@ -54,34 +54,43 @@
 
 	<!-- 카테고리 없이 품목 리스트 가져오기 -->
 	<select id="getAllProdCodeList" parameterType="com.docmall.domain.ProductVO" resultType="com.docmall.domain.ProductVO">
-		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, MAKER_NAME, USABLE FROM PRODUCT
-		WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' AND PRODUCT_NAME LIKE '%'||#{product_name}||'%' AND
-			  VENDER_NAME LIKE '%'||#{vender_name}||'%' AND USABLE = #{usable}
-			  ORDER BY PRODUCT_CODE</select>
+		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, MAKER_NAME, USABLE
+		FROM (SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, MAKER_NAME, USABLE
+			  FROM PRODUCT
+			  WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' OR PRODUCT_NAME LIKE '%'||#{product_code}||'%' OR
+			 	    VENDER_NAME LIKE '%'||#{product_code}||'%')
+		WHERE USABLE = #{usable}
+  		ORDER BY PRODUCT_CODE </select>
 
 	<!-- 카테고리1만 선택하여 검색 -->
 		<select id="get1stCatProdCodeList" parameterType="com.docmall.domain.ProductVO" resultType="com.docmall.domain.ProductVO">
-		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, USABLE, MAKER_NAME FROM PRODUCT
-		WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' AND PRODUCT_NAME LIKE '%'||#{product_name}||'%' AND
-			  VENDER_NAME LIKE '%'||#{vender_name}||'%' AND USABLE = #{usable} AND CATEGORY_1ST = #{category_1st}
-			  ORDER BY PRODUCT_CODE</select>
+		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, USABLE, MAKER_NAME
+		FROM (SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, USABLE, MAKER_NAME
+			  FROM PRODUCT
+			  WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' OR PRODUCT_NAME LIKE '%'||#{product_code}||'%' OR
+			  	    VENDER_NAME LIKE '%'||#{product_code}||'%')
+		WHERE CATEGORY_1ST = #{category_1st} AND USABLE = #{usable}
+		ORDER BY PRODUCT_CODE</select>
 			  
 	<!-- 카테고리 2만 선택하여 검색 -->
 		<select id="get2enCatProdCodeList" parameterType="com.docmall.domain.ProductVO" resultType="com.docmall.domain.ProductVO">
-		SELECT PRODUCT_CODE, CATEGORY_1ST, CATEGORY_2ND, PRODUCT_NAME, SPEC, VENDER_CODE, VENDER_NAME, EDI_CODE,
-			   IM_PAKAGING, EX_PAKAGING, PAK_QUANTITY, PRICE, USABLE, DESCRIPTION, REG_DATE, UPDATE_DATE, TYPE,
-			   MAKER_NAME, MAKER_CODE
-		FROM PRODUCT
-		WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' AND PRODUCT_NAME LIKE '%'||#{product_name}||'%' AND
-			  VENDER_NAME LIKE '%'||#{vender_name}||'%' AND USABLE = #{usable} AND CATEGORY_2ND = #{category_2nd}
-			  ORDER BY PRODUCT_CODE</select>
+		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, USABLE, MAKER_NAME
+		FROM (SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, USABLE, MAKER_NAME
+			  FROM PRODUCT
+			  WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' OR PRODUCT_NAME LIKE '%'||#{product_code}||'%' OR
+			  	    VENDER_NAME LIKE '%'||#{product_code}||'%')
+		WHERE CATEGORY_2ND = #{category_2nd} AND USABLE = #{usable}
+		ORDER BY PRODUCT_CODE</select>
 			  
 	<!-- 카테고리 전부 포함하여 품목리스트 가져오기 -->
 	<select id="getProdCodeList" parameterType="com.docmall.domain.ProductVO" resultType="com.docmall.domain.ProductVO">
-		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_CODE, VENDER_NAME, USABLE, EX_PAKAGING, PAK_QUANTITY, PRICE, MAKER_NAME, MAKER_CODE FROM PRODUCT
-		WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' AND PRODUCT_NAME LIKE '%'||#{product_name}||'%' AND
-			  VENDER_NAME LIKE '%'||#{vender_name}||'%' AND USABLE = #{usable} AND CATEGORY_1ST = #{category_1st} AND CATEGORY_2ND = #{category_2nd}
-			  ORDER BY PRODUCT_CODE</select>
+		SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, USABLE, MAKER_NAME
+		FROM (SELECT PRODUCT_CODE, PRODUCT_NAME, SPEC, VENDER_NAME, USABLE, MAKER_NAME
+			  FROM PRODUCT
+			  WHERE PRODUCT_CODE LIKE '%'||#{product_code}||'%' OR PRODUCT_NAME LIKE '%'||#{product_code}||'%' OR
+			  	    VENDER_NAME LIKE '%'||#{product_code}||'%')
+		WHERE CATEGORY_1ST = #{category_1st} AND CATEGORY_2ND = #{category_2nd} AND USABLE = #{usable}
+		ORDER BY PRODUCT_CODE</select>
 
 	<!-- 품목코드 조회 -->
 	<select id="prodInfo" parameterType="String" resultType="com.docmall.domain.ProductInfoDTO">
@@ -255,5 +264,12 @@
 		WHERE DEP_CODE = (SELECT UPPER_DEP
 						  FROM DEPARTMENT
 						  WHERE dep_code = #{dep_code})</select>
+
+	<!-- 카테고리 코드 받아서 카테고리명 반환 -->
+	<select id="getCatName" parameterType="com.docmall.domain.CategoryVO" resultType="com.docmall.domain.CategoryVO">
+		SELECT CATEGORY_NAME
+		FROM CATEGORY
+		WHERE CATEGORY_CODE = #{category_code}
+	</select>
 
 </mapper>

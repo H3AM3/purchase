@@ -238,18 +238,24 @@ $(document).ready(function() {
 <h3>입고내역</h3>
 <div>
 	<div class="form-inline">
-		<div class="input-group input-group-sm date" id="calendar">
+	<div class="input-group date" id="calendar" style="margin-right: 5px;">
+			<div class="input-group-prepend">
+				<span class="input-group-text">거래처</span>
+			</div>
+			<input type="text" id="showVender_name" name="showVender_name" min="1" max="9999" value="${vender_name }" readonly class="form-control" size="11px">
+		</div>
+		<div class="input-group date" id="calendar" style="margin-right: 5px;">
 			<div class="input-group-prepend">
 				<span class="input-group-text">날짜</span>
 			</div>
-			<input readonly type="text" name="selectDate" id="selectDate" value="${import_date }" class="form-control form-control-sm" size="9"
+			<input readonly type="text" name="selectDate" id="selectDate" value="${import_date }" class="form-control" size="9"
 				onkeydown="if (event.keyCode == 13) {}">
 		</div>
-		<div class="input-group input-group-sm date" id="calendar">
+		<div class="input-group date" id="calendar" style="margin-right: 5px;">
 			<div class="input-group-prepend">
 				<span class="input-group-text">페이지</span>
 			</div>
-			<input type="number" id="select_page" name="select_page" min="1" max="9999" value="${import_page }" readonly>
+			<input type="number" id="select_page" name="select_page" min="1" max="9999" value="${import_page }" readonly class="form-control">
 		</div>
 	</div>
 </div>

@@ -115,11 +115,13 @@ public class ImportsController {
 	@GetMapping("/importInfo")
 	public void importInfo(String category_2nd, String vender_code,
 						   String import_date, Long import_page,
-						   Model model) {
+						   String vender_name, Model model) {
 		model.addAttribute("category_2nd", category_2nd);
 		model.addAttribute("vender_code", vender_code);
 		model.addAttribute("import_date", import_date);
 		model.addAttribute("import_page", import_page);
+		model.addAttribute("vender_name", vender_name);
+		log.info("부서명: "+vender_name);
 		
 	}
 	

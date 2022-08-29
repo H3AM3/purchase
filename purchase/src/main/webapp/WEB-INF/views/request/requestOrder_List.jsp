@@ -140,7 +140,7 @@ $("#btnSend").on("click", function(){
                 date += Order_List[i].req_page;
                 let str = '';
 				str += "<tr>";
-                str += "<td><a href='/request/req_orderInfo?req_date="+onlyDate+"&req_page="+Order_List[i].req_page+"&dep_code="+Order_List[i].dep_code+"&category_2nd="+Order_List[i].category_2nd+"'>"+date+"<a></td>";
+                str += "<td><a href='/request/req_orderInfo?req_date="+onlyDate+"&req_page="+Order_List[i].req_page+"&dep_code="+Order_List[i].dep_code+"&category_2nd="+Order_List[i].category_2nd+"&dep_name="+Order_List[i].dep_name+"'>"+date+"<a></td>";
                 str += "<td>"+Order_List[i].dep_name+"</td>";
                 str += "</tr>";
                 $("#orderList").append(str);
@@ -174,7 +174,7 @@ $("#btnSend").on("click", function(){
 <div class='col-xs-2 col-xs-2' style="display: inline-block;">
     <div class="form-group">
         <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-            <input type="text" class="form-control form-control-sm" id="selectDate1" name="selectDate1" data-target="#datetimepicker1" value="">
+            <input type="text" class="form-control" id="selectDate1" name="selectDate1" data-target="#datetimepicker1" value="">
             <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
@@ -184,7 +184,7 @@ $("#btnSend").on("click", function(){
 <div class='col-xs-2 col-xs-2' style="display: inline-block;">
     <div class="form-group">
         <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-            <input type="text" class="form-control form-control-sm" id="selectDate2" name="selectDate2" data-target="#datetimepicker2" value="">
+            <input type="text" class="form-control" id="selectDate2" name="selectDate2" data-target="#datetimepicker2" value="">
             <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
@@ -197,11 +197,11 @@ $("#btnSend").on("click", function(){
 </div>
 </form>
 <!-- 본문 리스트 영역 -->
-<table class="table" style="width: 450px; margin: 0 auto;">
+<table class="table" style="width: 650px; margin: 0 auto;">
 	<thead>
 	  <tr>
-		<th style="width: 250px">청구일자</th>
-		<th style="width: 200px">청구부서</th>
+		<th style="width: 350px">청구일자</th>
+		<th style="width: 300px">청구부서</th>
 	  </tr>
 	</thead>
 	<tbody id="orderList">

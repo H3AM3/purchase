@@ -135,7 +135,7 @@ $("#btnSend").on("click", function(){
                 for(i=0; i<data.length; i++){
 					let newDate = data[i].order_date.replace(' 00:00:00', '');
 					$("#orderList").append("<tr>");
-					$("#orderList").append("<td><a href='/order/orderInfo?approval=1&mk_order=1&category_2nd="+$('#category_2nd').val()+"&vender_code="+data[i].vender_code+"&order_date="+data[i].order_date+"&order_page="+data[i].order_page+"'>"+data[i].vender_name+"<a></td>");
+					$("#orderList").append("<td><a href='/order/orderInfo?approval=1&mk_order=1&category_2nd="+$('#category_2nd').val()+"&vender_code="+data[i].vender_code+"&order_date="+data[i].order_date+"&order_page="+data[i].order_page+"&vender_name="+data[i].vender_name+"'>"+data[i].vender_name+"<a></td>");
 					$("#orderList").append("<td>"+newDate+" - "+data[i].order_page+"</td>");  - "+data[i].order_page+"
 					$("#orderList").append("</tr>");
 				}
@@ -152,7 +152,7 @@ $("#btnSend").on("click", function(){
 <div class="body">
 <h3>발주서 조회/수정</h3>
 
-<div style="width: 800px; margin: 0 auto;">
+<div style="width: 900px; margin: 0 auto;">
 <!-- 날짜 영역 -->
 <form id="CatDatePageForm" name="CatDatePageForm" method="post" action="/request/getReqOrder_List">
 <div style="display: inline-block;">

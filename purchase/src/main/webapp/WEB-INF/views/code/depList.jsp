@@ -20,39 +20,42 @@
 <%@include file="/WEB-INF/views/include/header.jsp"%>
 <div class="body">
 <h3>부서코드 목록</h3><br>
-<div style="width: 600px; margin: 0 auto;">
+<div style="width: 600px; margin: 0 auto; display: block;">
 	<!-- 카테고리 영역 -->
-	<a style="float: left;">상위부서 &nbsp</a>
-	<div style="float: left;">
+	<div style="display: inline-block;">
+	<div class="input-group-prepend">
+	<span class="input-group-text">상위부서</span>
 		<form id="selectDep" name="selectDep" action="" method="post">
 			<!-- 상위부서 -->
 			<select id="upper_dep" name="upper_dep">
 				<option value=none>없음</option>
 			</select>
 		</form>
+		</div>
 	</div>
 
 	<!-- 검색창 영역 -->
 	<div style="display: inline-block;">
 	<form name="searchForm" id="searchForm" onsubmit="false">
-	<input type="text" id="searchName" name="searchName" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="검색할 부서명">
+	<input type="text" id="searchName" name="searchName" onkeyup="if(window.event.keyCode==13){keywordSearch()}" placeholder="부서명">
 	<input type="button" id="btnSearch" name="btnSearch" value="검색">
 	</form>
 	</div>
 	
 	<!-- 코드생성 버튼 -->
 	<div style="display: inline-block;">
-	<label>&nbsp|&nbsp</label>
+	<span style="margin-left: 5px; margin-right: 5px;">|</span>
 	<input type="button" onclick="location.href='/code/createDepCode'" id="btnCreateCode" value="코드생성">
 	</div>
 </div>
 
+<div>
 <!-- 본문 리스트 영역 -->
-<table class="table" style="margin-top: 10px; width: 600px; margin: 0 auto;">
+<table class="table" style="width: 600px; margin: 0 auto; margin-top: 20px; display: block;">
   <thead>
     <tr>
       <th style="width: 30px;">No</th>
-      <th style="width: 100px;">부서코드</th>
+      <th style="width: 170px;">부서코드</th>
       <th style="width: 200px;">부서명</th>
       <th style="width: 200px;">상위부서</th>
     </tr>
@@ -60,7 +63,7 @@
   <tbody id="codeList">
   </tbody>
 </table>
-
+</div>
 
 
 
@@ -106,12 +109,14 @@
 								}
 							}
 						});
-					codeList.append("<tr>");
-					codeList.append("<td scope='row'>"+(i+1)+"</td>");
-					codeList.append("<td>"+depList[i].dep_code+"</td>");
-					codeList.append("<td><a href='/code/depInfo?dep_code="+depList[i].dep_code+"'>"+depList[i].dep_name+"<a></td>");
-					codeList.append("<td>"+depList[i].upper_dep+"</td>");
-					codeList.append("</tr>");
+					let str = '';
+					str += "<tr>";
+					str += "<td>"+(i+1)+"</td>";
+					str += "<td>"+depList[i].dep_code+"</td>";
+					str += "<td><a href='/code/depInfo?dep_code="+depList[i].dep_code+"'>"+depList[i].dep_name+"<a></td>";
+					str += "<td>"+depList[i].upper_dep+"</td>";
+					str += "</tr>";
+					codeList.append(str);
 					rowCount += 1;
 				}
 				}
@@ -182,12 +187,14 @@
 								}
 							}
 						});
-					codeList.append("<tr>");
-					codeList.append("<td scope='row'>"+(i+1)+"</td>");
-					codeList.append("<td>"+depList[i].dep_code+"</td>");
-					codeList.append("<td><a href='/code/depInfo?dep_code="+depList[i].dep_code+"'>"+depList[i].dep_name+"<a></td>");
-					codeList.append("<td>"+depList[i].upper_dep+"</td>");
-					codeList.append("</tr>");
+					let str = '';
+					str += "<tr>";
+					str += "<td>"+(i+1)+"</td>";
+					str += "<td>"+depList[i].dep_code+"</td>";
+					str += "<td><a href='/code/depInfo?dep_code="+depList[i].dep_code+"'>"+depList[i].dep_name+"<a></td>";
+					str += "<td>"+depList[i].upper_dep+"</td>";
+					str += "</tr>";
+					codeList.append(str);
 					rowCount +=1;
 				}
 			}

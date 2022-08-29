@@ -117,7 +117,7 @@ function searchList(){
                 let newDate = date.replace(' 00:00:00', '');
                 newDate_page = newDate + ' / page : ' + Order_List[i].req_page;
 				$("#orderList").append("<tr>");
-                $("#orderList").append("<td><a href='/export/req_orderInfo?req_date="+newDate+"&req_page="+Order_List[i].req_page+"&dep_code="+Order_List[i].dep_code+"&category_2nd="+category_2nd+"&end_request=0'>"+newDate_page+"<a></td>");
+                $("#orderList").append("<td><a href='/export/req_orderInfo?req_date="+newDate+"&req_page="+Order_List[i].req_page+"&dep_code="+Order_List[i].dep_code+"&category_2nd="+category_2nd+"&end_request=0&dep_name="+Order_List[i].dep_name+"'>"+newDate_page+"<a></td>");
                 $("#orderList").append("<td>"+Order_List[i].dep_name+"</td>");
                 $("#orderList").append("</tr>");
 			}

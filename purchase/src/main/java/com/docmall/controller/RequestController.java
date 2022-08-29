@@ -80,11 +80,12 @@ public class RequestController {
 
 	// 발주요청서 폼
 	@GetMapping("/req_orderInfo")
-	public void req_orderInfo(String req_date, String req_page, String dep_code, String category_2nd, Model model) {
+	public void req_orderInfo(String req_date, String req_page, String dep_code, String category_2nd, String dep_name, Model model) {
 		model.addAttribute("req_date", req_date);
 		model.addAttribute("req_page", req_page);
 		model.addAttribute("dep_code", dep_code);
 		model.addAttribute("category_2nd", category_2nd);
+		model.addAttribute("dep_name", dep_name);
 	}
 
 	// 발주요청서 내용 가져오는 기능
@@ -162,11 +163,12 @@ public class RequestController {
 	
 	//승인, 반려 페이지 폼
 	@GetMapping("req_orderApprovalReject")
-	public void req_orderApprovalReject(String req_date, String req_page, String dep_code, String category_2nd, Model model) {
+	public void req_orderApprovalReject(String req_date, String req_page, String dep_code, String category_2nd, String dep_name, Model model) {
 		model.addAttribute("req_date", req_date);
 		model.addAttribute("req_page", req_page);
 		model.addAttribute("dep_code", dep_code);
 		model.addAttribute("category_2nd", category_2nd);
+		model.addAttribute("dep_name", dep_name);
 	}
 	
 	// 승인, 반려 내용 저장

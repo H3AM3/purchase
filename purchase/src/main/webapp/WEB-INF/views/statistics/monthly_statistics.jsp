@@ -442,10 +442,12 @@ $(document).ready(function(){
 </div>
 
 <div style="display: inline-block; margin-right: 25px;">
-	<a>연도 선택</a>
-	<select name="yearSelect" id="yearSelect" style="width: 70px;">
+<div class="input-group-prepend">
+	<span class="input-group-text">연도</span>
+	<select name="yearSelect" id="yearSelect" style="width: 80px;">
 
 	</select>
+	</div>
 </div>
 
 <div style="display: inline-block;">

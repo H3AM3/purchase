@@ -11,6 +11,7 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
     <title>LogIn Page</title>
+  <link rel="stylesheet" href="/resources/css/defaultForm.css">
 
 
 <meta name="theme-color" content="#563d7c">
@@ -50,38 +51,31 @@
   <body>
 <%@include file="/WEB-INF/views/include/common.jsp" %>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<div class="body">
 <!-- 로그인상태면 Redirect시켜주는 구문 -->
 <c:if test="${sessionScope.loginStatus.mem_name != null}">
 <c:redirect url="/code/productList"></c:redirect>
 </c:if>
-<h3>로그인</h3>
-
-<div class="container">
-  <div class="mb-3 text-center">
+<h3 style=" margin-bottom: 30px;">로그인</h3>
+<div style="display: block;">
 	  <form id="loginForm" action="/member/loginOK" method="post">
-		  <div class="form-group row">
-		    <label for="mem_id" class="col-sm-2 col-form-label">아이디</label>
-		    <div class="col-sm-5">
-		      <input type="text" class="form-control" id="mem_id" name="mem_id" placeholder="아이디를  8~15이내로 입력">
-		    </div>
+		  <div style="display: block;">
+		    <label for="mem_id" style="display: inline-block; width: 100px; background-color: #e9e9e9; margin-bottom: 30px;" class="form-control">아이디</label>
+		      <input type="text" class="form-control" id="mem_id" name="mem_id" placeholder="아이디를  8~15이내로 입력" style="display: inline-block; width: 300px;">
 		  </div>
-		  <div class="form-group row">
-		    <label for="inputPassword" class="col-sm-2 col-form-label">비밀번호</label>
-		    <div class="col-sm-5">
-		      <input type="password" class="form-control" id="mem_password" name="mem_password" placeholder="비밀번호를  8~15이내로 입력">
-		    </div>
+		  <div style="display: block;">
+		    <label for="inputPassword" style="display: inline-block; width: 100px; background-color: #e9e9e9; margin-bottom: 30px;" class="form-control">비밀번호</label>
+		      <input type="password" id="mem_password" name="mem_password" placeholder="비밀번호를  8~15이내로 입력" style="display: inline-block; width: 300px;">
 		  </div>
-		  <div class="form-group row">
-			  <div class="col-sm-9 text-center">
-			  	<button type="submit" class="btn btn-dark" id="btnLogin">로그인</button>
-			  </div>			
+		  <div style="display: block;">
+			  	<button type="submit" class="btn btn-dark" id="btnLogin">로그인</button>			
 		  </div>
 	 </form>
-  </div>
-
-<!--  footer.jsp -->
-<%@include file="/WEB-INF/views/include/footer.jsp" %>
 </div>
+<!--  footer.jsp -->
+</div>
+<%@include file="/WEB-INF/views/include/footer.jsp" %>
+
 
     
   </body>

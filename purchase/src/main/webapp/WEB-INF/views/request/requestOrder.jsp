@@ -83,7 +83,7 @@ function addRow(){
 	let rowStr = "<tr>";
 		rowStr += "<td><input type='checkbox' id='selectRow' name='selectRow'></td>";
 		rowStr += "<td>"+(rowCount+1)+"</td>";
-		rowStr += "<td colspan='2'><input readonly id='product_code' name='req_ordersList["+rowCount+"].product_code' onkeypress='javascript:if(event.keyCode==13) {addRow();}' size='10' type='text' value=''></td>";
+		rowStr += "<td><input readonly id='product_code' name='req_ordersList["+rowCount+"].product_code' onkeypress='javascript:if(event.keyCode==13) {addRow();}' size='10' type='text' value=''></td>";
 		rowStr += "<td><input type='image' id='btnCodeSearch' name='btnCodeSearch' src='/resources/image/searchIcon.png' onclick='return false;'></td>"
 		rowStr += "<td><input id='product_name' name='req_ordersList["+rowCount+"].product_name' readonly style='border: none;'></td>";
 		rowStr += "<td><input id='spec' name='req_ordersList["+rowCount+"].spec' readonly style='border: none;'></td>";
@@ -118,7 +118,6 @@ function delRow(){
 			if(a.find("td:eq(10)").find("#approval").is(':checked') || a.find("td:eq(11)").find("#req_reject").is(':checked')){
 				alert("승인 또는 반려된 항목은 삭제할 수 없습니다.");
 			}else{
-				alert(a.find("td:eq(24)").find("#req_no").val());
 			$(a).remove();
 			delReq_orderList.push(a.find("td:eq(24)").find("#req_no").val());
 			}
@@ -279,29 +278,29 @@ $(document).ready(function() {
 <div class="body">
 <h3>청구서 작성</h3>
 <!-- 상단 폼 -->
-<div style="text-align: left; float: left;">
+<div style="text-align: left; display: block;">
 <form name="calendarForm" method="post" action="/request/requestOrder">
 <div class="row" style="display: inline-block;">
 	<div class="col">
 		<!-- 카테고리 영역 -->
-<div style="float: left;">
+<div style="float: left; margin-right: 5px;">
 	<!-- 카테고리(상) -->
 	<select id="category_1st" name="category_1st">
 		<option value="none" selected>대분류</option>
 	</select>
 </div>
-<div style="float: left;">
+<div style="float: left; margin-right: 5px;">
 	<!-- 카테고리(하) -->
 	<select id="category_2nd">
 		<option value="none" selected>소분류</option>
 	</select>
 </div>
 	<div class="form-inline">
-		<div class="input-group input-group-sm date" id="calendar">
+		<div class="input-group date" id="calendar">
 			<div class="input-group-prepend">
 				<span class="input-group-text">날짜</span>
 			</div>
-			<input type="text" name="selectDate" id="selectDate" value="" class="form-control form-control-sm" size="9"
+			<input type="text" name="selectDate" id="selectDate" value="" class="form-control" size="9"
 				onkeydown="if (event.keyCode == 13) {}">
 			<div class="input-group-append">
 				<span class="input-group-text">
@@ -309,18 +308,23 @@ $(document).ready(function() {
 				</span>
 			</div>
 		</div>
-			<div style="display: inline-block;">
-				<input type="number" id="select_page" name="select_page" min="1" max="9999" value="1" readonly>
+			<div style="display: inline-block; margin-left: 5px;">
+			<div class="input-group-prepend">
+				<span class="input-group-text">페이지</span>
+				<input type="number" id="select_page" name="select_page" min="1" max="9999" value="1" readonly class="form-control">
+			</div>
 			</div>		
 		</div>
 	</div>	
 </div>
 </form>
+<div style="margin-top: 5px;">
 <input type="button" id="btnDelRow" name="btnDelRow" value="행추가" onclick="addRow();">
 <input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();">
 </div>
+</div>
 
-<div style="display: block;">
+<div style="display: block; margin: 0 auto; margin-top: 20px;">
 <form id="req_orderList" name="req_orderList" method="post" action="/request/req_orderInsert">
 
 		<table class="table table-bordered table-hover" id="table_id">
@@ -328,7 +332,7 @@ $(document).ready(function() {
 				<tr>
 					<th><input type="checkbox" value="selectall" name="selectall" id="selectall" onclick="selectAll(this)"></th>
 					<th>#</th>
-					<th colspan="2">품목코드</th>
+					<th>품목코드</th>
 					<th></th>
 					<th>품명</th>
 					<th>규격</th>

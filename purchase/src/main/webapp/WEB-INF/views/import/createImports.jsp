@@ -46,6 +46,7 @@ function getCategory_2nd(){return $("#category_2nd").val();}
 function setRowCount(number){rowCount = number;}
 function emptyTableBody(){$("#tableBody").empty();}
 function getImport_date(){return $("#selectDate").val()}
+function setShowVender_name(name){$("#showVender_name").val(name)}
 let delReq_orderList = [];
 
 // 달력 메소드
@@ -164,7 +165,7 @@ function searchWatingImports(){
 		alert("하위 카테고리를 선택해주세요.");
 		return false;
 	} else{
-	window.open("/import/searchWaiting","searchWaiting","width=1200, height=900, top=150, left=200");
+	window.open("/import/searchWaiting","searchWaiting","width=1400, height=900, top=150, left=200");
 	}
 }
 
@@ -289,29 +290,28 @@ $(document).ready(function() {
 <div class="body">
 <!-- 상단 폼 -->
 <h3>입고내역 작성</h3>
-<div style="text-align: left;">
+<div style="text-align: left; display: block;">
+<div style="display: inline-block; margin-right: 5px;">
 <form name="calendarForm" method="post" action="/request/requestOrder">
-<div class="row" style="display: inline-block;">
-	<div class="col">
-		<!-- 카테고리 영역 -->
-<div style="float: left;">
+<!-- 카테고리 영역 -->
+<div style="display: inline-block;">
 	<!-- 카테고리(상) -->
 	<select id="category_1st" name="category_1st">
 		<option value="none" selected>대분류</option>
 	</select>
-</div>
-<div style="float: left;">
 	<!-- 카테고리(하) -->
 	<select id="category_2nd">
 		<option value="none" selected>소분류</option>
 	</select>
 </div>
+
+<div style="display: inline-block;">
 	<div class="form-inline">
-		<div class="input-group input-group-sm date" id="calendar">
+		<div class="input-group" id="calendar" style="margin-right: 5px;">
 			<div class="input-group-prepend">
 				<span class="input-group-text">날짜</span>
 			</div>
-			<input type="text" name="selectDate" id="selectDate" value="" class="form-control form-control-sm" size="9"
+			<input type="text" name="selectDate" id="selectDate" value="" class="form-control" size="9"
 				onkeydown="if (event.keyCode == 13) {}">
 			<div class="input-group-append">
 				<span class="input-group-text">
@@ -319,23 +319,31 @@ $(document).ready(function() {
 				</span>
 			</div>
 		</div>
-			<div style="display: inline-block;">
-				<input type="number" id="select_page" name="select_page" min="1" max="9999" value="1" readonly>
-				<input type="button" id="btnSearchWatingImports" name="btnSearchWatingImports" value="미입고내역" onclick="searchWatingImports()" class="btnNormal">
+	    <div style="display: inline-block; margin-right: 5px;">
+		    <div class="input-group-prepend">
+				<span class="input-group-text">거래처</span>
+	            <input type="text" id="showVender_name" name="showVender_name" value="" readonly class="form-control">
+            </div>
+        </div>
+			<div class="input-group date" id="calendar" style="margin-right: 5px;">
+				<div class="input-group-prepend">
+					<span class="input-group-text">페이지</span>
+				</div>
+				<input type="number" id="select_page" name="select_page" min="1" max="9999" value="1" readonly class="form-control">
 			</div>
-				
+			<input type="button" id="btnSearchWatingImports" name="btnSearchWatingImports" value="미입고내역" onclick="searchWatingImports()" class="btnNormal">
 		</div>
-	</div>	
-</div>
+	</div>
 </form>
 </div>
+</div>
 
-<div style="display: block; text-align: left;">
+<div style="display: block; text-align: left; margin-top: 5px">
 <input type="button" id="btnDelRow" name="btnDelRow" value="행추가" onclick="addRow();" class="btnNormal">
 <input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();" class="btnNormal">
 </div>
 
-<form id="importListForm" name="importListForm" method="post" action="/import/insertImport" onsubmit="return submitCheck()" style="display: block; margin-top: 10px">
+<form id="importListForm" name="importListForm" method="post" action="/import/insertImport" onsubmit="return submitCheck()" style="display: block; margin-top: 20px">
 		<input type="submit" id="send" name="send" value="저장" class="btnSave" style="float: left;">
 		<table class="table table-bordered table-hover" id="table_id">
 			<thead style="background-color: rgb(148, 146, 146);">

@@ -203,9 +203,21 @@ function submitCheck(){
 	return pass;
 }
 
+function getCatName(){
+    $.ajax({
+        url : '/code/getCatName',
+		type : "post",
+		dataType : 'text',
+		data : {category_code : '${defaultData.category_2nd}'},
+		success : function(result) {
+			let data = JSON.parse(result);
+			$("#showCategory_2nd").val(data.category_name);
+		}
+    })
+}
 
 $(document).ready(function() {
-	
+	getCatName();
     //테이블의 tbody를 클릭하면 selected로 클래스를 토글(클로즈업)
     $('#tableBody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
@@ -261,18 +273,32 @@ $(document).ready(function() {
 <h3>출고내역</h3>
 <div style="display: block;">
 	<div class="form-inline">
-		<div class="input-group input-group-sm date" id="calendar">
+			<div class="input-group date" id="calendar" style="margin-right: 5px;">
+			<div class="input-group-prepend">
+				<span class="input-group-text">부서</span>
+			</div>
+			<input type="text" id="showDep_name" name="showDep_name" value="${defaultData.dep_name }" readonly class="form-control" size="8px">
+		</div>
+		
+				<div class="input-group date" id="calendar" style="margin-right: 5px;">
+			<div class="input-group-prepend">
+				<span class="input-group-text">카테고리</span>
+			</div>
+			<input type="text" id="showCategory_2nd" name="showCategory_2nd" value="" readonly class="form-control" size="8px">
+		</div>
+	
+		<div class="input-group date" id="calendar" style="margin-right: 5px;">
 			<div class="input-group-prepend">
 				<span class="input-group-text">날짜</span>
 			</div>
-			<input readonly type="text" name="selectDate" id="selectDate" value="${defaultData.export_date }" class="form-control form-control-sm" size="9"
+			<input readonly type="text" name="selectDate" id="selectDate" value="${defaultData.export_date }" class="form-control" size="9"
 				onkeydown="if (event.keyCode == 13) {}">
 		</div>
-		<div class="input-group input-group-sm date" id="calendar">
+		<div class="input-group date" id="calendar" style="margin-right: 5px;">
 			<div class="input-group-prepend">
 				<span class="input-group-text">페이지</span>
 			</div>
-			<input type="number" id="select_page" name="select_page" min="1" max="9999" value="${defaultData.export_page }" readonly>
+			<input type="number" id="select_page" name="select_page" min="1" max="9999" value="${defaultData.export_page }" readonly class="form-control">
 		</div>
 	</div>
 </div>
@@ -281,7 +307,7 @@ $(document).ready(function() {
 <input type="button" id="btnDelRow" name="btnDelRow" value="행삭제" onclick="delRow();">
 </div>
 
-<form id="importListForm" name="importListForm" method="post" action="/export/updateExport" onsubmit="return submitCheck()" style="display: block; margin-top: 10px; text-align: left;">
+<form id="importListForm" name="importListForm" method="post" action="/export/updateExport" onsubmit="return submitCheck()" style="display: block; margin-top: 20px; text-align: left;">
 		<input type="submit" id="send" name="send" value="저장">
 		<table id="table_id" style="margin: 0 auto; width: 100%">
 			<thead>

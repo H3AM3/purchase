@@ -173,6 +173,10 @@ public class CodeServiceImpl implements CodeService {
 	public UpperDep_NameDTO getUpperDepName(String dep_code) {
 		return mapper.getUpperDepName(dep_code);
 	}
+	@Override
+	public CategoryVO getCatName(CategoryVO vo) {
+		return mapper.getCatName(vo);
+	}
 
 	
 

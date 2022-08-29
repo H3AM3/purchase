@@ -93,11 +93,11 @@ function addRow(){
 	let rowStr = "<tr>";
 		rowStr += "<td><input type='checkbox' id='selectRow' name='selectRow'></td>";
 		rowStr += "<td>"+(rowCount+1)+"</td>";
-		rowStr += "<td colspan='2'><input readonly size='12px' id='product_code' name='wating_importsVO["+rowCount+"].product_code' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td><input readonly size='8px' id='product_code' name='wating_importsVO["+rowCount+"].product_code' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='16px' id='product_name' name='wating_importsVO["+rowCount+"].product_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly size='12px' id='spec' name='wating_importsVO["+rowCount+"].spec' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input readonly size='4px' id='vender_name' name='wating_importsVO["+rowCount+"].vender_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input readonly size='8px' type='text' id='ex_pakaging' name='wating_importsVO["+rowCount+"].ex_pakaging' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td><input readonly size='12px' id='vender_name' name='wating_importsVO["+rowCount+"].vender_name' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td><input readonly size='4px' type='text' id='ex_pakaging' name='wating_importsVO["+rowCount+"].ex_pakaging' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly style='width: 100px; border: none;' type='number' id='waiting_qty' name='wating_importsVO["+rowCount+"].waiting_qty' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly style='width: 100px; border: none;' type='number' id='order_im_qty' name='wating_importsVO["+rowCount+"].order_im_qty' onkeydown='if(event.keyCode == 13) return false'></td>"
 		rowStr += "<td><input readonly style='width: 100px; border: none;' type='number' id='order_noneIm_qty' name='order_noneIm_qty' onkeydown='if(event.keyCode == 13) return false'></td>"
@@ -105,14 +105,14 @@ function addRow(){
 		rowStr += "<td><input readonly style='width: 70px; border: none; background-color: WhiteSmoke;' type='number' id='im_price' name='im_price'  onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowStr += "<td><input readonly style='border: none;' type='text' id='order_description' name='wating_importsVO["+rowCount+"].order_description'></td>"
 		
-		rowStr += "<td><input hidden size='4px;' id='import_date' name='wating_importsVO["+rowCount+"].import_date' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input hidden size='4px;' id='waiting_num' name='wating_importsVO["+rowCount+"].waiting_num' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input hidden id='order_page' name='wating_importsVO["+rowCount+"].order_page'></td>"
-		rowStr += "<td><input hidden id='mem_id' name='wating_importsVO["+rowCount+"].mem_id'></td>"
-		rowStr += "<td><input hidden id='vender_code' name='wating_importsVO["+rowCount+"].vender_code'></td>";
-		rowStr += "<td><input hidden style='width: 90px; border: none;' type='number' id='pak_quantity' name='wating_importsVO["+rowCount+"].pak_quantity' onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input hidden size='8px' id='category_2nd' name='wating_importsVO["+rowCount+"].category_2nd' type='text' value=''  style='border: none;'  onkeydown='if(event.keyCode == 13) return false'></td>";
-		rowStr += "<td><input readonly style='width: 100px; border: none;' type='number' id='order_num' name='wating_importsVO["+rowCount+"].order_num' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td hidden><input size='4px;' id='import_date' name='wating_importsVO["+rowCount+"].import_date' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td hidden><input size='4px;' id='waiting_num' name='wating_importsVO["+rowCount+"].waiting_num' style='border: none;' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td hidden><input id='order_page' name='wating_importsVO["+rowCount+"].order_page'></td>"
+		rowStr += "<td hidden><input id='mem_id' name='wating_importsVO["+rowCount+"].mem_id'></td>"
+		rowStr += "<td hidden><input id='vender_code' name='wating_importsVO["+rowCount+"].vender_code'></td>";
+		rowStr += "<td hidden><input style='width: 90px; border: none;' type='number' id='pak_quantity' name='wating_importsVO["+rowCount+"].pak_quantity' onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td hidden><input size='8px' id='category_2nd' name='wating_importsVO["+rowCount+"].category_2nd' type='text' value=''  style='border: none;'  onkeydown='if(event.keyCode == 13) return false'></td>";
+		rowStr += "<td hidden><input style='width: 100px; border: none;' type='number' id='order_num' name='wating_importsVO["+rowCount+"].order_num' onkeydown='if(event.keyCode == 13) return false'></td>";
 		rowCount += 1;
 	$("#tableBody").append(rowStr);
 }
@@ -159,8 +159,8 @@ function getWaitingListInfo(){
 				let waiting_qty = $("#tableBody").children('tr:eq('+i+')').find("#waiting_qty").val();
 				$("#tableBody").children('tr:eq('+i+')').find("#im_price").val(order_im_qty * price);
 				$("#tableBody").children('tr:eq('+i+')').find("#order_noneIm_qty").val(waiting_qty - order_im_qty);
-				
             }
+            window.opener.setShowVender_name($("#tableBody").children('tr:eq(0)').find("#vender_name").val());
 		}
 	});
 }
@@ -180,22 +180,14 @@ $(document).ready(function() {
 </head>
 
 <body>
-<a>${order_date } </a>
-<a>${order_page } </a>
-<a>${vender_code } </a>
-<a>${category_2nd } </a>
 <!-- 상단 폼 -->
-<div class="card-body"></div>
-<br>
-	<div class="card-body">
-		<div class="col-md-12">
 		<table class="table table-bordered table-hover" id="table_id">
 			<thead style="background-color: rgb(148, 146, 146);" id="tableHead">
 				<tr>
 					<th><input type="checkbox" value="selectall" name="selectall" id="selectall" onclick="selectAll(this)"></th>
 					<th>#</th>
 					<th>품목코드</th>
-					<th colspan="2">품명</th>
+					<th>품명</th>
 					<th>규격</th>
 					<th>제조사</th>
 					<th>단위</th>
@@ -212,8 +204,6 @@ $(document).ready(function() {
 			</tbody>
 
 		</table>
-		</div>
-	</div>
 </form>
    
 </body>

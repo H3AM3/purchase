@@ -30,12 +30,10 @@
 }
 
 .halfTable tr td{
-	border: gray solid 1px;
 	font-weight: bold;
 }
 
 .tableBody{
-	border: gray solid 1px;
 }
 </style>
 
@@ -147,7 +145,7 @@ function statistics(){
 				console.log(data);
 				let totalCount = 0;
 				for(let i=0; i<data.length; i++){
-					let slicedDate = data[i].req_date.replace(' 00:00:00', '');
+					let slicedDate = data[i].export_date.replace(' 00:00:00', '');
 					console.log(data);
 					let arryStr = "";
 					arryStr += '<tr class="tableBody">';
