@@ -232,14 +232,14 @@ function getNewPage(){
 function submitCheck(){
 	let pass = true;
 	for(let i=0; i<rowCount; i++){
-		let unimported_qty = $("#tableBody").children('tr:eq('+i+')').find("#unimported_qty").val();
-		let stock_quantity = $("#tableBody").children('tr:eq('+i+')').find("#stock_quantity").val();
-		let ex_quantity = $("#tableBody").children('tr:eq('+i+')').find("#ex_quantity").val();
+		let unimported_qty = parseInt($("#tableBody").children('tr:eq('+i+')').find("#unimported_qty").val());
+		let stock_quantity = parseInt($("#tableBody").children('tr:eq('+i+')').find("#stock_quantity").val());
+		let ex_quantity = parseInt($("#tableBody").children('tr:eq('+i+')').find("#ex_quantity").val());
 		if(ex_quantity > unimported_qty){
 			alert("["+$("#tableBody").children('tr:eq('+i+')').find("#product_name").val()+"]의 출고수량이 미입고 수량보다 많습니다.");
 			pass = false;
 		}
-		if(!ex_quantity > stock_quantity){
+		if(ex_quantity > stock_quantity){
 			alert("["+$("#tableBody").children('tr:eq('+i+')').find("#product_name").val()+"]의 재고가 부족합니다.");
 			pass = false;
 		}

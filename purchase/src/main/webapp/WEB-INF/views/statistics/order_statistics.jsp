@@ -21,27 +21,6 @@
   <title>Test</title>
 
 <style>
-
-
-.tableBody tr td {
-	padding: 0;
-	font-size: 15px;
-}
-
-.halfTable{
-	width: 45%;
-	display: inline-block;
-	vertical-align: top;
-}
-
-.halfTable tr td{
-	border: gray solid 1px;
-	font-weight: bold;
-}
-
-.tableBody{
-	border: gray solid 1px;
-}
 </style>
 
 <!--캘린더-->
@@ -135,7 +114,7 @@ function statistics(){
 					$("#tbodyL").append(arryStr);
 					totalCount += data[i].ex_quantity;
 				}
-				let str = '<tr><td><a>합계</a></td><td>'+totalCount+'</td><tr>'
+				let str = '<tr style="font-weight: bold;"><td><a>합계</a></td><td>'+totalCount+'</td><tr>'
 				$("#tbodyL").append(str);
 			}
 		});
@@ -163,7 +142,7 @@ function statistics(){
 					$("#tbodyR").append(arryStr);
 					totalCount += data[i].ex_quantity;
 				}
-				let str = '<tr><td><a>합계</a></td><td>'+totalCount+'</td><tr>'
+				let str = '<tr style="font-weight: bold;"><td><a>합계</a></td><td>'+totalCount+'</td><tr>'
 				$("#tbodyR").append(str);
 			}
 		});

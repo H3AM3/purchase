@@ -129,3 +129,9 @@ footer {
     -ms-user-select: none;
     user-select: none;
  }
+ 
+.halfTable{
+	width: 45%;
+	display: inline-block;
+	vertical-align: top;
+}

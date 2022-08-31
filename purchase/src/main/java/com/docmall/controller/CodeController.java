@@ -110,6 +110,7 @@ public class CodeController {
 	@PostMapping("/getProdCodeList")
 	@ResponseBody
 	public ResponseEntity<List<ProductVO>> getProdCodeList(ProductDTO dto) {
+		log.info(dto);
 		String none = "none";
 		String noCategory = "noCategory";
 		List<ProductVO> prodList = null;
@@ -123,6 +124,7 @@ public class CodeController {
 				// 카테고리 2만 가지고 검색
 				prodList = service.get2enCatProdCodeList(dto);
 			} else {
+				log.info("카테고리 전부 선택됨");
 				// 카테고리 전부 선택하고 검색
 				prodList = service.getProdCodeList(dto);
 			}

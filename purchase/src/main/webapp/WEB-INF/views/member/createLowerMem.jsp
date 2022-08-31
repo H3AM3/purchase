@@ -68,6 +68,9 @@ function depSearchPopup(){
 			}else if($("#mem_name").val() == ""){
 				alert("이름을 작성하지 않았습니다.")
 				return false;
+			}else if($("#dep_name").val() == ""){
+				alert("부서를 입력하지 않았습니다.");
+				return false;
 			}
 
 			// 비밀번호 확인, 아이디 중복 체크

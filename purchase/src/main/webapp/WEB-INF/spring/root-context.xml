@@ -18,10 +18,20 @@
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
 		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
 		 -->
+		 
+		 <!-- windows 개발용 -->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
 		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"></property>
 		<property name="username" value="spring"></property>
 		<property name="password" value="1234"></property>
+		
+		<!-- AWS -->
+		<!-- 
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@purchasedb.c08ccfeooar3.ap-northeast-2.rds.amazonaws.com:1521:purchase"></property>
+		<property name="username" value="spring"></property>
+		<property name="password" value="1526tktka"></property>		
+		 -->
 	</bean>	
 	
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">

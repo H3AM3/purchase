@@ -14,9 +14,11 @@
        <li class="nav-item">
         <a class="nav-link" href="/member/login">로그인</a>
       </li>
+      <!-- 
       <li class="nav-item">
         <a class="nav-link" href="/member/join">회원가입</a>
       </li>
+       -->
       </c:if>
       
 	<c:if test="${sessionScope.loginStatus != null}">
@@ -32,6 +34,8 @@
           <a class="dropdown-item" href="/member/memberList">계정 관리</a>
         </div>
         </li>
+       </c:if>
+       <c:if test="${sessionScope.loginStatus.mem_level == 1}">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
           	코드</a>
@@ -42,7 +46,7 @@
           <a class="dropdown-item" href="/code/makerList">제조사코드 조회/생성</a>
         </div>
         </li>
-       </c:if>
+        </c:if>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-expanded="false">
           	물품청구

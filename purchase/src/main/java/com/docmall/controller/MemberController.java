@@ -84,7 +84,7 @@ public class MemberController {
 	public String loginOk(LoginDTO dto, RedirectAttributes rttr, HttpSession session) throws Exception {
 		MemberVO memberData = service.loginOK(dto);
 		
-		String url = "/code/productList";
+		String url = "/request/requestOrder";
 		String msg = "";
 		
 		if(memberData != null) {
@@ -92,7 +92,7 @@ public class MemberController {
 				session.setAttribute("loginStatus", memberData);
 				msg = "loginSuccess";
 			}else {
-				url ="/code/productList";
+				url ="/member/login";
 				msg = "passwdFailure";
 			}
 		}else {

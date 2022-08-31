@@ -124,12 +124,12 @@ function delRow(){
 			let ex_quantity = $(a).parent().parent().find("#ex_quantity").val();
 			let export_num = $(a).parent().parent().find("#export_num").val();
 			let original_ex_quantity = $(a).parent().parent().find("#original_ex_quantity").val();
-			let rowStr = "<tr>";
-			rowStr += "<td><input readonly id='export_num' name='delImportDTO["+delRowCount+"].export_num'></td>";	
-			rowStr += "<td><input readonly id='product_code' name='delImportDTO["+delRowCount+"].product_code'></td>";
-			rowStr += "<td><input readonly id='req_no' name='delImportDTO["+delRowCount+"].req_no'></td>";
-			rowStr += "<td><input readonly id='ex_quantity' name='delImportDTO["+delRowCount+"].ex_quantity'></td>";
-			rowStr += "<td><input readonly id='original_ex_quantity' name='delImportDTO["+delRowCount+"].original_ex_quantity'></td>";
+			let rowStr = "<tr hidden>";
+			rowStr += "<td hidden><input readonly id='export_num' name='delImportDTO["+delRowCount+"].export_num'></td>";	
+			rowStr += "<td hidden><input readonly id='product_code' name='delImportDTO["+delRowCount+"].product_code'></td>";
+			rowStr += "<td hidden><input readonly id='req_no' name='delImportDTO["+delRowCount+"].req_no'></td>";
+			rowStr += "<td hidden><input readonly id='ex_quantity' name='delImportDTO["+delRowCount+"].ex_quantity'></td>";
+			rowStr += "<td hidden><input readonly id='original_ex_quantity' name='delImportDTO["+delRowCount+"].original_ex_quantity'></td>";
 			rowStr += "</tr>";
 			$("#delTableBody").append(rowStr);
 			$("#delTableBody").children('tr:eq('+delRowCount+')').find("#product_code").val(product_code);
