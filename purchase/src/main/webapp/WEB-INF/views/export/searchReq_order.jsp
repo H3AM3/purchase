@@ -77,22 +77,7 @@ function getUpperCat(){
 	});
 }
 
-// 상위 카테고리를 생성하는 메소드
-function setUpperCategory(list, catId) {
-	for (i = 0; i < list.length; i++) {
-		catId.append("<option value="+list[i].category_code+">"
-				+ list[i].category_name + "</option>");
-	}
-}
-
-// 하위 카테고리를 생성하는 메소드
-function setCategory(list, catId) {
-	for (i = 0; i < list.length; i++) {
-		catId.append("<option value="+list[i].category_code+">"
-				+ list[i].category_name + "</option>");
-	}
-}
-
+// 미입고내역 리스트
 function searchList(){
     $("#btnSend").removeAttr('disabled');
 		if($("#category_2nd").val() == 'none'){
@@ -126,7 +111,6 @@ function searchList(){
 	};
 
 $(document).ready(function(){
-    getUpperCat();
 	searchList();
     // 상위 카테고리를 고르면 하위 카테고리가 나타나게 만드는 메소드
     $("#category_1st").on("change", function() {

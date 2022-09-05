@@ -131,6 +131,7 @@ public class ExportController {
 		// 출고내역 삭제
 		service.delExport(vo);
 		// 삭제한 출고내역 수량만큼 요청서의 미입고수량 추가
+		vo.setOriginal_ex_quantity(-1*(vo.getOriginal_ex_quantity()));
 		service.req_qtyChange(vo);
 		// 요청서 종결처리 취소
 		service.checkReq_order_end(vo.getReq_no());
@@ -144,17 +145,23 @@ public class ExportController {
 		log.info(vo.getTbl_export());
 		if(vo.getTbl_export() != null) {
 			for(int i=0; i<vo.getTbl_export().size(); i++) {
-				vo.getTbl_export().get(i).setEx_quantity(
-						vo.getTbl_export().get(i).getEx_quantity()-vo.getTbl_export().get(i).getOriginal_ex_quantity());
-				// 출고내역 수량, 비고란 변경
-				service.updateExport(vo.getTbl_export().get(i));
-				// 재고수량 변경
-				service.stockMinus(vo.getTbl_export().get(i));
-				// 청구서 미입고수량 변경
-				vo.getTbl_export().get(i).setOriginal_ex_quantity(vo.getTbl_export().get(i).getEx_quantity());
-				service.req_qtyChange(vo.getTbl_export().get(i));
-				service.checkReq_order_end(vo.getTbl_export().get(i).getReq_no());
-			} 
+				log.info("테스트 : "+vo.getTbl_export().get(i).getExport_num());
+				if(vo.getTbl_export().get(i).getExport_num() != null) {
+					// 출고내역 수량, 비고란 변경
+					service.updateExport(vo.getTbl_export().get(i));
+										
+					vo.getTbl_export().get(i).setEx_quantity(
+					vo.getTbl_export().get(i).getEx_quantity()-vo.getTbl_export().get(i).getOriginal_ex_quantity());
+					
+					// 재고수량 변경
+					service.stockMinus(vo.getTbl_export().get(i));
+					
+					// 청구서 미입고수량 변경
+					vo.getTbl_export().get(i).setOriginal_ex_quantity(vo.getTbl_export().get(i).getEx_quantity());
+					service.req_qtyChange(vo.getTbl_export().get(i));
+					service.checkReq_order_end(vo.getTbl_export().get(i).getReq_no());
+				} 
+			}
 		}
 		return "redirect:/export/exportList";
 	}

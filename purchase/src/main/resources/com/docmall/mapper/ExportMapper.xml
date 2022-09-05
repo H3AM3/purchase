@@ -7,7 +7,7 @@
 		FROM REQ_ORDERS
 		WHERE CATEGORY_2ND = #{category_2nd} AND
 		REQ_DATE BETWEEN #{selectDate1} AND #{selectDate2} AND
-		END_REQUEST = '0' AND APPROVAL = '1'
+		END_REQUEST = '0' AND APPROVAL = '1' AND REQ_REJECT = '0'
 	</select>
 	
 	<!-- 발주내역 가져오기 -->
@@ -18,7 +18,7 @@
 		FROM REQ_ORDERS
 		WHERE REQ_DATE = #{req_date} AND REQ_PAGE = #{req_page} AND
 			  CATEGORY_2ND = #{category_2nd} AND END_REQUEST = '0' AND
-			  DEP_CODE = #{dep_code}
+			  DEP_CODE = #{dep_code} AND REQ_REJECT = '0'
 	</select>
 	
 	<!-- 품목재고수량 가져오기 -->
@@ -51,14 +51,14 @@
 	<!-- stock테이블 값 빼는기능 -->
 	<update id="stockMinus" parameterType="com.docmall.domain.Tbl_ExportVO">
 		UPDATE STOCK
-		SET STOCK_QUANTITY = (STOCK_QUANTITY - #{ex_quantity})
+		SET STOCK_QUANTITY = STOCK_QUANTITY - (#{ex_quantity})
 		WHERE PRODUCT_CODE = #{product_code}
 	</update>
 	
 	<!-- stock테이블 값 더하는기능 -->
 	<update id="stockPlus" parameterType="com.docmall.domain.Tbl_ExportVO">
 		UPDATE STOCK
-		SET STOCK_QUANTITY = (STOCK_QUANTITY + #{ex_quantity})
+		SET STOCK_QUANTITY = (STOCK_QUANTITY - #{original_ex_quantity})
 		WHERE PRODUCT_CODE = #{product_code}
 	</update>
 	
@@ -113,14 +113,14 @@
 	<!-- 삭제수량만큼 요청내역 수량 수정  -->
 	<update id="req_qtyChange" parameterType="com.docmall.dto.ExportDelDTO">
 		UPDATE REQ_ORDERS
-		SET UNIMPORTED_QTY = UNIMPORTED_QTY + #{original_ex_quantity}
+		SET UNIMPORTED_QTY = UNIMPORTED_QTY - (#{original_ex_quantity})
 		WHERE REQ_NO = #{req_no}
 	</update>
 
 	<!-- 출고내역 수정된수량 반영 -->
 	<update id="updateExport" parameterType="com.docmall.domain.Tbl_ExportVO">
 		UPDATE TBL_EXPORT
-		SET EX_QUANTITY = (EX_QUANTITY + #{ex_quantity}),
+		SET EX_QUANTITY = #{ex_quantity},
 			DESCRIPTION = #{description}
 		WHERE EXPORT_NUM = #{export_num}
 	</update>
