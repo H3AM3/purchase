@@ -37,6 +37,53 @@
 	<!-- 파일업로드 bean설정. id="multipartResolver" 예약어-->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
 	
+	<!-- 인터셉터 클래스 bean 설정 -->
+	<beans:bean id="loginInterceptor" class="com.docmall.interceptor.LoginInterceptor"></beans:bean>
+	<!-- 인터셉터의 제어를 받을 매핑주소 설정 -->
+	<interceptors>
+		<interceptor>
+			<!-- 인증된 경우에만 접근할 주소 설정 -->
+			<mapping path="/import/*"/>
+			<mapping path="/exportFile/*"/>
+			<mapping path="/export/*"/>
+			<mapping path="/order/*"/>
+			<mapping path="/request/*"/>
+			<mapping path="/statistics/*"/>
+			<mapping path="/code/*"/>
+			<mapping path="/member/*"/>
+			<exclude-mapping path="/member/login"/>
+			<exclude-mapping path="/member/loginOK"/>
+			<exclude-mapping path="/member/logout"/>
+			<beans:ref bean="loginInterceptor"/>	
+		</interceptor>
+	</interceptors>
 	
+	<!-- 인터셉터 클래스 bean 설정 -->
+	<beans:bean id="adminInterceptor" class="com.docmall.interceptor.AdminInterceptor"></beans:bean>
+	<!-- 인터셉터의 제어를 받을 매핑주소 설정 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/import/*"/>
+			<mapping path="/exportFile/*"/>
+			<mapping path="/export/*"/>
+			<mapping path="/order/*"/>
+			<mapping path="/statistics/*"/>
+			<mapping path="/code/*"/>
+			<mapping path="/member/*"/>
+			<mapping path="/request/allOrder_List"/>
+			<mapping path="/request/req_orderApprovalReject"/>
+			<mapping path="/request/req_approvalRejectUpdate"/>
+			<exclude-mapping path="/member/login"/>
+			<exclude-mapping path="/member/loginOK"/>
+			<exclude-mapping path="/member/logout"/>
+			<exclude-mapping path="/code/getUpperCat"/>
+			<exclude-mapping path="/code/getLowerCat"/>
+			<exclude-mapping path="/code/getProdCodeList"/>
+			<exclude-mapping path="/code/getCatName"/>
+			
+			<beans:ref bean="adminInterceptor"/>	
+		</interceptor>
+	</interceptors>
 	
+		
 </beans:beans>

@@ -28,7 +28,6 @@
 
 <body>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 <div class="body">
 <h3>품목코드 검색</h3><br>
 

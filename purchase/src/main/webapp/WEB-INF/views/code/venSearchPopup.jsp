@@ -11,7 +11,6 @@
 </head>
 <body>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 
 <h3>거래처 검색</h3><br>
 

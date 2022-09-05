@@ -10,7 +10,6 @@
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 
 <link rel="stylesheet" href="/resources/css/defaultForm.css">
 <style>
@@ -83,6 +82,10 @@ function keywordSearch(){
 		dataType : 'text',
 		async : false,
 		data : {upper_dep : upperDep, keyword : keyword},
+		beforeSend : function(xmlHttpRequest) {
+			console.log("ajax xmlHttpRequest check");
+			xmlHttpRequest.setRequestHeader("AJAX", "true");
+		},
 		success : function(result){
 			let memberVO = JSON.parse(result);
 			console.log(memberVO);
@@ -99,6 +102,11 @@ function keywordSearch(){
 				str += "</tr>";
 				codeList.append(str);
 			}
+		},
+		error:function(xhr, status, error){
+			if(status == 400){
+				location.href="/member/login";
+			}
 		}
 		});
 	for(let i=0; i<rowCount; i++){
@@ -109,12 +117,21 @@ function keywordSearch(){
 			async : false,
 			dataType : 'text',
 			data : {dep_code : dep_code},
+			beforeSend : function(xmlHttpRequest) {
+				console.log("ajax xmlHttpRequest check");
+				xmlHttpRequest.setRequestHeader("AJAX", "true");
+			},
 			success : function(result){
 				let data = JSON.parse(result);
 				// let data = JSON.parse(result);
 				$("#memberList").children("tr").eq(i).children("td").eq("3").text(data.dep_name);
 				if(data.dep_name == ''){
 					$("#memberList").children("tr").eq(i).children("td").eq("3").text('없음');
+				}
+			},
+			error:function(xhr, status, error){
+				if(status == 400){
+					location.href="/member/login";
 				}
 			}
 		});
@@ -129,6 +146,10 @@ $(document).ready(function() {
 		type : 'post',
 		dataType : 'text',
 		data : {},
+		beforeSend : function(xmlHttpRequest) {
+			console.log("ajax xmlHttpRequest check");
+			xmlHttpRequest.setRequestHeader("AJAX", "true");
+		},
 		success : function(result){
 		let upperDep = JSON.parse(result);
 		console.log(upperDep);
@@ -136,6 +157,11 @@ $(document).ready(function() {
 				$("#upper_dep").append("<option value="+upperDep[i].dep_code+">"+upperDep[i].dep_name+"</option>");
 			}
 			keywordSearch();
+		},
+		error:function(xhr, status, error){
+			if(status == 400){
+				location.href="/member/login";
+			}
 		}
 	});
 

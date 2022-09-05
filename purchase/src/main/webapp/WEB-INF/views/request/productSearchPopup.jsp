@@ -12,7 +12,6 @@
 </head>
 <body>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 
 <h3>품목코드 목록</h3><br>
 

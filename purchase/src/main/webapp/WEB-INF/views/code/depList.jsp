@@ -10,7 +10,6 @@
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 
 <link rel="stylesheet" href="/resources/css/defaultForm.css">
 

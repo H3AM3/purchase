@@ -14,7 +14,6 @@
     <meta name="theme-color" content="#563d7c">
     <meta charset="UTF-8">
 <%@include file="/WEB-INF/views/include/common.jsp" %>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 
 <style>
   .bd-placeholder-img {

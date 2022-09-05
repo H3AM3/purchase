@@ -11,7 +11,6 @@
 </head>
 <body>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 <!-- 카테고리 영역 -->
 <a style="float: left;">상위부서 &nbsp</a>
 <div style="float: left;">

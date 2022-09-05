@@ -11,7 +11,6 @@
     <meta name="theme-color" content="#563d7c">
 <title>Insert title here</title>
 <%@include file="/WEB-INF/views/include/common.jsp" %>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 
 </head>
   <meta charset="utf-8">
@@ -97,8 +96,8 @@ function delRow(){
 			if(a.find("td:eq(12)").find("#approval").is(':checked') || a.find("td:eq(13)").find("#req_reject").is(':checked')){
 				alert("승인 또는 반려된 항목은 삭제할 수 없습니다.");
 			}else{
-                if(!(a.find("td:eq(23)").find("#req_no").val() == '')){
-                $("#delList").append("<input type='text' id='delNo' name='delNo' value='"+a.find("td:eq(23)").find("#req_no").val()+"' hidden>");
+                if(!(a.find("td:eq(26)").find("#req_no").val() == '')){
+                $("#delList").append("<input type='text' id='delNo' name='delNo' value='"+a.find("td:eq(26)").find("#req_no").val()+"' hidden>");
                 }
 			$(a).remove();
 			}

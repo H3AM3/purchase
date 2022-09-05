@@ -22,7 +22,7 @@ import com.docmall.service.Req_OrdersService;
 import lombok.extern.log4j.Log4j;
 
 @Controller
-@RequestMapping("/request")
+@RequestMapping("/request/*")
 @Log4j
 public class RequestController {
 	
@@ -133,13 +133,15 @@ public class RequestController {
 		}
 		}
 		}
-		return "redirect:/code/productList";
+		return "redirect:/request/requestOrder_List";
 	}
 	
 	// 발주요청 내역 삭제 기능
 	@PostMapping("/req_orderDel")
 	public void req_orderDel(String[] delNo) {
-		log.info("삭제 작동함"+delNo);
+		log.info("삭제 메소드 작동");
+		log.info(delNo.length);
+		log.info("delNo"+delNo);
 		if(delNo != null) {
 			for(int i=0; i<delNo.length; i++) {
 			service.req_orderDel(delNo[i]);

@@ -90,6 +90,11 @@ public class MemberController {
 		if(memberData != null) {
 			if(bCryptPasswordEncoder.matches(dto.getMem_password(), memberData.getMem_password())) {
 				session.setAttribute("loginStatus", memberData);
+				
+				// preHandle()메소드에서 세션 형태로 저장한 것을 사용
+				String dest = (String) session.getAttribute("dest");
+				url = (dest != null) ? dest : "/request/requestOrder";
+				
 				msg = "loginSuccess";
 			}else {
 				url ="/member/login";

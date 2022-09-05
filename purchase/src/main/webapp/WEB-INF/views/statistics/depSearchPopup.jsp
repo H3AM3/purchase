@@ -27,7 +27,6 @@
 
 <body>
 <%@include file="/WEB-INF/views/include/common.jsp"%>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 <div class="body">
 <h3>부서 검색</h3><br>
 

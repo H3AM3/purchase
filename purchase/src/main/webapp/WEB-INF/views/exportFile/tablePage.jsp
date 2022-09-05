@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <%@include file="/WEB-INF/views/include/common.jsp" %>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 </head>
 <script>
 

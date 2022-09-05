@@ -12,7 +12,6 @@
     <meta name="theme-color" content="#563d7c">
 <title>Insert title here</title>
 <%@include file="/WEB-INF/views/include/common.jsp" %>
-<%@include file="/WEB-INF/views/include/loginRedirect.jsp" %>
 <link rel="stylesheet" href="/resources/css/defaultForm.css">
 </head>
   <meta charset="utf-8">

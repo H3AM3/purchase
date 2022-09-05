@@ -63,14 +63,27 @@ footer {
 }
 
 .header {
-	margin-left: 100px;
-	margin-right: 100px;
-	margin-bottom: 0;
+	width:2000px;
+	margin:0 auto;
+	margin-top: 0;
+	padding-top: 25px;
+	padding-left: 2%;
+	padding-right: 2%;
+    background-color: #F1F4F5;
+    padding-bottom: 15px;
+    text-align: center;
 }
 
 .footerBody {
-	width: 1000px;
-	margin: auto;	
+	width:2000px;
+	margin:0 auto;
+	margin-top: 0;
+	padding-top: 25px;
+	padding-left: 2%;
+	padding-right: 2%;
+    background-color: #F1F4F5;
+    padding-bottom: 15px;
+    text-align: center;
 }
 
 .body {
